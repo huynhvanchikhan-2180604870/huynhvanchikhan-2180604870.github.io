@@ -61,8 +61,8 @@ header h4 {
         font-size: 13px; /* Kích thước chữ cho mô tả */
     }
     #no, #yes {
-        width: 50%; /* Đặt chiều rộng cho nút trên mobile */
-        font-size: 41px; /* Kích thước chữ cho nút trên mobile */
+        width: 80%; /* Đặt chiều rộng cho nút trên mobile */
+        font-size: 14px; /* Kích thước chữ cho nút trên mobile */
         left: 10%; /* Đặt vị trí cho nút */
     }
     #yes {
