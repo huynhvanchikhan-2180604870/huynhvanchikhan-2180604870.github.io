@@ -42,11 +42,11 @@
 	"content": "CloudWatch → Cảnh báo (Alarms) → Tạo cảnh báo (Create alarm)\n Chọn chỉ số (Metric) CPUUtilization (Per-Database → chọn DB) → Chu kỳ (Period) 1 phút → Lớn hơn hoặc bằng 1 → Thông báo SNS dr-alerts → Tên: rds-cpu-high-test     Chọn chỉ số (Metric) FreeStorageSpace → Nhỏ hơn hoặc bằng 5 GiB → Tên: rds-free-storage-low    "
 },
 {
-	"uri": "/vi/8-cleanup/8-1-what-to-delete/",
-	"title": "8.1. Dọn dẹp tài nguyên",
+	"uri": "/vi/9-cleanup/9-1-what-to-delete/",
+	"title": "9.1. Dọn dẹp tài nguyên",
 	"tags": [],
 	"description": "",
-	"content": " RDS test \u0026amp; snapshots không cần thiết EC2 (runtime \u0026amp; builder), EBS, Security Groups ECR images (tuỳ chọn) S3 FE bucket AWS Backup plan \u0026amp; vaults (khi chắc chắn không cần dữ liệu) AWS Config conformance pack \u0026amp; S3 delivery (tuỳ chọn) SNS, Lambda, EventBridge đã tạo cho DR test  "
+	"content": "Mục tiêu Xoá các tài nguyên đã tạo sau workshop để ngừng phát sinh chi phí.\nBước thực hiện  EC2: Terminate builder \u0026amp; backend instances; xoá Security Groups không dùng. RDS: Xoá DB test/restore, tắt Deletion Protection rồi Delete (bỏ final snapshot nếu là môi trường demo). AWS Backup: Xoá on-demand backups không cần thiết; cân nhắc hạ retention. S3: Xoá bucket FE (nếu chỉ dùng demo) và bucket AWS Config logs (nếu không còn nhu cầu). ECR: Xoá repository hoặc images không dùng. Lambda / EventBridge: Xoá function, rules DR test; cleanup Secrets nếu chỉ dùng demo. CloudWatch / SNS: Xoá alarms và subscription không cần. AWS Config: Dừng recording \u0026amp; xoá conformance pack (nếu không sử dụng nữa). IAM: Gỡ/xoá các role tạm thời (builder, test) để giảm rủi ro bảo mật.   Lưu ý: thứ tự xoá ưu tiên tài nguyên “phát sinh chi phí cao” trước (RDS, EC2, S3 lớn).\n "
 },
 {
 	"uri": "/vi/1-introduction/",
@@ -168,7 +168,14 @@
 	"content": "Tạo CloudWatch alarms cho RDS và Lambda để nhận cảnh báo sớm.\n"
 },
 {
-	"uri": "/vi/8-cleanup/",
+	"uri": "/vi/8-cost-analysis/",
+	"title": "Phân tích chi phí (Cost Analysis)",
+	"tags": [],
+	"description": "",
+	"content": "Tổng quan Mục này ước tính chi phí hàng tháng khi triển khai DR Automation trên AWS, bám theo kiến trúc trong workshop.\nBảng ước tính chi phí (Demo)    Dịch vụ Mô tả Ước tính (USD/tháng) Ghi chú     Amazon RDS (db.t3.micro) DB primary ~15 Free tier nếu đủ điều kiện   AWS Backup Daily backup + copy cross-region (30 ngày) 10–25 Theo GB backup   Cross-Region Transfer Copy snapshot us-east-1 → us-west-2 0.02/GB 20GB ≈ $0.40/lần   AWS Lambda DR test 1–2 lần/tháng (≤15 phút) \u0026lt;1 Hầu như miễn phí   Amazon S3 FE + Config logs ~0.5 \u0026lt; 1 GB   Amazon ECR Docker image (~200MB) ~0.1 500MB free   Amazon EC2 BE runtime + builder (t3.micro) 8–10 Free tier nếu còn   CloudWatch Metric + alarms 1–3 Tuỳ retention   SNS Email cảnh báo ~0.1 1K email free   AWS Config Rule đánh giá compliance 3–5 0.003 USD/resource/giờ    Tổng (demo/học tập): ~$40–60/tháng\nProduction: phụ thuộc dung lượng DB, retention, tần suất test — có thể \u0026gt;$100/tháng.\nYếu tố ảnh hưởng  Dung lượng RDS snapshot \u0026amp; tần suất sao lưu/copy. Thời gian lưu (retention). Số lần DR test/tháng và kích thước instance khi restore. Retention CloudWatch logs.  Tối ưu chi phí (khuyến nghị)  Dùng lifecycle cho backup (dev/test: 7–15 ngày). Giảm tần suất DR test ở non-prod (1–2 lần/tháng). Restore test với instance nhỏ (ví dụ db.t3.micro). Tự xoá DB test sau khi kiểm thử (AUTO_DELETE=true). Giảm retention log (7–14 ngày) cho môi trường test.   Tip: với production, xem xét phân tầng backup (daily/weekly/monthly), bật encryption \u0026amp; theo dõi chi phí qua AWS Cost Explorer.\n "
+},
+{
+	"uri": "/vi/9-cleanup/",
 	"title": "Dọn dẹp tài nguyên",
 	"tags": [],
 	"description": "",
@@ -179,7 +186,7 @@
 	"title": "Tự động hoá Khôi phục Thảm họa cho Hạ tầng DevOps",
 	"tags": [],
 	"description": "",
-	"content": "Tự động hoá Khôi phục Thảm họa cho Hạ tầng DevOps Tổng quan Bài lab này hướng dẫn bạn cách triển khai giải pháp tự động hoá khôi phục thảm họa (DR) cho hạ tầng DevOps. Bạn sẽ thực hành tự động hoá sao lưu, quy trình khôi phục, kiểm thử khôi phục tự động, xác thực tuân thủ, thiết lập giám sát, tài liệu vận hành và phân tích chi phí để xây dựng chiến lược DR toàn diện và bền vững.\nThực hành sử dụng các dịch vụ AWS như RDS, EC2, S3, Lambda, AWS Backup, AWS Config, CloudWatch và nhiều dịch vụ khác để tạo nên một khung tự động hoá DR hoàn chỉnh.\nNội dung  Giới thiệu Chuẩn bị Thiết lập Backend và tự động hoá Triển khai Frontend và cấu hình CORS Quy trình sao lưu và khôi phục Tuân thủ và xác thực Giám sát và cảnh báo Dọn dẹp và tối ưu chi phí  "
+	"content": "Tự động hoá Khôi phục Thảm họa cho Hạ tầng DevOps Tổng quan Bài lab này hướng dẫn bạn cách triển khai giải pháp tự động hoá khôi phục thảm họa (DR) cho hạ tầng DevOps. Bạn sẽ thực hành tự động hoá sao lưu, quy trình khôi phục, kiểm thử khôi phục tự động, xác thực tuân thủ, thiết lập giám sát, tài liệu vận hành và phân tích chi phí để xây dựng chiến lược DR toàn diện và bền vững.\nThực hành sử dụng các dịch vụ AWS như RDS, EC2, S3, Lambda, AWS Backup, AWS Config, CloudWatch và nhiều dịch vụ khác để tạo nên một khung tự động hoá DR hoàn chỉnh.\nNội dung  Giới thiệu Chuẩn bị Backend Frontend Backup \u0026amp; Recovery Compliance Monitoring Phân tích chi phí (Cost Analysis) Dọn dẹp tài nguyên (Cleanup)  "
 },
 {
 	"uri": "/vi/categories/",

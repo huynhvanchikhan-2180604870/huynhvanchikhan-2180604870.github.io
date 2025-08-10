@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Clean Up Resources on AWS System Manager</title>
+    <link>/9-cleanup/</link>
+    <description>Recent content in Clean Up Resources on AWS System Manager</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Sun, 10 Aug 2025 00:00:00 +0000</lastBuildDate><atom:link href="/9-cleanup/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>9.1. Clean Up Resources</title>
+      <link>/9-cleanup/9-1-what-to-delete/</link>
+      <pubDate>Sun, 10 Aug 2025 00:00:00 +0000</pubDate>
+      
+      <guid>/9-cleanup/9-1-what-to-delete/</guid>
+      <description>Goal Remove resources created during the workshop to stop ongoing costs.
+Steps  EC2: Terminate builder &amp;amp; backend instances; remove unused Security Groups. RDS: Delete test/restore DBs, disable Deletion Protection first (skip final snapshot for demo). AWS Backup: Delete unnecessary on-demand backups; adjust retention. S3: Remove FE bucket (if only for demo) and AWS Config logs bucket (if not needed). ECR: Delete repositories or unused images. Lambda / EventBridge: Delete DR test functions and rules; cleanup temporary Secrets.</description>
+    </item>
+    
+  </channel>
+</rss>

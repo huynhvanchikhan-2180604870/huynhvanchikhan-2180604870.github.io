@@ -80,17 +80,17 @@
                 href="/7-monitoring/7-1-rds-alarms/"
                 />
   </url><url>
-    <loc>/8-cleanup/8-1-what-to-delete/</loc>
+    <loc>/9-cleanup/9-1-what-to-delete/</loc>
     <lastmod>2025-08-10T00:00:00+00:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="vi"
-                href="/vi/8-cleanup/8-1-what-to-delete/"
+                href="/vi/9-cleanup/9-1-what-to-delete/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="/8-cleanup/8-1-what-to-delete/"
+                href="/9-cleanup/9-1-what-to-delete/"
                 />
   </url><url>
     <loc>/1-introduction/</loc>
@@ -314,17 +314,29 @@
                 href="/7-monitoring/"
                 />
   </url><url>
-    <loc>/8-cleanup/</loc>
-    <lastmod>2025-08-10T00:00:00+00:00</lastmod>
+    <loc>/8-cost-analysis/</loc>
     <xhtml:link
                 rel="alternate"
                 hreflang="vi"
-                href="/vi/8-cleanup/"
+                href="/vi/8-cost-analysis/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="/8-cleanup/"
+                href="/8-cost-analysis/"
+                />
+  </url><url>
+    <loc>/9-cleanup/</loc>
+    <lastmod>2025-08-10T00:00:00+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="vi"
+                href="/vi/9-cleanup/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="/9-cleanup/"
                 />
   </url><url>
     <loc>/</loc>

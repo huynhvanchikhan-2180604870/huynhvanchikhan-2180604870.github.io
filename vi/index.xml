@@ -70,12 +70,13 @@ Thiết lập:
     </item>
     
     <item>
-      <title>8.1. Dọn dẹp tài nguyên</title>
-      <link>/vi/8-cleanup/8-1-what-to-delete/</link>
+      <title>9.1. Dọn dẹp tài nguyên</title>
+      <link>/vi/9-cleanup/9-1-what-to-delete/</link>
       <pubDate>Sun, 10 Aug 2025 00:00:00 +0000</pubDate>
       
-      <guid>/vi/8-cleanup/8-1-what-to-delete/</guid>
-      <description> RDS test &amp;amp; snapshots không cần thiết EC2 (runtime &amp;amp; builder), EBS, Security Groups ECR images (tuỳ chọn) S3 FE bucket AWS Backup plan &amp;amp; vaults (khi chắc chắn không cần dữ liệu) AWS Config conformance pack &amp;amp; S3 delivery (tuỳ chọn) SNS, Lambda, EventBridge đã tạo cho DR test  </description>
+      <guid>/vi/9-cleanup/9-1-what-to-delete/</guid>
+      <description>Mục tiêu Xoá các tài nguyên đã tạo sau workshop để ngừng phát sinh chi phí.
+Bước thực hiện  EC2: Terminate builder &amp;amp; backend instances; xoá Security Groups không dùng. RDS: Xoá DB test/restore, tắt Deletion Protection rồi Delete (bỏ final snapshot nếu là môi trường demo). AWS Backup: Xoá on-demand backups không cần thiết; cân nhắc hạ retention. S3: Xoá bucket FE (nếu chỉ dùng demo) và bucket AWS Config logs (nếu không còn nhu cầu).</description>
     </item>
     
     <item>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="vi" class="js csstransforms3d">
+<html lang="en" class="js csstransforms3d">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,24 +9,24 @@
 
     <link rel="icon" href="/images/favicon.png" type="image/png">
 
-    <title>5.3. Khôi phục ở DR (us-west-2) :: AWS System Manager</title>
+    <title>Clean Up Resources :: AWS System Manager</title>
 
     
-    <link href="/css/nucleus.css?1754842575" rel="stylesheet">
-    <link href="/css/fontawesome-all.min.css?1754842575" rel="stylesheet">
-    <link href="/css/hybrid.css?1754842575" rel="stylesheet">
-    <link href="/css/featherlight.min.css?1754842575" rel="stylesheet">
-    <link href="/css/perfect-scrollbar.min.css?1754842575" rel="stylesheet">
-    <link href="/css/auto-complete.css?1754842575" rel="stylesheet">
-    <link href="/css/atom-one-dark-reasonable.css?1754842575" rel="stylesheet">
-    <link href="/css/theme.css?1754842575" rel="stylesheet">
-    <link href="/css/hugo-theme.css?1754842575" rel="stylesheet">
+    <link href="/css/nucleus.css?1754842574" rel="stylesheet">
+    <link href="/css/fontawesome-all.min.css?1754842574" rel="stylesheet">
+    <link href="/css/hybrid.css?1754842574" rel="stylesheet">
+    <link href="/css/featherlight.min.css?1754842574" rel="stylesheet">
+    <link href="/css/perfect-scrollbar.min.css?1754842574" rel="stylesheet">
+    <link href="/css/auto-complete.css?1754842574" rel="stylesheet">
+    <link href="/css/atom-one-dark-reasonable.css?1754842574" rel="stylesheet">
+    <link href="/css/theme.css?1754842574" rel="stylesheet">
+    <link href="/css/hugo-theme.css?1754842574" rel="stylesheet">
     
-    <link href="/css/theme-workshop.css?1754842575" rel="stylesheet">
+    <link href="/css/theme-workshop.css?1754842574" rel="stylesheet">
     
     
 
-    <script src="/js/jquery-3.3.1.min.js?1754842575"></script>
+    <script src="/js/jquery-3.3.1.min.js?1754842574"></script>
 
     <style>
       :root #header + #content > #left > #rlblock_left{
@@ -36,7 +36,7 @@
     </style>
     
   </head>
-  <body class="" data-url="/vi/5-backup-recovery/5-3-restore-dr/">
+  <body class="" data-url="/9-cleanup/">
     <nav id="sidebar" class="showVisitedLinks">
 
 
@@ -57,14 +57,14 @@
     <span data-search-clear=""><i class="fas fa-times"></i></span>
 </div>
 
-<script type="text/javascript" src="/js/lunr.min.js?1754842575"></script>
-<script type="text/javascript" src="/js/auto-complete.js?1754842575"></script>
+<script type="text/javascript" src="/js/lunr.min.js?1754842574"></script>
+<script type="text/javascript" src="/js/auto-complete.js?1754842574"></script>
 <script type="text/javascript">
     
-        var baseurl = "\/vi";
+        var baseurl = "";
     
 </script>
-<script type="text/javascript" src="/js/search.js?1754842575"></script>
+<script type="text/javascript" src="/js/search.js?1754842574"></script>
 
     
   </div>
@@ -82,13 +82,13 @@
  
   
     
-    <li data-nav-id="/vi/1-introduction/" title="Giới thiệu" class="dd-item 
+    <li data-nav-id="/1-introduction/" title="Introduction" class="dd-item 
         
         
         
         ">
-      <a href="/vi/1-introduction/">
-          Giới thiệu
+      <a href="/1-introduction/">
+          Introduction
           
             <i class="fas fa-check read-icon"></i>
           
@@ -108,13 +108,13 @@
  
   
     
-    <li data-nav-id="/vi/2-prerequisites/" title="Chuẩn bị" class="dd-item 
+    <li data-nav-id="/2-prerequisites/" title="Preparation" class="dd-item 
         
         
         
         ">
-      <a href="/vi/2-prerequisites/">
-          Chuẩn bị
+      <a href="/2-prerequisites/">
+          Preparation
           
             <i class="fas fa-check read-icon"></i>
           
@@ -137,9 +137,9 @@
  
   
     
-      <li data-nav-id="/vi/2-prerequisites/2-1-vpc/" title="2.1. Tạo VPC" class="dd-item ">
-        <a href="/vi/2-prerequisites/2-1-vpc/">
-        2.1. Tạo VPC
+      <li data-nav-id="/2-prerequisites/2-1-vpc/" title="2.1. Create VPC" class="dd-item ">
+        <a href="/2-prerequisites/2-1-vpc/">
+        2.1. Create VPC
         <i class="fas fa-check read-icon"></i>
         </a>
     </li>
@@ -158,9 +158,9 @@
  
   
     
-      <li data-nav-id="/vi/2-prerequisites/2-2-security-groups/" title="2.2. Tạo Security Groups" class="dd-item ">
-        <a href="/vi/2-prerequisites/2-2-security-groups/">
-        2.2. Tạo Security Groups
+      <li data-nav-id="/2-prerequisites/2-2-security-groups/" title="2.2. Create Security Groups" class="dd-item ">
+        <a href="/2-prerequisites/2-2-security-groups/">
+        2.2. Create Security Groups
         <i class="fas fa-check read-icon"></i>
         </a>
     </li>
@@ -179,9 +179,9 @@
  
   
     
-      <li data-nav-id="/vi/2-prerequisites/2-3-iam-roles/" title="2.3. Tạo Roles" class="dd-item ">
-        <a href="/vi/2-prerequisites/2-3-iam-roles/">
-        2.3. Tạo Roles
+      <li data-nav-id="/2-prerequisites/2-3-iam-roles/" title="2.3. Create Roles" class="dd-item ">
+        <a href="/2-prerequisites/2-3-iam-roles/">
+        2.3. Create Roles
         <i class="fas fa-check read-icon"></i>
         </a>
     </li>
@@ -207,13 +207,13 @@
  
   
     
-    <li data-nav-id="/vi/3-backend/" title="Triển khai ứng dụng (Backend)" class="dd-item 
+    <li data-nav-id="/3-backend/" title="Deploy Application (Backend)" class="dd-item 
         
         
         
         ">
-      <a href="/vi/3-backend/">
-          Triển khai ứng dụng (Backend)
+      <a href="/3-backend/">
+          Deploy Application (Backend)
           
             <i class="fas fa-check read-icon"></i>
           
@@ -236,9 +236,9 @@
  
   
     
-      <li data-nav-id="/vi/3-backend/3-1-create-rds/" title="3.1. Tạo RDS (MySQL)" class="dd-item ">
-        <a href="/vi/3-backend/3-1-create-rds/">
-        3.1. Tạo RDS (MySQL)
+      <li data-nav-id="/3-backend/3-1-create-rds/" title="3.1. Create RDS (MySQL)" class="dd-item ">
+        <a href="/3-backend/3-1-create-rds/">
+        3.1. Create RDS (MySQL)
         <i class="fas fa-check read-icon"></i>
         </a>
     </li>
@@ -257,8 +257,8 @@
  
   
     
-      <li data-nav-id="/vi/3-backend/3-2-ec2-builder-ecr/" title="3.2. EC2 Builder, build Docker &amp; push to ECR" class="dd-item ">
-        <a href="/vi/3-backend/3-2-ec2-builder-ecr/">
+      <li data-nav-id="/3-backend/3-2-ec2-builder-ecr/" title="3.2. EC2 Builder, build Docker &amp; push to ECR" class="dd-item ">
+        <a href="/3-backend/3-2-ec2-builder-ecr/">
         3.2. EC2 Builder, build Docker &amp; push to ECR
         <i class="fas fa-check read-icon"></i>
         </a>
@@ -278,9 +278,9 @@
  
   
     
-      <li data-nav-id="/vi/3-backend/3-3-ec2-runtime/" title="3.3. EC2 Runtime (chạy Backend)" class="dd-item ">
-        <a href="/vi/3-backend/3-3-ec2-runtime/">
-        3.3. EC2 Runtime (chạy Backend)
+      <li data-nav-id="/3-backend/3-3-ec2-runtime/" title="3.3. EC2 Runtime (Run Backend)" class="dd-item ">
+        <a href="/3-backend/3-3-ec2-runtime/">
+        3.3. EC2 Runtime (Run Backend)
         <i class="fas fa-check read-icon"></i>
         </a>
     </li>
@@ -306,12 +306,12 @@
  
   
     
-    <li data-nav-id="/vi/4-frontend/" title="Frontend" class="dd-item 
+    <li data-nav-id="/4-frontend/" title="Frontend" class="dd-item 
         
         
         
         ">
-      <a href="/vi/4-frontend/">
+      <a href="/4-frontend/">
           Frontend
           
             <i class="fas fa-check read-icon"></i>
@@ -335,9 +335,9 @@
  
   
     
-      <li data-nav-id="/vi/4-frontend/4-1-s3-bucket/" title="4.1. Tạo S3 bucket cho FE" class="dd-item ">
-        <a href="/vi/4-frontend/4-1-s3-bucket/">
-        4.1. Tạo S3 bucket cho FE
+      <li data-nav-id="/4-frontend/4-1-s3-bucket/" title="4.1. Create S3 Bucket for FE" class="dd-item ">
+        <a href="/4-frontend/4-1-s3-bucket/">
+        4.1. Create S3 Bucket for FE
         <i class="fas fa-check read-icon"></i>
         </a>
     </li>
@@ -356,9 +356,9 @@
  
   
     
-      <li data-nav-id="/vi/4-frontend/4-2-cors/" title="4.2. Sửa CORS ở backend" class="dd-item ">
-        <a href="/vi/4-frontend/4-2-cors/">
-        4.2. Sửa CORS ở backend
+      <li data-nav-id="/4-frontend/4-2-cors/" title="4.2. Update CORS in Backend" class="dd-item ">
+        <a href="/4-frontend/4-2-cors/">
+        4.2. Update CORS in Backend
         <i class="fas fa-check read-icon"></i>
         </a>
     </li>
@@ -384,13 +384,13 @@
  
   
     
-    <li data-nav-id="/vi/5-backup-recovery/" title="Sao lưu &amp; Khôi phục" class="dd-item 
-        parent
+    <li data-nav-id="/5-backup-recovery/" title="Backup &amp; Restore" class="dd-item 
+        
         
         
         ">
-      <a href="/vi/5-backup-recovery/">
-          Sao lưu &amp; Khôi phục
+      <a href="/5-backup-recovery/">
+          Backup &amp; Restore
           
             <i class="fas fa-check read-icon"></i>
           
@@ -413,8 +413,8 @@
  
   
     
-      <li data-nav-id="/vi/5-backup-recovery/5-1-aws-backup-plan/" title="5.1. AWS Backup (daily &#43; cross-region)" class="dd-item ">
-        <a href="/vi/5-backup-recovery/5-1-aws-backup-plan/">
+      <li data-nav-id="/5-backup-recovery/5-1-aws-backup-plan/" title="5.1. AWS Backup (daily &#43; cross-region)" class="dd-item ">
+        <a href="/5-backup-recovery/5-1-aws-backup-plan/">
         5.1. AWS Backup (daily &#43; cross-region)
         <i class="fas fa-check read-icon"></i>
         </a>
@@ -434,9 +434,9 @@
  
   
     
-      <li data-nav-id="/vi/5-backup-recovery/5-2-restore-primary/" title="5.2. Khôi phục ở Primary (us-east-1)" class="dd-item ">
-        <a href="/vi/5-backup-recovery/5-2-restore-primary/">
-        5.2. Khôi phục ở Primary (us-east-1)
+      <li data-nav-id="/5-backup-recovery/5-2-restore-primary/" title="5.2. Restore in Primary (us-east-1)" class="dd-item ">
+        <a href="/5-backup-recovery/5-2-restore-primary/">
+        5.2. Restore in Primary (us-east-1)
         <i class="fas fa-check read-icon"></i>
         </a>
     </li>
@@ -455,9 +455,9 @@
  
   
     
-      <li data-nav-id="/vi/5-backup-recovery/5-3-restore-dr/" title="5.3. Khôi phục ở DR (us-west-2)" class="dd-item active">
-        <a href="/vi/5-backup-recovery/5-3-restore-dr/">
-        5.3. Khôi phục ở DR (us-west-2)
+      <li data-nav-id="/5-backup-recovery/5-3-restore-dr/" title="5.3. Restore in DR (us-west-2)" class="dd-item ">
+        <a href="/5-backup-recovery/5-3-restore-dr/">
+        5.3. Restore in DR (us-west-2)
         <i class="fas fa-check read-icon"></i>
         </a>
     </li>
@@ -476,8 +476,8 @@
  
   
     
-      <li data-nav-id="/vi/5-backup-recovery/5-4-dr-test-lambda/" title="5.4. DR testing automation (Lambda &#43; SSM &#43; SNS)" class="dd-item ">
-        <a href="/vi/5-backup-recovery/5-4-dr-test-lambda/">
+      <li data-nav-id="/5-backup-recovery/5-4-dr-test-lambda/" title="5.4. DR testing automation (Lambda &#43; SSM &#43; SNS)" class="dd-item ">
+        <a href="/5-backup-recovery/5-4-dr-test-lambda/">
         5.4. DR testing automation (Lambda &#43; SSM &#43; SNS)
         <i class="fas fa-check read-icon"></i>
         </a>
@@ -504,13 +504,13 @@
  
   
     
-    <li data-nav-id="/vi/6-compliance/" title="Xác thực tuân thủ" class="dd-item 
+    <li data-nav-id="/6-compliance/" title="Compliance Validation" class="dd-item 
         
         
         
         ">
-      <a href="/vi/6-compliance/">
-          Xác thực tuân thủ
+      <a href="/6-compliance/">
+          Compliance Validation
           
             <i class="fas fa-check read-icon"></i>
           
@@ -533,9 +533,9 @@
  
   
     
-      <li data-nav-id="/vi/6-compliance/6-1-aws-config/" title="6.1. Bật AWS Config &amp; thêm rule" class="dd-item ">
-        <a href="/vi/6-compliance/6-1-aws-config/">
-        6.1. Bật AWS Config &amp; thêm rule
+      <li data-nav-id="/6-compliance/6-1-aws-config/" title="6.1. Enable AWS Config &amp; Add Rules" class="dd-item ">
+        <a href="/6-compliance/6-1-aws-config/">
+        6.1. Enable AWS Config &amp; Add Rules
         <i class="fas fa-check read-icon"></i>
         </a>
     </li>
@@ -554,9 +554,9 @@
  
   
     
-      <li data-nav-id="/vi/6-compliance/6-2-conformance-pack/" title="6.2. Gói Tuân Thủ cho RDS" class="dd-item ">
-        <a href="/vi/6-compliance/6-2-conformance-pack/">
-        6.2. Gói Tuân Thủ cho RDS
+      <li data-nav-id="/6-compliance/6-2-conformance-pack/" title="6.2. Conformance Pack for RDS" class="dd-item ">
+        <a href="/6-compliance/6-2-conformance-pack/">
+        6.2. Conformance Pack for RDS
         <i class="fas fa-check read-icon"></i>
         </a>
     </li>
@@ -582,13 +582,13 @@
  
   
     
-    <li data-nav-id="/vi/7-monitoring/" title="Giám sát" class="dd-item 
+    <li data-nav-id="/7-monitoring/" title="Monitoring" class="dd-item 
         
         
         
         ">
-      <a href="/vi/7-monitoring/">
-          Giám sát
+      <a href="/7-monitoring/">
+          Monitoring
           
             <i class="fas fa-check read-icon"></i>
           
@@ -611,9 +611,9 @@
  
   
     
-      <li data-nav-id="/vi/7-monitoring/7-1-rds-alarms/" title="7.1. Cảnh báo RDS (CPU &amp; Dung lượng lưu trữ còn trống)" class="dd-item ">
-        <a href="/vi/7-monitoring/7-1-rds-alarms/">
-        7.1. Cảnh báo RDS (CPU &amp; Dung lượng lưu trữ còn trống)
+      <li data-nav-id="/7-monitoring/7-1-rds-alarms/" title="7.1. RDS Alarms (CPU &amp; Free Storage)" class="dd-item ">
+        <a href="/7-monitoring/7-1-rds-alarms/">
+        7.1. RDS Alarms (CPU &amp; Free Storage)
         <i class="fas fa-check read-icon"></i>
         </a>
     </li>
@@ -632,9 +632,9 @@
  
   
     
-      <li data-nav-id="/vi/7-monitoring/7-2-lambda-alarms/" title="7.2. Alarm cho Lambda DR test" class="dd-item ">
-        <a href="/vi/7-monitoring/7-2-lambda-alarms/">
-        7.2. Alarm cho Lambda DR test
+      <li data-nav-id="/7-monitoring/7-2-lambda-alarms/" title="7.2. Alarm for Lambda DR Test" class="dd-item ">
+        <a href="/7-monitoring/7-2-lambda-alarms/">
+        7.2. Alarm for Lambda DR Test
         <i class="fas fa-check read-icon"></i>
         </a>
     </li>
@@ -660,13 +660,13 @@
  
   
     
-    <li data-nav-id="/vi/8-cost-analysis/" title="Phân tích chi phí (Cost Analysis)" class="dd-item 
+    <li data-nav-id="/8-cost-analysis/" title="Cost Analysis" class="dd-item 
         
         
         
         ">
-      <a href="/vi/8-cost-analysis/">
-          Phân tích chi phí (Cost Analysis)
+      <a href="/8-cost-analysis/">
+          Cost Analysis
           
             <i class="fas fa-check read-icon"></i>
           
@@ -686,13 +686,13 @@
  
   
     
-    <li data-nav-id="/vi/9-cleanup/" title="Dọn dẹp tài nguyên" class="dd-item 
-        
-        
+    <li data-nav-id="/9-cleanup/" title="Clean Up Resources" class="dd-item 
+        parent
+        active
         
         ">
-      <a href="/vi/9-cleanup/">
-          Dọn dẹp tài nguyên
+      <a href="/9-cleanup/">
+          Clean Up Resources
           
             <i class="fas fa-check read-icon"></i>
           
@@ -715,9 +715,9 @@
  
   
     
-      <li data-nav-id="/vi/9-cleanup/9-1-what-to-delete/" title="9.1. Dọn dẹp tài nguyên" class="dd-item ">
-        <a href="/vi/9-cleanup/9-1-what-to-delete/">
-        9.1. Dọn dẹp tài nguyên
+      <li data-nav-id="/9-cleanup/9-1-what-to-delete/" title="9.1. Clean Up Resources" class="dd-item ">
+        <a href="/9-cleanup/9-1-what-to-delete/">
+        9.1. Clean Up Resources
         <i class="fas fa-check read-icon"></i>
         </a>
     </li>
@@ -770,7 +770,7 @@
                   
                     
                     
-                      <option id="en" value="/5-backup-recovery/5-3-restore-dr/">English</option>
+                      <option id="en" value="/9-cleanup/" selected>English</option>
                     
                   
               
@@ -784,7 +784,7 @@
                   
                     
                     
-                      <option id="vi" value="/vi/5-backup-recovery/5-3-restore-dr/" selected>Tiếng Việt</option>
+                      <option id="vi" value="/vi/9-cleanup/">Tiếng Việt</option>
                     
                   
               
@@ -874,13 +874,7 @@
             
           
           
-            
-            
-          
-          
-            <a href='/vi/'>Tự động hoá Khôi phục Thảm họa cho Hạ tầng DevOps</a> > <a href='/vi/5-backup-recovery/'>Sao lưu & Khôi phục</a> > 5.3. Khôi phục ở DR (us-west-2)
-          
-        
+            <a href='/'>Disaster Recovery Automation for DevOps Infrastructure</a> > Clean Up Resources
           
         
           
@@ -907,40 +901,21 @@
           
             <h1>
               
-              5.3. Khôi phục ở DR (us-west-2)
+              Clean Up Resources
             </h1>
           
 
         
 
 
-<p>Chuẩn bị ở us-west-2:</p>
-<blockquote>
-<p><img src="images/5-3-01.png" alt="Restore DR"></p>
-</blockquote>
-<ul>
-<li>DB subnet group (RDS → Subnet groups → Create)</li>
-</ul>
-<blockquote>
-<p><img src="images/5-3-02.png" alt="Restore DR">
-<img src="images/5-3-03.png" alt="Restore DR"></p>
-</blockquote>
-<ul>
-<li>SG mở TCP 3306 tạm thời từ IP của bạn</li>
-</ul>
-<blockquote>
-<p><img src="images/5-3-04.png" alt="Restore DR">
-Restore từ <code>vault-ws-dr</code> → Recovery point → <strong>Restore</strong> → đặt <code>tb-restore-dr-&lt;timestamp&gt;</code>
-<img src="images/5-3-05.png" alt="Restore DR">
-<img src="images/5-3-06.png" alt="Restore DR">
-<img src="images/5-3-07.png" alt="Restore DR">
-<img src="images/5-3-08.png" alt="Restore DR">
-<img src="images/5-3-09.png" alt="Restore DR">
-<img src="images/5-3-10.png" alt="Restore DR"></p>
-</blockquote>
+
+	<p>Instructions to delete resources to avoid incurring costs.</p>
 
 
-<footer class="footline">
+
+
+
+<footer class=" footline" >
 	
 </footer>
 
@@ -1170,7 +1145,6 @@ Restore từ <code>vault-ws-dr</code> → Recovery point → <strong>Restore</st
             
                 
                     
-                    
                 
                 
 
@@ -1183,9 +1157,6 @@ Restore từ <code>vault-ws-dr</code> → Recovery point → <strong>Restore</st
             
             
                 
-                    
-                        
-                        
                     
                 
                 
@@ -1213,58 +1184,6 @@ Restore từ <code>vault-ws-dr</code> → Recovery point → <strong>Restore</st
                     
             
         
-                    
-                        
-            
-            
-                
-                    
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                        
-                        
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
                     
                         
             
@@ -1362,6 +1281,19 @@ Restore từ <code>vault-ws-dr</code> → Recovery point → <strong>Restore</st
                     
 
                     
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
             
         
                     
@@ -1378,10 +1310,49 @@ Restore từ <code>vault-ws-dr</code> → Recovery point → <strong>Restore</st
                     
 
                     
+            
+        
+                    
+            
+        
+                    
                         
             
             
                 
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                        
+                        
                     
                 
                 
@@ -1406,10 +1377,10 @@ Restore từ <code>vault-ws-dr</code> → Recovery point → <strong>Restore</st
 	 
 	 
 		
-			<a class="nav nav-prev" href="/vi/5-backup-recovery/5-2-restore-primary/" title="5.2. Khôi phục ở Primary (us-east-1)"> <i class="fa fa-chevron-left"></i></a>
+			<a class="nav nav-prev" href="/8-cost-analysis/" title="Cost Analysis"> <i class="fa fa-chevron-left"></i></a>
 		
 		
-			<a class="nav nav-next" href="/vi/5-backup-recovery/5-4-dr-test-lambda/" title="5.4. DR testing automation (Lambda &#43; SSM &#43; SNS)" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+			<a class="nav nav-next" href="/9-cleanup/9-1-what-to-delete/" title="9.1. Clean Up Resources" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
 		
 	
     </div>
@@ -1419,19 +1390,19 @@ Restore từ <code>vault-ws-dr</code> → Recovery point → <strong>Restore</st
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/js/clipboard.min.js?1754842575"></script>
-    <script src="/js/perfect-scrollbar.min.js?1754842575"></script>
-    <script src="/js/perfect-scrollbar.jquery.min.js?1754842575"></script>
-    <script src="/js/jquery.sticky.js?1754842575"></script>
-    <script src="/js/featherlight.min.js?1754842575"></script>
-    <script src="/js/highlight.pack.js?1754842575"></script>
+    <script src="/js/clipboard.min.js?1754842574"></script>
+    <script src="/js/perfect-scrollbar.min.js?1754842574"></script>
+    <script src="/js/perfect-scrollbar.jquery.min.js?1754842574"></script>
+    <script src="/js/jquery.sticky.js?1754842574"></script>
+    <script src="/js/featherlight.min.js?1754842574"></script>
+    <script src="/js/highlight.pack.js?1754842574"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/js/modernizr.custom-3.6.0.js?1754842575"></script>
-    <script src="/js/learn.js?1754842575"></script>
-    <script src="/js/hugo-learn.js?1754842575"></script>
+    <script src="/js/modernizr.custom-3.6.0.js?1754842574"></script>
+    <script src="/js/learn.js?1754842574"></script>
+    <script src="/js/hugo-learn.js?1754842574"></script>
 
-    <link href="/mermaid/mermaid.css?1754842575" rel="stylesheet" />
-    <script src="/mermaid/mermaid.js?1754842575"></script>
+    <link href="/mermaid/mermaid.css?1754842574" rel="stylesheet" />
+    <script src="/mermaid/mermaid.js?1754842574"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>
@@ -1447,4 +1418,3 @@ Restore từ <code>vault-ws-dr</code> → Recovery point → <strong>Restore</st
 </script>
   </body>
 </html>
-

@@ -9,7 +9,7 @@
 
     <link rel="icon" href="/images/favicon.png" type="image/png">
 
-    <title>5.3. Khôi phục ở DR (us-west-2) :: AWS System Manager</title>
+    <title>9.1. Dọn dẹp tài nguyên :: AWS System Manager</title>
 
     
     <link href="/css/nucleus.css?1754842575" rel="stylesheet">
@@ -36,7 +36,7 @@
     </style>
     
   </head>
-  <body class="" data-url="/vi/5-backup-recovery/5-3-restore-dr/">
+  <body class="" data-url="/vi/9-cleanup/9-1-what-to-delete/">
     <nav id="sidebar" class="showVisitedLinks">
 
 
@@ -385,7 +385,7 @@
   
     
     <li data-nav-id="/vi/5-backup-recovery/" title="Sao lưu &amp; Khôi phục" class="dd-item 
-        parent
+        
         
         
         ">
@@ -455,7 +455,7 @@
  
   
     
-      <li data-nav-id="/vi/5-backup-recovery/5-3-restore-dr/" title="5.3. Khôi phục ở DR (us-west-2)" class="dd-item active">
+      <li data-nav-id="/vi/5-backup-recovery/5-3-restore-dr/" title="5.3. Khôi phục ở DR (us-west-2)" class="dd-item ">
         <a href="/vi/5-backup-recovery/5-3-restore-dr/">
         5.3. Khôi phục ở DR (us-west-2)
         <i class="fas fa-check read-icon"></i>
@@ -687,7 +687,7 @@
   
     
     <li data-nav-id="/vi/9-cleanup/" title="Dọn dẹp tài nguyên" class="dd-item 
-        
+        parent
         
         
         ">
@@ -715,7 +715,7 @@
  
   
     
-      <li data-nav-id="/vi/9-cleanup/9-1-what-to-delete/" title="9.1. Dọn dẹp tài nguyên" class="dd-item ">
+      <li data-nav-id="/vi/9-cleanup/9-1-what-to-delete/" title="9.1. Dọn dẹp tài nguyên" class="dd-item active">
         <a href="/vi/9-cleanup/9-1-what-to-delete/">
         9.1. Dọn dẹp tài nguyên
         <i class="fas fa-check read-icon"></i>
@@ -770,7 +770,7 @@
                   
                     
                     
-                      <option id="en" value="/5-backup-recovery/5-3-restore-dr/">English</option>
+                      <option id="en" value="/9-cleanup/9-1-what-to-delete/">English</option>
                     
                   
               
@@ -784,7 +784,7 @@
                   
                     
                     
-                      <option id="vi" value="/vi/5-backup-recovery/5-3-restore-dr/" selected>Tiếng Việt</option>
+                      <option id="vi" value="/vi/9-cleanup/9-1-what-to-delete/" selected>Tiếng Việt</option>
                     
                   
               
@@ -878,7 +878,7 @@
             
           
           
-            <a href='/vi/'>Tự động hoá Khôi phục Thảm họa cho Hạ tầng DevOps</a> > <a href='/vi/5-backup-recovery/'>Sao lưu & Khôi phục</a> > 5.3. Khôi phục ở DR (us-west-2)
+            <a href='/vi/'>Tự động hoá Khôi phục Thảm họa cho Hạ tầng DevOps</a> > <a href='/vi/9-cleanup/'>Dọn dẹp tài nguyên</a> > 9.1. Dọn dẹp tài nguyên
           
         
           
@@ -891,7 +891,15 @@
                 
                     <div class="progress">
     <div class="wrapper">
-<nav id="TableOfContents"></nav>
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#mục-tiêu">Mục tiêu</a>
+      <ul>
+        <li><a href="#bước-thực-hiện">Bước thực hiện</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
     </div>
 </div>
 
@@ -907,36 +915,29 @@
           
             <h1>
               
-              5.3. Khôi phục ở DR (us-west-2)
+              9.1. Dọn dẹp tài nguyên
             </h1>
           
 
         
 
 
-<p>Chuẩn bị ở us-west-2:</p>
+<h2 id="mục-tiêu">Mục tiêu</h2>
+<p>Xoá các tài nguyên đã tạo sau workshop để <strong>ngừng phát sinh chi phí</strong>.</p>
+<h3 id="bước-thực-hiện">Bước thực hiện</h3>
+<ol>
+<li><strong>EC2</strong>: Terminate builder &amp; backend instances; xoá Security Groups không dùng.</li>
+<li><strong>RDS</strong>: Xoá DB test/restore, tắt <code>Deletion Protection</code> rồi Delete (bỏ final snapshot nếu là môi trường demo).</li>
+<li><strong>AWS Backup</strong>: Xoá <strong>on-demand backups</strong> không cần thiết; cân nhắc hạ retention.</li>
+<li><strong>S3</strong>: Xoá bucket FE (nếu chỉ dùng demo) và bucket AWS Config logs (nếu không còn nhu cầu).</li>
+<li><strong>ECR</strong>: Xoá repository hoặc images không dùng.</li>
+<li><strong>Lambda / EventBridge</strong>: Xoá function, rules DR test; cleanup Secrets nếu chỉ dùng demo.</li>
+<li><strong>CloudWatch / SNS</strong>: Xoá alarms và subscription không cần.</li>
+<li><strong>AWS Config</strong>: Dừng recording &amp; xoá conformance pack (nếu không sử dụng nữa).</li>
+<li><strong>IAM</strong>: Gỡ/xoá các role tạm thời (builder, test) để giảm rủi ro bảo mật.</li>
+</ol>
 <blockquote>
-<p><img src="images/5-3-01.png" alt="Restore DR"></p>
-</blockquote>
-<ul>
-<li>DB subnet group (RDS → Subnet groups → Create)</li>
-</ul>
-<blockquote>
-<p><img src="images/5-3-02.png" alt="Restore DR">
-<img src="images/5-3-03.png" alt="Restore DR"></p>
-</blockquote>
-<ul>
-<li>SG mở TCP 3306 tạm thời từ IP của bạn</li>
-</ul>
-<blockquote>
-<p><img src="images/5-3-04.png" alt="Restore DR">
-Restore từ <code>vault-ws-dr</code> → Recovery point → <strong>Restore</strong> → đặt <code>tb-restore-dr-&lt;timestamp&gt;</code>
-<img src="images/5-3-05.png" alt="Restore DR">
-<img src="images/5-3-06.png" alt="Restore DR">
-<img src="images/5-3-07.png" alt="Restore DR">
-<img src="images/5-3-08.png" alt="Restore DR">
-<img src="images/5-3-09.png" alt="Restore DR">
-<img src="images/5-3-10.png" alt="Restore DR"></p>
+<p>Lưu ý: thứ tự xoá ưu tiên tài nguyên “phát sinh chi phí cao” trước (RDS, EC2, S3 lớn).</p>
 </blockquote>
 
 
@@ -1170,7 +1171,6 @@ Restore từ <code>vault-ws-dr</code> → Recovery point → <strong>Restore</st
             
                 
                     
-                    
                 
                 
 
@@ -1183,9 +1183,6 @@ Restore từ <code>vault-ws-dr</code> → Recovery point → <strong>Restore</st
             
             
                 
-                    
-                        
-                        
                     
                 
                 
@@ -1213,58 +1210,6 @@ Restore từ <code>vault-ws-dr</code> → Recovery point → <strong>Restore</st
                     
             
         
-                    
-                        
-            
-            
-                
-                    
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                        
-                        
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
                     
                         
             
@@ -1362,6 +1307,19 @@ Restore từ <code>vault-ws-dr</code> → Recovery point → <strong>Restore</st
                     
 
                     
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
             
         
                     
@@ -1378,10 +1336,47 @@ Restore từ <code>vault-ws-dr</code> → Recovery point → <strong>Restore</st
                     
 
                     
+            
+        
+                    
+            
+        
+                    
                         
             
             
                 
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
                     
                 
                 
@@ -1406,10 +1401,10 @@ Restore từ <code>vault-ws-dr</code> → Recovery point → <strong>Restore</st
 	 
 	 
 		
-			<a class="nav nav-prev" href="/vi/5-backup-recovery/5-2-restore-primary/" title="5.2. Khôi phục ở Primary (us-east-1)"> <i class="fa fa-chevron-left"></i></a>
+			<a class="nav nav-prev" href="/vi/9-cleanup/" title="Dọn dẹp tài nguyên"> <i class="fa fa-chevron-left"></i></a>
 		
 		
-			<a class="nav nav-next" href="/vi/5-backup-recovery/5-4-dr-test-lambda/" title="5.4. DR testing automation (Lambda &#43; SSM &#43; SNS)" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+			<a class="nav nav-next" href="/vi/1-introduction/" title="Giới thiệu" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
 		
 	
     </div>
