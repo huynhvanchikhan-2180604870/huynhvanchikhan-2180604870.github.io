@@ -9,24 +9,24 @@
 
     <link rel="icon" href="/images/favicon.png" type="image/png">
 
-    <title>Disaster Recovery Automation for DevOps Infrastructure :: AWS System Manager</title>
+    <title>4.2. Update CORS in Backend :: AWS System Manager</title>
 
     
-    <link href="/css/nucleus.css?1754840606" rel="stylesheet">
-    <link href="/css/fontawesome-all.min.css?1754840606" rel="stylesheet">
-    <link href="/css/hybrid.css?1754840606" rel="stylesheet">
-    <link href="/css/featherlight.min.css?1754840606" rel="stylesheet">
-    <link href="/css/perfect-scrollbar.min.css?1754840606" rel="stylesheet">
-    <link href="/css/auto-complete.css?1754840606" rel="stylesheet">
-    <link href="/css/atom-one-dark-reasonable.css?1754840606" rel="stylesheet">
-    <link href="/css/theme.css?1754840606" rel="stylesheet">
-    <link href="/css/hugo-theme.css?1754840606" rel="stylesheet">
+    <link href="/css/nucleus.css?1754840605" rel="stylesheet">
+    <link href="/css/fontawesome-all.min.css?1754840605" rel="stylesheet">
+    <link href="/css/hybrid.css?1754840605" rel="stylesheet">
+    <link href="/css/featherlight.min.css?1754840605" rel="stylesheet">
+    <link href="/css/perfect-scrollbar.min.css?1754840605" rel="stylesheet">
+    <link href="/css/auto-complete.css?1754840605" rel="stylesheet">
+    <link href="/css/atom-one-dark-reasonable.css?1754840605" rel="stylesheet">
+    <link href="/css/theme.css?1754840605" rel="stylesheet">
+    <link href="/css/hugo-theme.css?1754840605" rel="stylesheet">
     
-    <link href="/css/theme-workshop.css?1754840606" rel="stylesheet">
+    <link href="/css/theme-workshop.css?1754840605" rel="stylesheet">
     
     
 
-    <script src="/js/jquery-3.3.1.min.js?1754840606"></script>
+    <script src="/js/jquery-3.3.1.min.js?1754840605"></script>
 
     <style>
       :root #header + #content > #left > #rlblock_left{
@@ -36,7 +36,7 @@
     </style>
     
   </head>
-  <body class="" data-url="/">
+  <body class="" data-url="/4-frontend/4-2-cors/">
     <nav id="sidebar" class="showVisitedLinks">
 
 
@@ -57,14 +57,14 @@
     <span data-search-clear=""><i class="fas fa-times"></i></span>
 </div>
 
-<script type="text/javascript" src="/js/lunr.min.js?1754840606"></script>
-<script type="text/javascript" src="/js/auto-complete.js?1754840606"></script>
+<script type="text/javascript" src="/js/lunr.min.js?1754840605"></script>
+<script type="text/javascript" src="/js/auto-complete.js?1754840605"></script>
 <script type="text/javascript">
     
         var baseurl = "";
     
 </script>
-<script type="text/javascript" src="/js/search.js?1754840606"></script>
+<script type="text/javascript" src="/js/search.js?1754840605"></script>
 
     
   </div>
@@ -307,7 +307,7 @@
   
     
     <li data-nav-id="/4-frontend/" title="Frontend" class="dd-item 
-        
+        parent
         
         
         ">
@@ -356,7 +356,7 @@
  
   
     
-      <li data-nav-id="/4-frontend/4-2-cors/" title="4.2. Update CORS in Backend" class="dd-item ">
+      <li data-nav-id="/4-frontend/4-2-cors/" title="4.2. Update CORS in Backend" class="dd-item active">
         <a href="/4-frontend/4-2-cors/">
         4.2. Update CORS in Backend
         <i class="fas fa-check read-icon"></i>
@@ -744,7 +744,7 @@
                   
                     
                     
-                      <option id="en" value="/" selected>English</option>
+                      <option id="en" value="/4-frontend/4-2-cors/" selected>English</option>
                     
                   
               
@@ -758,7 +758,7 @@
                   
                     
                     
-                      <option id="vi" value="/vi/">Tiếng Việt</option>
+                      <option id="vi" value="/vi/4-frontend/4-2-cors/">Tiếng Việt</option>
                     
                   
               
@@ -825,38 +825,80 @@
         <div id="overlay"></div>
         <div class="padding highlightable">
               
+              <div>
+                <div id="top-bar">
+                
+                
+                <div id="breadcrumbs" itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb">
+                    <span id="sidebar-toggle-span">
+                        <a href="#" id="sidebar-toggle" data-sidebar-toggle="">
+                          <i class="fas fa-bars"></i>
+                        </a>
+                    </span>
+                  
+                  <span id="toc-menu"><i class="fas fa-list-alt"></i></span>
+                  
+                  <span class="links">
+                 
+                 
+                    
+          
+          
+            
+            
+          
+          
+            
+            
+          
+          
+            <a href='/'>Disaster Recovery Automation for DevOps Infrastructure</a> > <a href='/4-frontend/'>Frontend</a> > 4.2. Update CORS in Backend
+          
+        
+          
+        
+          
+        
+                 
+                  </span>
+                </div>
+                
+                    <div class="progress">
+    <div class="wrapper">
+<nav id="TableOfContents"></nav>
+    </div>
+</div>
+
+                
+              </div>
+            </div>
+            
         <div id="head-tags">
         
         </div>
         
         <div id="body-inner">
           
+            <h1>
+              
+              4.2. Update CORS in Backend
+            </h1>
+          
 
         
 
-<span id="sidebar-toggle-span">
-<a href="#" id="sidebar-toggle" data-sidebar-toggle=""><i class="fas fa-bars"></i> navigation</a>
-</span>
 
- 
-<h1 id="disaster-recovery-automation-for-devops-infrastructure">Disaster Recovery Automation for DevOps Infrastructure</h1>
-<h3 id="overview">Overview</h3>
-<p>This lab guides you through implementing an automated disaster recovery (DR) solution for a DevOps infrastructure. You will learn backup automation, recovery procedures, automated recovery testing, compliance validation, monitoring setup, operational documentation, and cost analysis for a robust DR strategy.</p>
-<p>The practice includes working with AWS services such as RDS, EC2, S3, Lambda, AWS Backup, AWS Config, CloudWatch, and more to build an end-to-end DR automation framework.</p>
-<p><img src="/images/overall_architecture.png" alt="DR Architecture"></p>
-<h3 id="contents">Contents</h3>
-<ol>
-<li><a href="../1-introduction/">Introduction</a></li>
-<li><a href="../2-prerequisites/">Prerequisites</a></li>
-<li><a href="../3-backend/">Backend Setup and Automation</a></li>
-<li><a href="../4-frontend/">Frontend Deployment and CORS</a></li>
-<li><a href="../5-backup-recovery/">Backup and Recovery Procedures</a></li>
-<li><a href="../6-compliance/">Compliance and Validation</a></li>
-<li><a href="../7-monitoring/">Monitoring and Alerting</a></li>
-<li><a href="../8-cleanup/">Cleanup and Cost Optimization</a></li>
-</ol>
+<p>Add the following to <code>/etc/sysconfig/be.env</code> on EC2:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-env" data-lang="env">SPRING_MVC_CORS_ALLOWED_ORIGINS<span style="color:#f92672">=</span>http://&lt;S3_WEBSITE_URL&gt;
+SPRING_MVC_CORS_ALLOWED_METHODS<span style="color:#f92672">=</span>GET,POST,PUT,DELETE,OPTIONS
+SPRING_MVC_CORS_ALLOWED_HEADERS<span style="color:#f92672">=</span>*
+SPRING_MVC_CORS_ALLOW_CREDENTIALS<span style="color:#f92672">=</span>true
+</code></pre></div>
+
+<footer class="footline">
 	
-  
+</footer>
+
         
         </div> 
         
@@ -1035,6 +1077,7 @@
             
                 
                     
+                    
                 
                 
 
@@ -1047,6 +1090,9 @@
             
             
                 
+                    
+                        
+                        
                     
                 
                 
@@ -1064,6 +1110,7 @@
             
                 
                     
+                    
                 
                 
 
@@ -1082,6 +1129,9 @@
             
             
                 
+                    
+                        
+                        
                     
                 
                 
@@ -1295,8 +1345,10 @@
 	 
 	 
 		
+			<a class="nav nav-prev" href="/4-frontend/4-1-s3-bucket/" title="4.1. Create S3 Bucket for FE"> <i class="fa fa-chevron-left"></i></a>
 		
-			<a class="nav nav-next" href="/1-introduction/" title="Introduction" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+		
+			<a class="nav nav-next" href="/5-backup-recovery/" title="Backup &amp; Restore" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
 		
 	
     </div>

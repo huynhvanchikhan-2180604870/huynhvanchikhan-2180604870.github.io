@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Giám sát on AWS System Manager</title>
+    <link>/vi/7-monitoring/</link>
+    <description>Recent content in Giám sát on AWS System Manager</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Sun, 10 Aug 2025 00:00:00 +0000</lastBuildDate><atom:link href="/vi/7-monitoring/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>7.1. Cảnh báo RDS (CPU &amp; Dung lượng lưu trữ còn trống)</title>
+      <link>/vi/7-monitoring/7-1-rds-alarms/</link>
+      <pubDate>Sun, 10 Aug 2025 00:00:00 +0000</pubDate>
+      
+      <guid>/vi/7-monitoring/7-1-rds-alarms/</guid>
+      <description>CloudWatch → Cảnh báo (Alarms) → Tạo cảnh báo (Create alarm)
+ Chọn chỉ số (Metric) CPUUtilization (Per-Database → chọn DB) → Chu kỳ (Period) 1 phút → Lớn hơn hoặc bằng 1 → Thông báo SNS dr-alerts → Tên: rds-cpu-high-test     Chọn chỉ số (Metric) FreeStorageSpace → Nhỏ hơn hoặc bằng 5 GiB → Tên: rds-free-storage-low    </description>
+    </item>
+    
+    <item>
+      <title>7.2. Alarm cho Lambda DR test</title>
+      <link>/vi/7-monitoring/7-2-lambda-alarms/</link>
+      <pubDate>Sun, 10 Aug 2025 00:00:00 +0000</pubDate>
+      
+      <guid>/vi/7-monitoring/7-2-lambda-alarms/</guid>
+      <description> CloudWatch → Alarms → Create alarm → Lambda / By function name → metric Errors → Period 1m → Greater/Equal 1 → SNS dr-alerts → Name: lambda-dr-errors. Test: vào Lambda → Test với event { &amp;quot;forceSnapshotId&amp;quot;: &amp;quot;does-not-exist&amp;quot; } để tạo lỗi → alarm sẽ ALARM và gửi email.
+ </description>
+    </item>
+    
+  </channel>
+</rss>

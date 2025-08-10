@@ -9,7 +9,7 @@
 
     <link rel="icon" href="/images/favicon.png" type="image/png">
 
-    <title>Disaster Recovery Automation for DevOps Infrastructure :: AWS System Manager</title>
+    <title>6.1. Enable AWS Config &amp; Add Rules :: AWS System Manager</title>
 
     
     <link href="/css/nucleus.css?1754840606" rel="stylesheet">
@@ -36,7 +36,7 @@
     </style>
     
   </head>
-  <body class="" data-url="/">
+  <body class="" data-url="/6-compliance/6-1-aws-config/">
     <nav id="sidebar" class="showVisitedLinks">
 
 
@@ -505,7 +505,7 @@
   
     
     <li data-nav-id="/6-compliance/" title="Compliance Validation" class="dd-item 
-        
+        parent
         
         
         ">
@@ -533,7 +533,7 @@
  
   
     
-      <li data-nav-id="/6-compliance/6-1-aws-config/" title="6.1. Enable AWS Config &amp; Add Rules" class="dd-item ">
+      <li data-nav-id="/6-compliance/6-1-aws-config/" title="6.1. Enable AWS Config &amp; Add Rules" class="dd-item active">
         <a href="/6-compliance/6-1-aws-config/">
         6.1. Enable AWS Config &amp; Add Rules
         <i class="fas fa-check read-icon"></i>
@@ -744,7 +744,7 @@
                   
                     
                     
-                      <option id="en" value="/" selected>English</option>
+                      <option id="en" value="/6-compliance/6-1-aws-config/" selected>English</option>
                     
                   
               
@@ -758,7 +758,7 @@
                   
                     
                     
-                      <option id="vi" value="/vi/">Tiếng Việt</option>
+                      <option id="vi" value="/vi/6-compliance/6-1-aws-config/">Tiếng Việt</option>
                     
                   
               
@@ -825,38 +825,104 @@
         <div id="overlay"></div>
         <div class="padding highlightable">
               
+              <div>
+                <div id="top-bar">
+                
+                
+                <div id="breadcrumbs" itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb">
+                    <span id="sidebar-toggle-span">
+                        <a href="#" id="sidebar-toggle" data-sidebar-toggle="">
+                          <i class="fas fa-bars"></i>
+                        </a>
+                    </span>
+                  
+                  <span id="toc-menu"><i class="fas fa-list-alt"></i></span>
+                  
+                  <span class="links">
+                 
+                 
+                    
+          
+          
+            
+            
+          
+          
+            
+            
+          
+          
+            <a href='/'>Disaster Recovery Automation for DevOps Infrastructure</a> > <a href='/6-compliance/'>Compliance Validation</a> > 6.1. Enable AWS Config & Add Rules
+          
+        
+          
+        
+          
+        
+                 
+                  </span>
+                </div>
+                
+                    <div class="progress">
+    <div class="wrapper">
+<nav id="TableOfContents"></nav>
+    </div>
+</div>
+
+                
+              </div>
+            </div>
+            
         <div id="head-tags">
         
         </div>
         
         <div id="body-inner">
           
+            <h1>
+              
+              6.1. Enable AWS Config &amp; Add Rules
+            </h1>
+          
 
         
 
-<span id="sidebar-toggle-span">
-<a href="#" id="sidebar-toggle" data-sidebar-toggle=""><i class="fas fa-bars"></i> navigation</a>
-</span>
 
- 
-<h1 id="disaster-recovery-automation-for-devops-infrastructure">Disaster Recovery Automation for DevOps Infrastructure</h1>
-<h3 id="overview">Overview</h3>
-<p>This lab guides you through implementing an automated disaster recovery (DR) solution for a DevOps infrastructure. You will learn backup automation, recovery procedures, automated recovery testing, compliance validation, monitoring setup, operational documentation, and cost analysis for a robust DR strategy.</p>
-<p>The practice includes working with AWS services such as RDS, EC2, S3, Lambda, AWS Backup, AWS Config, CloudWatch, and more to build an end-to-end DR automation framework.</p>
-<p><img src="/images/overall_architecture.png" alt="DR Architecture"></p>
-<h3 id="contents">Contents</h3>
-<ol>
-<li><a href="../1-introduction/">Introduction</a></li>
-<li><a href="../2-prerequisites/">Prerequisites</a></li>
-<li><a href="../3-backend/">Backend Setup and Automation</a></li>
-<li><a href="../4-frontend/">Frontend Deployment and CORS</a></li>
-<li><a href="../5-backup-recovery/">Backup and Recovery Procedures</a></li>
-<li><a href="../6-compliance/">Compliance and Validation</a></li>
-<li><a href="../7-monitoring/">Monitoring and Alerting</a></li>
-<li><a href="../8-cleanup/">Cleanup and Cost Optimization</a></li>
-</ol>
+<p><strong>Enable AWS Config (us-east-1)</strong></p>
+<blockquote>
+<p><img src="images/6-1-01.png" alt="Config Rules"></p>
+</blockquote>
+<ul>
+<li>Recording: <strong>Record all resources</strong></li>
+</ul>
+<blockquote>
+<p><img src="images/6-1-02.png" alt="Config Rules">
+<img src="images/6-1-03.png" alt="Config Rules"></p>
+</blockquote>
+<ul>
+<li>Delivery: create a <strong>default S3 bucket</strong> and <strong>service-linked role</strong></li>
+</ul>
+<blockquote>
+<p><img src="images/6-1-04.png" alt="Config Rules">
+<strong>Add managed rules (RDS/Backup):</strong></p>
+</blockquote>
+<ul>
+<li><code>rds-backup-enabled</code></li>
+<li><code>rds-instance-deletion-protection-enabled</code></li>
+<li><code>rds-instance-public-access-check</code></li>
+<li><code>rds-storage-encrypted</code></li>
+<li><code>rds-snapshots-public-prohibited</code></li>
+</ul>
+<blockquote>
+<p><img src="images/6-1-05.png" alt="Config Rules">
+<img src="images/6-1-06.png" alt="Config Rules"></p>
+</blockquote>
+
+
+<footer class="footline">
 	
-  
+</footer>
+
         
         </div> 
         
@@ -1163,6 +1229,7 @@
             
                 
                     
+                    
                 
                 
 
@@ -1175,6 +1242,7 @@
             
             
                 
+                    
                     
                 
                 
@@ -1191,6 +1259,9 @@
             
             
                 
+                    
+                        
+                        
                     
                 
                 
@@ -1295,8 +1366,10 @@
 	 
 	 
 		
+			<a class="nav nav-prev" href="/6-compliance/" title="Compliance Validation"> <i class="fa fa-chevron-left"></i></a>
 		
-			<a class="nav nav-next" href="/1-introduction/" title="Introduction" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+		
+			<a class="nav nav-next" href="/6-compliance/6-2-conformance-pack/" title="6.2. Conformance Pack for RDS" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
 		
 	
     </div>

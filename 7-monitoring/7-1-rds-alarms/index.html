@@ -9,7 +9,7 @@
 
     <link rel="icon" href="/images/favicon.png" type="image/png">
 
-    <title>Disaster Recovery Automation for DevOps Infrastructure :: AWS System Manager</title>
+    <title>7.1. RDS Alarms (CPU &amp; Free Storage) :: AWS System Manager</title>
 
     
     <link href="/css/nucleus.css?1754840606" rel="stylesheet">
@@ -36,7 +36,7 @@
     </style>
     
   </head>
-  <body class="" data-url="/">
+  <body class="" data-url="/7-monitoring/7-1-rds-alarms/">
     <nav id="sidebar" class="showVisitedLinks">
 
 
@@ -583,7 +583,7 @@
   
     
     <li data-nav-id="/7-monitoring/" title="Monitoring" class="dd-item 
-        
+        parent
         
         
         ">
@@ -611,7 +611,7 @@
  
   
     
-      <li data-nav-id="/7-monitoring/7-1-rds-alarms/" title="7.1. RDS Alarms (CPU &amp; Free Storage)" class="dd-item ">
+      <li data-nav-id="/7-monitoring/7-1-rds-alarms/" title="7.1. RDS Alarms (CPU &amp; Free Storage)" class="dd-item active">
         <a href="/7-monitoring/7-1-rds-alarms/">
         7.1. RDS Alarms (CPU &amp; Free Storage)
         <i class="fas fa-check read-icon"></i>
@@ -744,7 +744,7 @@
                   
                     
                     
-                      <option id="en" value="/" selected>English</option>
+                      <option id="en" value="/7-monitoring/7-1-rds-alarms/" selected>English</option>
                     
                   
               
@@ -758,7 +758,7 @@
                   
                     
                     
-                      <option id="vi" value="/vi/">Tiếng Việt</option>
+                      <option id="vi" value="/vi/7-monitoring/7-1-rds-alarms/">Tiếng Việt</option>
                     
                   
               
@@ -825,38 +825,98 @@
         <div id="overlay"></div>
         <div class="padding highlightable">
               
+              <div>
+                <div id="top-bar">
+                
+                
+                <div id="breadcrumbs" itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb">
+                    <span id="sidebar-toggle-span">
+                        <a href="#" id="sidebar-toggle" data-sidebar-toggle="">
+                          <i class="fas fa-bars"></i>
+                        </a>
+                    </span>
+                  
+                  <span id="toc-menu"><i class="fas fa-list-alt"></i></span>
+                  
+                  <span class="links">
+                 
+                 
+                    
+          
+          
+            
+            
+          
+          
+            
+            
+          
+          
+            <a href='/'>Disaster Recovery Automation for DevOps Infrastructure</a> > <a href='/7-monitoring/'>Monitoring</a> > 7.1. RDS Alarms (CPU & Free Storage)
+          
+        
+          
+        
+          
+        
+                 
+                  </span>
+                </div>
+                
+                    <div class="progress">
+    <div class="wrapper">
+<nav id="TableOfContents"></nav>
+    </div>
+</div>
+
+                
+              </div>
+            </div>
+            
         <div id="head-tags">
         
         </div>
         
         <div id="body-inner">
           
+            <h1>
+              
+              7.1. RDS Alarms (CPU &amp; Free Storage)
+            </h1>
+          
 
         
 
-<span id="sidebar-toggle-span">
-<a href="#" id="sidebar-toggle" data-sidebar-toggle=""><i class="fas fa-bars"></i> navigation</a>
-</span>
 
- 
-<h1 id="disaster-recovery-automation-for-devops-infrastructure">Disaster Recovery Automation for DevOps Infrastructure</h1>
-<h3 id="overview">Overview</h3>
-<p>This lab guides you through implementing an automated disaster recovery (DR) solution for a DevOps infrastructure. You will learn backup automation, recovery procedures, automated recovery testing, compliance validation, monitoring setup, operational documentation, and cost analysis for a robust DR strategy.</p>
-<p>The practice includes working with AWS services such as RDS, EC2, S3, Lambda, AWS Backup, AWS Config, CloudWatch, and more to build an end-to-end DR automation framework.</p>
-<p><img src="/images/overall_architecture.png" alt="DR Architecture"></p>
-<h3 id="contents">Contents</h3>
-<ol>
-<li><a href="../1-introduction/">Introduction</a></li>
-<li><a href="../2-prerequisites/">Prerequisites</a></li>
-<li><a href="../3-backend/">Backend Setup and Automation</a></li>
-<li><a href="../4-frontend/">Frontend Deployment and CORS</a></li>
-<li><a href="../5-backup-recovery/">Backup and Recovery Procedures</a></li>
-<li><a href="../6-compliance/">Compliance and Validation</a></li>
-<li><a href="../7-monitoring/">Monitoring and Alerting</a></li>
-<li><a href="../8-cleanup/">Cleanup and Cost Optimization</a></li>
-</ol>
+<p>CloudWatch → <strong>Alarms</strong> → <strong>Create alarm</strong></p>
+<ul>
+<li>Metric <code>CPUUtilization</code> (Per-Database → select DB) → Period 1m → <strong>Greater/Equal 1</strong> → Notification SNS <code>dr-alerts</code> → Name: <code>rds-cpu-high-test</code></li>
+</ul>
+<blockquote>
+<p><img src="images/7-1-01.png" alt="RDS Alarms">
+<img src="images/7-1-02.png" alt="RDS Alarms">
+<img src="images/7-1-03.png" alt="RDS Alarms">
+<img src="images/7-1-04.png" alt="RDS Alarms">
+<img src="images/7-1-05.png" alt="RDS Alarms">
+<img src="images/7-1-06.png" alt="RDS Alarms">
+<img src="images/7-1-07.png" alt="RDS Alarms">
+<img src="images/7-1-08.png" alt="RDS Alarms"></p>
+</blockquote>
+<ul>
+<li>Metric <code>FreeStorageSpace</code> → <strong>Lower/Equal 5 GiB</strong> → Name: <code>rds-free-storage-low</code></li>
+</ul>
+<blockquote>
+<p><img src="images/7-2-02.png" alt="Lambda Alarm">
+<img src="images/7-2-03.png" alt="Lambda Alarm">
+<img src="images/7-2-04.png" alt="Lambda Alarm">
+<img src="images/7-2-05.png" alt="Lambda Alarm"></p>
+</blockquote>
+
+
+<footer class="footline">
 	
-  
+</footer>
+
         
         </div> 
         
@@ -1211,6 +1271,7 @@
             
                 
                     
+                    
                 
                 
 
@@ -1223,6 +1284,7 @@
             
             
                 
+                    
                     
                 
                 
@@ -1239,6 +1301,9 @@
             
             
                 
+                    
+                        
+                        
                     
                 
                 
@@ -1295,8 +1360,10 @@
 	 
 	 
 		
+			<a class="nav nav-prev" href="/7-monitoring/" title="Monitoring"> <i class="fa fa-chevron-left"></i></a>
 		
-			<a class="nav nav-next" href="/1-introduction/" title="Introduction" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+		
+			<a class="nav nav-next" href="/7-monitoring/7-2-lambda-alarms/" title="7.2. Alarm for Lambda DR Test" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
 		
 	
     </div>

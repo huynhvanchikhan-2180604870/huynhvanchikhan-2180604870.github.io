@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tự động hoá Khôi phục Thảm họa cho Hạ tầng DevOps on AWS System Manager</title>
+    <link>/vi/</link>
+    <description>Recent content in Tự động hoá Khôi phục Thảm họa cho Hạ tầng DevOps on AWS System Manager</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Sun, 10 Aug 2025 00:00:00 +0000</lastBuildDate><atom:link href="/vi/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>2.1. Tạo VPC</title>
+      <link>/vi/2-prerequisites/2-1-vpc/</link>
+      <pubDate>Sun, 10 Aug 2025 00:00:00 +0000</pubDate>
+      
+      <guid>/vi/2-prerequisites/2-1-vpc/</guid>
+      <description>Bước 1. AWS Console → tìm VPC → Your VPCs → Create VPC.
+Bước 2. Chọn VPC and more (nếu muốn AWS tạo sẵn subnets + IGW).
+Thiết lập:
+ Name tag: vpc-dr-ws IPv4 CIDR block: 10.0.0.0/16 IPv6: None Tenancy: Default → Create VPC.  Chèn ảnh:  ![Tạo VPC](images/2-1-vpc-step-01.png) -- </description>
+    </item>
+    
+    <item>
+      <title>3.1. Tạo RDS (MySQL)</title>
+      <link>/vi/3-backend/3-1-create-rds/</link>
+      <pubDate>Sun, 10 Aug 2025 00:00:00 +0000</pubDate>
+      
+      <guid>/vi/3-backend/3-1-create-rds/</guid>
+      <description>RDS → Create database:
+ Engine: MySQL 8.x Templates: Free tier Instance class: db.t3.micro Storage: gp3 Public access: No VPC/Subnet group: mặc định (nếu có) Security group: SG không mở 3306 ra Internet Credentials: đặt username/password và lưu lại Automated backups: ON, giữ ≥ 7 ngày Encryption: ON Đợi Available → Tab Connectivity lấy Endpoint &amp;amp; Port    </description>
+    </item>
+    
+    <item>
+      <title>4.1. Tạo S3 bucket cho FE</title>
+      <link>/vi/4-frontend/4-1-s3-bucket/</link>
+      <pubDate>Sun, 10 Aug 2025 00:00:00 +0000</pubDate>
+      
+      <guid>/vi/4-frontend/4-1-s3-bucket/</guid>
+      <description> Bật Static website hosting: &amp;gt; Áp bucket policy (demo public-read) &amp;gt;  { &amp;#34;Version&amp;#34;: &amp;#34;2012-10-17&amp;#34;, &amp;#34;Statement&amp;#34;: [ { &amp;#34;Sid&amp;#34;: &amp;#34;PublicReadGetObject&amp;#34;, &amp;#34;Effect&amp;#34;: &amp;#34;Allow&amp;#34;, &amp;#34;Principal&amp;#34;: &amp;#34;*&amp;#34;, &amp;#34;Action&amp;#34;: [&amp;#34;s3:GetObject&amp;#34;], &amp;#34;Resource&amp;#34;: [&amp;#34;arn:aws:s3:::BUCKET_NAME/*&amp;#34;] } ] } </description>
+    </item>
+    
+    <item>
+      <title>5.1. AWS Backup (daily &#43; cross-region)</title>
+      <link>/vi/5-backup-recovery/5-1-aws-backup-plan/</link>
+      <pubDate>Sun, 10 Aug 2025 00:00:00 +0000</pubDate>
+      
+      <guid>/vi/5-backup-recovery/5-1-aws-backup-plan/</guid>
+      <description>Tạo Backup Vault ở 2 region
+   us-east-1: vault-ws-primary     us-west-2: vault-ws-dr    Backup Plan plan-rds-ws (ở us-east-1)
+ Rule daily-rds (Daily hoặc cron 02:00 UTC) Vault: vault-ws-primary Lifecycle: Delete after 30 days Cross-Region copy: to us-west-2 → vault-ws-dr (Retention 30 ngày) Assign resource: RDS instance của bạn (nếu hỏi role → tạo service-linked role)   Test on-demand + xác nhận copy sang DR</description>
+    </item>
+    
+    <item>
+      <title>6.1. Bật AWS Config &amp; thêm rule</title>
+      <link>/vi/6-compliance/6-1-aws-config/</link>
+      <pubDate>Sun, 10 Aug 2025 00:00:00 +0000</pubDate>
+      
+      <guid>/vi/6-compliance/6-1-aws-config/</guid>
+      <description>Enable AWS Config (us-east-1)
+   Recording: Record all resources     Delivery: tạo S3 bucket và service-linked role mặc định   Thêm managed rules (RDS/Backup):
+  rds-backup-enabled rds-instance-deletion-protection-enabled rds-instance-public-access-check rds-storage-encrypted rds-snapshots-public-prohibited    </description>
+    </item>
+    
+    <item>
+      <title>7.1. Cảnh báo RDS (CPU &amp; Dung lượng lưu trữ còn trống)</title>
+      <link>/vi/7-monitoring/7-1-rds-alarms/</link>
+      <pubDate>Sun, 10 Aug 2025 00:00:00 +0000</pubDate>
+      
+      <guid>/vi/7-monitoring/7-1-rds-alarms/</guid>
+      <description>CloudWatch → Cảnh báo (Alarms) → Tạo cảnh báo (Create alarm)
+ Chọn chỉ số (Metric) CPUUtilization (Per-Database → chọn DB) → Chu kỳ (Period) 1 phút → Lớn hơn hoặc bằng 1 → Thông báo SNS dr-alerts → Tên: rds-cpu-high-test     Chọn chỉ số (Metric) FreeStorageSpace → Nhỏ hơn hoặc bằng 5 GiB → Tên: rds-free-storage-low    </description>
+    </item>
+    
+    <item>
+      <title>8.1. Dọn dẹp tài nguyên</title>
+      <link>/vi/8-cleanup/8-1-what-to-delete/</link>
+      <pubDate>Sun, 10 Aug 2025 00:00:00 +0000</pubDate>
+      
+      <guid>/vi/8-cleanup/8-1-what-to-delete/</guid>
+      <description> RDS test &amp;amp; snapshots không cần thiết EC2 (runtime &amp;amp; builder), EBS, Security Groups ECR images (tuỳ chọn) S3 FE bucket AWS Backup plan &amp;amp; vaults (khi chắc chắn không cần dữ liệu) AWS Config conformance pack &amp;amp; S3 delivery (tuỳ chọn) SNS, Lambda, EventBridge đã tạo cho DR test  </description>
+    </item>
+    
+    <item>
+      <title>2.2. Tạo Security Groups</title>
+      <link>/vi/2-prerequisites/2-2-security-groups/</link>
+      <pubDate>Sun, 10 Aug 2025 00:00:00 +0000</pubDate>
+      
+      <guid>/vi/2-prerequisites/2-2-security-groups/</guid>
+      <description>SG cho EC2 (BE)
+ Name: sg-ec2-be VPC: vpc-dr-ws Inbound:  HTTP (80) → 0.0.0.0/0 (demo public) SSH (22) → My IP   Outbound: allow all (mặc định)  SG cho RDS (MySQL)
+ Name: sg-rds Inbound: MySQL/Aurora (3306) → Source: sg-ec2-be (tham chiếu theo SG, không dùng IP) Outbound: allow all (mặc định)  Ảnh:  ![SG EC2](images/2-2-sg-step-ec2.png)  ![SG RDS](images/2-2-sg-step-rds.png) -- </description>
+    </item>
+    
+    <item>
+      <title>3.2. EC2 Builder, build Docker &amp; push to ECR</title>
+      <link>/vi/3-backend/3-2-ec2-builder-ecr/</link>
+      <pubDate>Sun, 10 Aug 2025 00:00:00 +0000</pubDate>
+      
+      <guid>/vi/3-backend/3-2-ec2-builder-ecr/</guid>
+      <description>Amazon Elastic Container Registry → Create repository
+ EC2 → Launch instance
+  Name: docker-builder AMI: Amazon Linux 2023 Type: t3.micro Subnet: public, Auto-assign Public IP: Enable IAM role: ec2-docker-builder-role SG: sg-ec2-builder User Data: leave blank → Launch   Install Docker, Git, build &amp;amp; push:
+ sudo dnf -y update sudo dnf -y install docker git sudo systemctl enable --now docker export ACCOUNT_ID=486081556497 export ECR_REGION=us-east-1 export REPO_URL=https://github.com/huynhvanchikhan-2180604870/demo-ws.git export BACKEND_DIR=backend/tour-booking rm -rf ~/app || true git clone &amp;#34;$REPO_URL&amp;#34; ~/app cd ~/app/&amp;#34;$BACKEND_DIR&amp;#34; test -f pom.</description>
+    </item>
+    
+    <item>
+      <title>4.2. Sửa CORS ở backend</title>
+      <link>/vi/4-frontend/4-2-cors/</link>
+      <pubDate>Sun, 10 Aug 2025 00:00:00 +0000</pubDate>
+      
+      <guid>/vi/4-frontend/4-2-cors/</guid>
+      <description>Thêm vào /etc/sysconfig/be.env trên EC2:
+SPRING_MVC_CORS_ALLOWED_ORIGINS=http://&amp;lt;S3_WEBSITE_URL&amp;gt; SPRING_MVC_CORS_ALLOWED_METHODS=GET,POST,PUT,DELETE,OPTIONS SPRING_MVC_CORS_ALLOWED_HEADERS=* SPRING_MVC_CORS_ALLOW_CREDENTIALS=true </description>
+    </item>
+    
+    <item>
+      <title>5.2. Khôi phục ở Primary (us-east-1)</title>
+      <link>/vi/5-backup-recovery/5-2-restore-primary/</link>
+      <pubDate>Sun, 10 Aug 2025 00:00:00 +0000</pubDate>
+      
+      <guid>/vi/5-backup-recovery/5-2-restore-primary/</guid>
+      <description>Vault vault-ws-primary → Recovery points → chọn mới nhất → Restore
+ Class: db.t3.micro DB subnet group &amp;amp; SG: giống RDS hiện tại Identifier: tb-restore-&amp;lt;timestamp&amp;gt;     Sau khi Available → cập nhật endpoint trong backend để test.    </description>
+    </item>
+    
+    <item>
+      <title>6.2. Gói Tuân Thủ cho RDS</title>
+      <link>/vi/6-compliance/6-2-conformance-pack/</link>
+      <pubDate>Sun, 10 Aug 2025 00:00:00 +0000</pubDate>
+      
+      <guid>/vi/6-compliance/6-2-conformance-pack/</guid>
+      <description>AWS Config → Gói tuân thủ (Conformance packs) → Triển khai (Deploy) → Mẫu: Thực tiễn vận hành tốt nhất cho Amazon RDS → Tên: cp-rds-ws → Triển khai (Deploy).
+  </description>
+    </item>
+    
+    <item>
+      <title>7.2. Alarm cho Lambda DR test</title>
+      <link>/vi/7-monitoring/7-2-lambda-alarms/</link>
+      <pubDate>Sun, 10 Aug 2025 00:00:00 +0000</pubDate>
+      
+      <guid>/vi/7-monitoring/7-2-lambda-alarms/</guid>
+      <description> CloudWatch → Alarms → Create alarm → Lambda / By function name → metric Errors → Period 1m → Greater/Equal 1 → SNS dr-alerts → Name: lambda-dr-errors. Test: vào Lambda → Test với event { &amp;quot;forceSnapshotId&amp;quot;: &amp;quot;does-not-exist&amp;quot; } để tạo lỗi → alarm sẽ ALARM và gửi email.
+ </description>
+    </item>
+    
+    <item>
+      <title>2.3. Tạo Roles</title>
+      <link>/vi/2-prerequisites/2-3-iam-roles/</link>
+      <pubDate>Sun, 10 Aug 2025 00:00:00 +0000</pubDate>
+      
+      <guid>/vi/2-prerequisites/2-3-iam-roles/</guid>
+      <description>IAM → Roles → Create role → Trusted entity: EC2 → Attach policies:
+ AmazonEC2ContainerRegistryPowerUser AmazonSSMManagedInstanceCore  Đặt tên: ec2-docker-builder-role → Create.
+Ảnh:  ![Tạo role](images/2-3-iam-step-role.png) -- </description>
+    </item>
+    
+    <item>
+      <title>3.3. EC2 Runtime (chạy Backend)</title>
+      <link>/vi/3-backend/3-3-ec2-runtime/</link>
+      <pubDate>Sun, 10 Aug 2025 00:00:00 +0000</pubDate>
+      
+      <guid>/vi/3-backend/3-3-ec2-runtime/</guid>
+      <description>EC2 Runtime:
+ AMI: AL2023; Type: t3.micro VPC/Subnet: cùng VPC với RDS (demo có thể dùng public subnet, bật Public IP) IAM role: ec2-be-role (có quyền ECR &amp;amp; SSM) SG: sg-ec2-be     User data: dán nguyên khối sau:    #!/bin/bash set -euxo pipefail dnf install -y docker awscli || true systemctl enable --now docker ACCOUNT_ID=486081556497 ECR_REGION=us-east-1 SSM_REGION=us-east-1 aws ecr get-login-password --region $ECR_REGION | docker login --username AWS --password-stdin $ACCOUNT_ID.</description>
+    </item>
+    
+    <item>
+      <title>5.3. Khôi phục ở DR (us-west-2)</title>
+      <link>/vi/5-backup-recovery/5-3-restore-dr/</link>
+      <pubDate>Sun, 10 Aug 2025 00:00:00 +0000</pubDate>
+      
+      <guid>/vi/5-backup-recovery/5-3-restore-dr/</guid>
+      <description>Chuẩn bị ở us-west-2:
+   DB subnet group (RDS → Subnet groups → Create)     SG mở TCP 3306 tạm thời từ IP của bạn   Restore từ vault-ws-dr → Recovery point → Restore → đặt tb-restore-dr-&amp;lt;timestamp&amp;gt;  </description>
+    </item>
+    
+    <item>
+      <title>5.4. DR testing automation (Lambda &#43; SSM &#43; SNS)</title>
+      <link>/vi/5-backup-recovery/5-4-dr-test-lambda/</link>
+      <pubDate>Sun, 10 Aug 2025 00:00:00 +0000</pubDate>
+      
+      <guid>/vi/5-backup-recovery/5-4-dr-test-lambda/</guid>
+      <description>Chuẩn bị  EC2 có AmazonSSMManagedInstanceCore (hiện Managed trong SSM) Secrets Manager: secret db-cred (keys: username, password)     SNS: topic dr-alerts + subscribe email    Lambda function (Python 3.12)  Environment variables: TARGET_REGION, DB_INSTANCE_NAME, RDS_SUBNET_GROUP, RDS_SG_ID, INSTANCE_CLASS, SSM_INSTANCE_ID, DB_SECRET_ARN, SNS_TOPIC_ARN, AUTO_DELETE Mã nguồn:
+ import os, json, time, traceback import boto3 from botocore.exceptions import ClientError TARGET_REGION = os.environ.get(&amp;#39;TARGET_REGION&amp;#39;, &amp;#39;us-east-1&amp;#39;) rds = boto3.client(&amp;#39;rds&amp;#39;, region_name=TARGET_REGION) ssm = boto3.</description>
+    </item>
+    
+  </channel>
+</rss>

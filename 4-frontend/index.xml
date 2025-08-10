@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Frontend on AWS System Manager</title>
+    <link>/4-frontend/</link>
+    <description>Recent content in Frontend on AWS System Manager</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Sun, 10 Aug 2025 00:00:00 +0000</lastBuildDate><atom:link href="/4-frontend/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>4.1. Create S3 Bucket for FE</title>
+      <link>/4-frontend/4-1-s3-bucket/</link>
+      <pubDate>Sun, 10 Aug 2025 00:00:00 +0000</pubDate>
+      
+      <guid>/4-frontend/4-1-s3-bucket/</guid>
+      <description> Enable Static website hosting : Apply the bucket policy (demo public-read)  { &amp;#34;Version&amp;#34;: &amp;#34;2012-10-17&amp;#34;, &amp;#34;Statement&amp;#34;: [ { &amp;#34;Sid&amp;#34;: &amp;#34;PublicReadGetObject&amp;#34;, &amp;#34;Effect&amp;#34;: &amp;#34;Allow&amp;#34;, &amp;#34;Principal&amp;#34;: &amp;#34;*&amp;#34;, &amp;#34;Action&amp;#34;: [&amp;#34;s3:GetObject&amp;#34;], &amp;#34;Resource&amp;#34;: [&amp;#34;arn:aws:s3:::BUCKET_NAME/*&amp;#34;] } ] } </description>
+    </item>
+    
+    <item>
+      <title>4.2. Update CORS in Backend</title>
+      <link>/4-frontend/4-2-cors/</link>
+      <pubDate>Sun, 10 Aug 2025 00:00:00 +0000</pubDate>
+      
+      <guid>/4-frontend/4-2-cors/</guid>
+      <description>Add the following to /etc/sysconfig/be.env on EC2:
+SPRING_MVC_CORS_ALLOWED_ORIGINS=http://&amp;lt;S3_WEBSITE_URL&amp;gt; SPRING_MVC_CORS_ALLOWED_METHODS=GET,POST,PUT,DELETE,OPTIONS SPRING_MVC_CORS_ALLOWED_HEADERS=* SPRING_MVC_CORS_ALLOW_CREDENTIALS=true </description>
+    </item>
+    
+  </channel>
+</rss>

@@ -9,7 +9,7 @@
 
     <link rel="icon" href="/images/favicon.png" type="image/png">
 
-    <title>Disaster Recovery Automation for DevOps Infrastructure :: AWS System Manager</title>
+    <title>3.2. EC2 Builder, build Docker &amp; push to ECR :: AWS System Manager</title>
 
     
     <link href="/css/nucleus.css?1754840606" rel="stylesheet">
@@ -36,7 +36,7 @@
     </style>
     
   </head>
-  <body class="" data-url="/">
+  <body class="" data-url="/3-backend/3-2-ec2-builder-ecr/">
     <nav id="sidebar" class="showVisitedLinks">
 
 
@@ -208,7 +208,7 @@
   
     
     <li data-nav-id="/3-backend/" title="Deploy Application (Backend)" class="dd-item 
-        
+        parent
         
         
         ">
@@ -257,7 +257,7 @@
  
   
     
-      <li data-nav-id="/3-backend/3-2-ec2-builder-ecr/" title="3.2. EC2 Builder, build Docker &amp; push to ECR" class="dd-item ">
+      <li data-nav-id="/3-backend/3-2-ec2-builder-ecr/" title="3.2. EC2 Builder, build Docker &amp; push to ECR" class="dd-item active">
         <a href="/3-backend/3-2-ec2-builder-ecr/">
         3.2. EC2 Builder, build Docker &amp; push to ECR
         <i class="fas fa-check read-icon"></i>
@@ -744,7 +744,7 @@
                   
                     
                     
-                      <option id="en" value="/" selected>English</option>
+                      <option id="en" value="/3-backend/3-2-ec2-builder-ecr/" selected>English</option>
                     
                   
               
@@ -758,7 +758,7 @@
                   
                     
                     
-                      <option id="vi" value="/vi/">Tiếng Việt</option>
+                      <option id="vi" value="/vi/3-backend/3-2-ec2-builder-ecr/">Tiếng Việt</option>
                     
                   
               
@@ -825,38 +825,148 @@
         <div id="overlay"></div>
         <div class="padding highlightable">
               
+              <div>
+                <div id="top-bar">
+                
+                
+                <div id="breadcrumbs" itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb">
+                    <span id="sidebar-toggle-span">
+                        <a href="#" id="sidebar-toggle" data-sidebar-toggle="">
+                          <i class="fas fa-bars"></i>
+                        </a>
+                    </span>
+                  
+                  <span id="toc-menu"><i class="fas fa-list-alt"></i></span>
+                  
+                  <span class="links">
+                 
+                 
+                    
+          
+          
+            
+            
+          
+          
+            
+            
+          
+          
+            <a href='/'>Disaster Recovery Automation for DevOps Infrastructure</a> > <a href='/3-backend/'>Deploy Application (Backend)</a> > 3.2. EC2 Builder, build Docker & push to ECR
+          
+        
+          
+        
+          
+        
+                 
+                  </span>
+                </div>
+                
+                    <div class="progress">
+    <div class="wrapper">
+<nav id="TableOfContents"></nav>
+    </div>
+</div>
+
+                
+              </div>
+            </div>
+            
         <div id="head-tags">
         
         </div>
         
         <div id="body-inner">
           
+            <h1>
+              
+              3.2. EC2 Builder, build Docker &amp; push to ECR
+            </h1>
+          
 
         
 
-<span id="sidebar-toggle-span">
-<a href="#" id="sidebar-toggle" data-sidebar-toggle=""><i class="fas fa-bars"></i> navigation</a>
-</span>
 
- 
-<h1 id="disaster-recovery-automation-for-devops-infrastructure">Disaster Recovery Automation for DevOps Infrastructure</h1>
-<h3 id="overview">Overview</h3>
-<p>This lab guides you through implementing an automated disaster recovery (DR) solution for a DevOps infrastructure. You will learn backup automation, recovery procedures, automated recovery testing, compliance validation, monitoring setup, operational documentation, and cost analysis for a robust DR strategy.</p>
-<p>The practice includes working with AWS services such as RDS, EC2, S3, Lambda, AWS Backup, AWS Config, CloudWatch, and more to build an end-to-end DR automation framework.</p>
-<p><img src="/images/overall_architecture.png" alt="DR Architecture"></p>
-<h3 id="contents">Contents</h3>
-<ol>
-<li><a href="../1-introduction/">Introduction</a></li>
-<li><a href="../2-prerequisites/">Prerequisites</a></li>
-<li><a href="../3-backend/">Backend Setup and Automation</a></li>
-<li><a href="../4-frontend/">Frontend Deployment and CORS</a></li>
-<li><a href="../5-backup-recovery/">Backup and Recovery Procedures</a></li>
-<li><a href="../6-compliance/">Compliance and Validation</a></li>
-<li><a href="../7-monitoring/">Monitoring and Alerting</a></li>
-<li><a href="../8-cleanup/">Cleanup and Cost Optimization</a></li>
-</ol>
+<p>Amazon Elastic Container Registry → <strong>Create repository</strong></p>
+<blockquote>
+<p><img src="images/3-2-step-01.png" alt="Create repository">
+<img src="images/3-2-step-02.png" alt="Create repository">
+<img src="images/3-2-step-03.png" alt="Create repository">
+<img src="images/3-2-step-04.png" alt="Create repository">
+EC2 → <strong>Launch instance</strong></p>
+</blockquote>
+<ul>
+<li>Name: <code>docker-builder</code></li>
+<li>AMI: <strong>Amazon Linux 2023</strong></li>
+<li>Type: <code>t3.micro</code></li>
+<li>Subnet: <strong>public</strong>, <strong>Auto-assign Public IP: Enable</strong></li>
+<li>IAM role: <code>ec2-docker-builder-role</code></li>
+<li>SG: <code>sg-ec2-builder</code></li>
+<li>User Data: leave blank → <strong>Launch</strong></li>
+</ul>
+<blockquote>
+<p><img src="images/3-2-step-05.png" alt="Create repository">
+<img src="images/3-2-step-06.png" alt="Create repository">
+<strong>Install Docker, Git, build &amp; push:</strong></p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">sudo dnf -y update
+sudo dnf -y install docker git
+sudo systemctl enable --now docker
+
+export ACCOUNT_ID<span style="color:#f92672">=</span><span style="color:#ae81ff">486081556497</span>
+export ECR_REGION<span style="color:#f92672">=</span>us-east-1
+export REPO_URL<span style="color:#f92672">=</span>https://github.com/huynhvanchikhan-2180604870/demo-ws.git
+export BACKEND_DIR<span style="color:#f92672">=</span>backend/tour-booking
+
+rm -rf ~/app <span style="color:#f92672">||</span> true
+git clone <span style="color:#e6db74">&#34;</span>$REPO_URL<span style="color:#e6db74">&#34;</span> ~/app
+cd ~/app/<span style="color:#e6db74">&#34;</span>$BACKEND_DIR<span style="color:#e6db74">&#34;</span>
+
+test -f pom.xml <span style="color:#f92672">||</span> <span style="color:#f92672">(</span>echo <span style="color:#e6db74">&#34;Wrong BACKEND_DIR&#34;</span> <span style="color:#f92672">&amp;&amp;</span> exit 1<span style="color:#f92672">)</span>
+
+cat &gt; Dockerfile <span style="color:#e6db74">&lt;&lt;&#39;EOF&#39;
+</span><span style="color:#e6db74">FROM maven:3.9-eclipse-temurin-23 AS build
+</span><span style="color:#e6db74">WORKDIR /src
+</span><span style="color:#e6db74">COPY pom.xml .
+</span><span style="color:#e6db74">COPY .mvn .mvn
+</span><span style="color:#e6db74">COPY mvnw mvnw
+</span><span style="color:#e6db74">RUN chmod +x mvnw
+</span><span style="color:#e6db74">RUN ./mvnw -q -DskipTests dependency:go-offline
+</span><span style="color:#e6db74">COPY src ./src
+</span><span style="color:#e6db74">RUN ./mvnw -q clean package -DskipTests
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">FROM eclipse-temurin:23-jre
+</span><span style="color:#e6db74">WORKDIR /app
+</span><span style="color:#e6db74">COPY --from=build /src/target/*.jar /app/app.jar
+</span><span style="color:#e6db74">EXPOSE 8080
+</span><span style="color:#e6db74">ENTRYPOINT [&#34;java&#34;,&#34;-jar&#34;,&#34;/app/app.jar&#34;]
+</span><span style="color:#e6db74">EOF</span>
+
+aws ecr get-login-password --region <span style="color:#e6db74">&#34;</span>$ECR_REGION<span style="color:#e6db74">&#34;</span> | docker login --username AWS --password-stdin <span style="color:#e6db74">&#34;</span>$ACCOUNT_ID<span style="color:#e6db74">.dkr.ecr.</span>$ECR_REGION<span style="color:#e6db74">.amazonaws.com&#34;</span>
+
+docker build -t tourbooking-be:latest .
+docker tag tourbooking-be:latest <span style="color:#e6db74">&#34;</span>$ACCOUNT_ID<span style="color:#e6db74">.dkr.ecr.</span>$ECR_REGION<span style="color:#e6db74">.amazonaws.com/tourbooking-be:latest&#34;</span>
+docker push <span style="color:#e6db74">&#34;</span>$ACCOUNT_ID<span style="color:#e6db74">.dkr.ecr.</span>$ECR_REGION<span style="color:#e6db74">.amazonaws.com/tourbooking-be:latest&#34;</span>
+</code></pre></div><blockquote>
+<p><img src="images/3-2-step-07.png" alt="Create repository">
+<img src="images/3-2-step-08.png" alt="Create repository">
+<img src="images/3-2-step-09.png" alt="Create repository">
+<img src="images/3-2-step-10.png" alt="Create repository">
+<img src="images/3-2-step-11.png" alt="Create repository">
+<img src="images/3-2-step-12.png" alt="Create repository">
+<img src="images/3-2-step-13.png" alt="Create repository">
+<img src="images/3-2-step-14.png" alt="Create repository">
+<img src="images/3-2-step-15.png" alt="Create repository">
+<img src="images/3-2-step-16.png" alt="Create repository">
+<img src="images/3-2-step-17.png" alt="Create repository"></p>
+</blockquote>
+
+
+<footer class="footline">
 	
-  
+</footer>
+
         
         </div> 
         
@@ -971,6 +1081,7 @@
             
                 
                     
+                    
                 
                 
 
@@ -983,6 +1094,9 @@
             
             
                 
+                    
+                        
+                        
                     
                 
                 
@@ -1000,6 +1114,7 @@
             
                 
                     
+                    
                 
                 
 
@@ -1015,6 +1130,9 @@
             
             
                 
+                    
+                        
+                        
                     
                 
                 
@@ -1295,8 +1413,10 @@
 	 
 	 
 		
+			<a class="nav nav-prev" href="/3-backend/3-1-create-rds/" title="3.1. Create RDS (MySQL)"> <i class="fa fa-chevron-left"></i></a>
 		
-			<a class="nav nav-next" href="/1-introduction/" title="Introduction" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+		
+			<a class="nav nav-next" href="/3-backend/3-3-ec2-runtime/" title="3.3. EC2 Runtime (Run Backend)" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
 		
 	
     </div>

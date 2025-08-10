@@ -9,7 +9,7 @@
 
     <link rel="icon" href="/images/favicon.png" type="image/png">
 
-    <title>Disaster Recovery Automation for DevOps Infrastructure :: AWS System Manager</title>
+    <title>5.2. Restore in Primary (us-east-1) :: AWS System Manager</title>
 
     
     <link href="/css/nucleus.css?1754840606" rel="stylesheet">
@@ -36,7 +36,7 @@
     </style>
     
   </head>
-  <body class="" data-url="/">
+  <body class="" data-url="/5-backup-recovery/5-2-restore-primary/">
     <nav id="sidebar" class="showVisitedLinks">
 
 
@@ -385,7 +385,7 @@
   
     
     <li data-nav-id="/5-backup-recovery/" title="Backup &amp; Restore" class="dd-item 
-        
+        parent
         
         
         ">
@@ -434,7 +434,7 @@
  
   
     
-      <li data-nav-id="/5-backup-recovery/5-2-restore-primary/" title="5.2. Restore in Primary (us-east-1)" class="dd-item ">
+      <li data-nav-id="/5-backup-recovery/5-2-restore-primary/" title="5.2. Restore in Primary (us-east-1)" class="dd-item active">
         <a href="/5-backup-recovery/5-2-restore-primary/">
         5.2. Restore in Primary (us-east-1)
         <i class="fas fa-check read-icon"></i>
@@ -744,7 +744,7 @@
                   
                     
                     
-                      <option id="en" value="/" selected>English</option>
+                      <option id="en" value="/5-backup-recovery/5-2-restore-primary/" selected>English</option>
                     
                   
               
@@ -758,7 +758,7 @@
                   
                     
                     
-                      <option id="vi" value="/vi/">Tiếng Việt</option>
+                      <option id="vi" value="/vi/5-backup-recovery/5-2-restore-primary/">Tiếng Việt</option>
                     
                   
               
@@ -825,38 +825,101 @@
         <div id="overlay"></div>
         <div class="padding highlightable">
               
+              <div>
+                <div id="top-bar">
+                
+                
+                <div id="breadcrumbs" itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb">
+                    <span id="sidebar-toggle-span">
+                        <a href="#" id="sidebar-toggle" data-sidebar-toggle="">
+                          <i class="fas fa-bars"></i>
+                        </a>
+                    </span>
+                  
+                  <span id="toc-menu"><i class="fas fa-list-alt"></i></span>
+                  
+                  <span class="links">
+                 
+                 
+                    
+          
+          
+            
+            
+          
+          
+            
+            
+          
+          
+            <a href='/'>Disaster Recovery Automation for DevOps Infrastructure</a> > <a href='/5-backup-recovery/'>Backup & Restore</a> > 5.2. Restore in Primary (us-east-1)
+          
+        
+          
+        
+          
+        
+                 
+                  </span>
+                </div>
+                
+                    <div class="progress">
+    <div class="wrapper">
+<nav id="TableOfContents"></nav>
+    </div>
+</div>
+
+                
+              </div>
+            </div>
+            
         <div id="head-tags">
         
         </div>
         
         <div id="body-inner">
           
+            <h1>
+              
+              5.2. Restore in Primary (us-east-1)
+            </h1>
+          
 
         
 
-<span id="sidebar-toggle-span">
-<a href="#" id="sidebar-toggle" data-sidebar-toggle=""><i class="fas fa-bars"></i> navigation</a>
-</span>
 
- 
-<h1 id="disaster-recovery-automation-for-devops-infrastructure">Disaster Recovery Automation for DevOps Infrastructure</h1>
-<h3 id="overview">Overview</h3>
-<p>This lab guides you through implementing an automated disaster recovery (DR) solution for a DevOps infrastructure. You will learn backup automation, recovery procedures, automated recovery testing, compliance validation, monitoring setup, operational documentation, and cost analysis for a robust DR strategy.</p>
-<p>The practice includes working with AWS services such as RDS, EC2, S3, Lambda, AWS Backup, AWS Config, CloudWatch, and more to build an end-to-end DR automation framework.</p>
-<p><img src="/images/overall_architecture.png" alt="DR Architecture"></p>
-<h3 id="contents">Contents</h3>
-<ol>
-<li><a href="../1-introduction/">Introduction</a></li>
-<li><a href="../2-prerequisites/">Prerequisites</a></li>
-<li><a href="../3-backend/">Backend Setup and Automation</a></li>
-<li><a href="../4-frontend/">Frontend Deployment and CORS</a></li>
-<li><a href="../5-backup-recovery/">Backup and Recovery Procedures</a></li>
-<li><a href="../6-compliance/">Compliance and Validation</a></li>
-<li><a href="../7-monitoring/">Monitoring and Alerting</a></li>
-<li><a href="../8-cleanup/">Cleanup and Cost Optimization</a></li>
-</ol>
+<p>Vault <code>vault-ws-primary</code> → <strong>Recovery points</strong> → select the latest → <strong>Restore</strong></p>
+<ul>
+<li>Class: <code>db.t3.micro</code></li>
+<li>DB subnet group &amp; SG: same as current RDS</li>
+<li>Identifier: <code>tb-restore-&lt;timestamp&gt;</code></li>
+</ul>
+<blockquote>
+<p><img src="images/5-2-01.png" alt="Restore primary">
+<img src="images/5-2-02.png" alt="Restore primary">
+<img src="images/5-2-03.png" alt="Restore primary">
+<img src="images/5-2-04.png" alt="Restore primary">
+<img src="images/5-2-05.png" alt="Restore primary">
+<img src="images/5-2-06.png" alt="Restore primary">
+<img src="images/5-2-07.png" alt="Restore primary">
+<img src="images/5-2-08.png" alt="Restore primary">
+<img src="images/5-2-09.png" alt="Restore primary"></p>
+</blockquote>
+<ul>
+<li>Once Available → update the endpoint in the backend to test.</li>
+</ul>
+<blockquote>
+<p><img src="images/5-2-10.png" alt="Restore primary">
+<img src="images/5-2-11.png" alt="Restore primary">
+<img src="images/5-2-12.png" alt="Restore primary">
+<img src="images/5-2-13.png" alt="Restore primary"></p>
+</blockquote>
+
+
+<footer class="footline">
 	
-  
+</footer>
+
         
         </div> 
         
@@ -1083,6 +1146,7 @@
             
                 
                     
+                    
                 
                 
 
@@ -1095,6 +1159,9 @@
             
             
                 
+                    
+                        
+                        
                     
                 
                 
@@ -1112,6 +1179,7 @@
             
                 
                     
+                    
                 
                 
 
@@ -1127,6 +1195,9 @@
             
             
                 
+                    
+                        
+                        
                     
                 
                 
@@ -1295,8 +1366,10 @@
 	 
 	 
 		
+			<a class="nav nav-prev" href="/5-backup-recovery/5-1-aws-backup-plan/" title="5.1. AWS Backup (daily &#43; cross-region)"> <i class="fa fa-chevron-left"></i></a>
 		
-			<a class="nav nav-next" href="/1-introduction/" title="Introduction" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+		
+			<a class="nav nav-next" href="/5-backup-recovery/5-3-restore-dr/" title="5.3. Restore in DR (us-west-2)" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
 		
 	
     </div>

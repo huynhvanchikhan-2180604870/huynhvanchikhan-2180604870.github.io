@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Sao lưu &amp; Khôi phục on AWS System Manager</title>
+    <link>/vi/5-backup-recovery/</link>
+    <description>Recent content in Sao lưu &amp; Khôi phục on AWS System Manager</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Sun, 10 Aug 2025 00:00:00 +0000</lastBuildDate><atom:link href="/vi/5-backup-recovery/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>5.1. AWS Backup (daily &#43; cross-region)</title>
+      <link>/vi/5-backup-recovery/5-1-aws-backup-plan/</link>
+      <pubDate>Sun, 10 Aug 2025 00:00:00 +0000</pubDate>
+      
+      <guid>/vi/5-backup-recovery/5-1-aws-backup-plan/</guid>
+      <description>Tạo Backup Vault ở 2 region
+   us-east-1: vault-ws-primary     us-west-2: vault-ws-dr    Backup Plan plan-rds-ws (ở us-east-1)
+ Rule daily-rds (Daily hoặc cron 02:00 UTC) Vault: vault-ws-primary Lifecycle: Delete after 30 days Cross-Region copy: to us-west-2 → vault-ws-dr (Retention 30 ngày) Assign resource: RDS instance của bạn (nếu hỏi role → tạo service-linked role)   Test on-demand + xác nhận copy sang DR</description>
+    </item>
+    
+    <item>
+      <title>5.2. Khôi phục ở Primary (us-east-1)</title>
+      <link>/vi/5-backup-recovery/5-2-restore-primary/</link>
+      <pubDate>Sun, 10 Aug 2025 00:00:00 +0000</pubDate>
+      
+      <guid>/vi/5-backup-recovery/5-2-restore-primary/</guid>
+      <description>Vault vault-ws-primary → Recovery points → chọn mới nhất → Restore
+ Class: db.t3.micro DB subnet group &amp;amp; SG: giống RDS hiện tại Identifier: tb-restore-&amp;lt;timestamp&amp;gt;     Sau khi Available → cập nhật endpoint trong backend để test.    </description>
+    </item>
+    
+    <item>
+      <title>5.3. Khôi phục ở DR (us-west-2)</title>
+      <link>/vi/5-backup-recovery/5-3-restore-dr/</link>
+      <pubDate>Sun, 10 Aug 2025 00:00:00 +0000</pubDate>
+      
+      <guid>/vi/5-backup-recovery/5-3-restore-dr/</guid>
+      <description>Chuẩn bị ở us-west-2:
+   DB subnet group (RDS → Subnet groups → Create)     SG mở TCP 3306 tạm thời từ IP của bạn   Restore từ vault-ws-dr → Recovery point → Restore → đặt tb-restore-dr-&amp;lt;timestamp&amp;gt;  </description>
+    </item>
+    
+    <item>
+      <title>5.4. DR testing automation (Lambda &#43; SSM &#43; SNS)</title>
+      <link>/vi/5-backup-recovery/5-4-dr-test-lambda/</link>
+      <pubDate>Sun, 10 Aug 2025 00:00:00 +0000</pubDate>
+      
+      <guid>/vi/5-backup-recovery/5-4-dr-test-lambda/</guid>
+      <description>Chuẩn bị  EC2 có AmazonSSMManagedInstanceCore (hiện Managed trong SSM) Secrets Manager: secret db-cred (keys: username, password)     SNS: topic dr-alerts + subscribe email    Lambda function (Python 3.12)  Environment variables: TARGET_REGION, DB_INSTANCE_NAME, RDS_SUBNET_GROUP, RDS_SG_ID, INSTANCE_CLASS, SSM_INSTANCE_ID, DB_SECRET_ARN, SNS_TOPIC_ARN, AUTO_DELETE Mã nguồn:
+ import os, json, time, traceback import boto3 from botocore.exceptions import ClientError TARGET_REGION = os.environ.get(&amp;#39;TARGET_REGION&amp;#39;, &amp;#39;us-east-1&amp;#39;) rds = boto3.client(&amp;#39;rds&amp;#39;, region_name=TARGET_REGION) ssm = boto3.</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Monitoring on AWS System Manager</title>
+    <link>/7-monitoring/</link>
+    <description>Recent content in Monitoring on AWS System Manager</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Sun, 10 Aug 2025 00:00:00 +0000</lastBuildDate><atom:link href="/7-monitoring/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>7.1. RDS Alarms (CPU &amp; Free Storage)</title>
+      <link>/7-monitoring/7-1-rds-alarms/</link>
+      <pubDate>Sun, 10 Aug 2025 00:00:00 +0000</pubDate>
+      
+      <guid>/7-monitoring/7-1-rds-alarms/</guid>
+      <description>CloudWatch → Alarms → Create alarm
+ Metric CPUUtilization (Per-Database → select DB) → Period 1m → Greater/Equal 1 → Notification SNS dr-alerts → Name: rds-cpu-high-test     Metric FreeStorageSpace → Lower/Equal 5 GiB → Name: rds-free-storage-low    </description>
+    </item>
+    
+    <item>
+      <title>7.2. Alarm for Lambda DR Test</title>
+      <link>/7-monitoring/7-2-lambda-alarms/</link>
+      <pubDate>Sun, 10 Aug 2025 00:00:00 +0000</pubDate>
+      
+      <guid>/7-monitoring/7-2-lambda-alarms/</guid>
+      <description> CloudWatch → Alarms → Create alarm → Lambda / By function name → metric Errors → Period 1m → Greater/Equal 1 → SNS dr-alerts → Name: lambda-dr-errors. Test: Go to Lambda → Test with event { &amp;quot;forceSnapshotId&amp;quot;: &amp;quot;does-not-exist&amp;quot; } to trigger an error → the alarm will go into ALARM state and send an email.
+ </description>
+    </item>
+    
+  </channel>
+</rss>

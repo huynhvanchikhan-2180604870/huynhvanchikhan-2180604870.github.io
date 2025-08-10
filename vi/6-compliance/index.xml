@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Xác thực tuân thủ on AWS System Manager</title>
+    <link>/vi/6-compliance/</link>
+    <description>Recent content in Xác thực tuân thủ on AWS System Manager</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Sun, 10 Aug 2025 00:00:00 +0000</lastBuildDate><atom:link href="/vi/6-compliance/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>6.1. Bật AWS Config &amp; thêm rule</title>
+      <link>/vi/6-compliance/6-1-aws-config/</link>
+      <pubDate>Sun, 10 Aug 2025 00:00:00 +0000</pubDate>
+      
+      <guid>/vi/6-compliance/6-1-aws-config/</guid>
+      <description>Enable AWS Config (us-east-1)
+   Recording: Record all resources     Delivery: tạo S3 bucket và service-linked role mặc định   Thêm managed rules (RDS/Backup):
+  rds-backup-enabled rds-instance-deletion-protection-enabled rds-instance-public-access-check rds-storage-encrypted rds-snapshots-public-prohibited    </description>
+    </item>
+    
+    <item>
+      <title>6.2. Gói Tuân Thủ cho RDS</title>
+      <link>/vi/6-compliance/6-2-conformance-pack/</link>
+      <pubDate>Sun, 10 Aug 2025 00:00:00 +0000</pubDate>
+      
+      <guid>/vi/6-compliance/6-2-conformance-pack/</guid>
+      <description>AWS Config → Gói tuân thủ (Conformance packs) → Triển khai (Deploy) → Mẫu: Thực tiễn vận hành tốt nhất cho Amazon RDS → Tên: cp-rds-ws → Triển khai (Deploy).
+  </description>
+    </item>
+    
+  </channel>
+</rss>

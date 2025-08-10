@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Triển khai ứng dụng (Backend) on AWS System Manager</title>
+    <link>/vi/3-backend/</link>
+    <description>Recent content in Triển khai ứng dụng (Backend) on AWS System Manager</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Sun, 10 Aug 2025 00:00:00 +0000</lastBuildDate><atom:link href="/vi/3-backend/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>3.1. Tạo RDS (MySQL)</title>
+      <link>/vi/3-backend/3-1-create-rds/</link>
+      <pubDate>Sun, 10 Aug 2025 00:00:00 +0000</pubDate>
+      
+      <guid>/vi/3-backend/3-1-create-rds/</guid>
+      <description>RDS → Create database:
+ Engine: MySQL 8.x Templates: Free tier Instance class: db.t3.micro Storage: gp3 Public access: No VPC/Subnet group: mặc định (nếu có) Security group: SG không mở 3306 ra Internet Credentials: đặt username/password và lưu lại Automated backups: ON, giữ ≥ 7 ngày Encryption: ON Đợi Available → Tab Connectivity lấy Endpoint &amp;amp; Port    </description>
+    </item>
+    
+    <item>
+      <title>3.2. EC2 Builder, build Docker &amp; push to ECR</title>
+      <link>/vi/3-backend/3-2-ec2-builder-ecr/</link>
+      <pubDate>Sun, 10 Aug 2025 00:00:00 +0000</pubDate>
+      
+      <guid>/vi/3-backend/3-2-ec2-builder-ecr/</guid>
+      <description>Amazon Elastic Container Registry → Create repository
+ EC2 → Launch instance
+  Name: docker-builder AMI: Amazon Linux 2023 Type: t3.micro Subnet: public, Auto-assign Public IP: Enable IAM role: ec2-docker-builder-role SG: sg-ec2-builder User Data: leave blank → Launch   Install Docker, Git, build &amp;amp; push:
+ sudo dnf -y update sudo dnf -y install docker git sudo systemctl enable --now docker export ACCOUNT_ID=486081556497 export ECR_REGION=us-east-1 export REPO_URL=https://github.com/huynhvanchikhan-2180604870/demo-ws.git export BACKEND_DIR=backend/tour-booking rm -rf ~/app || true git clone &amp;#34;$REPO_URL&amp;#34; ~/app cd ~/app/&amp;#34;$BACKEND_DIR&amp;#34; test -f pom.</description>
+    </item>
+    
+    <item>
+      <title>3.3. EC2 Runtime (chạy Backend)</title>
+      <link>/vi/3-backend/3-3-ec2-runtime/</link>
+      <pubDate>Sun, 10 Aug 2025 00:00:00 +0000</pubDate>
+      
+      <guid>/vi/3-backend/3-3-ec2-runtime/</guid>
+      <description>EC2 Runtime:
+ AMI: AL2023; Type: t3.micro VPC/Subnet: cùng VPC với RDS (demo có thể dùng public subnet, bật Public IP) IAM role: ec2-be-role (có quyền ECR &amp;amp; SSM) SG: sg-ec2-be     User data: dán nguyên khối sau:    #!/bin/bash set -euxo pipefail dnf install -y docker awscli || true systemctl enable --now docker ACCOUNT_ID=486081556497 ECR_REGION=us-east-1 SSM_REGION=us-east-1 aws ecr get-login-password --region $ECR_REGION | docker login --username AWS --password-stdin $ACCOUNT_ID.</description>
+    </item>
+    
+  </channel>
+</rss>

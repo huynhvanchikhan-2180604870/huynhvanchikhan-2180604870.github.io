@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Preparation on AWS System Manager</title>
+    <link>/2-prerequisites/</link>
+    <description>Recent content in Preparation on AWS System Manager</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Sun, 10 Aug 2025 00:00:00 +0000</lastBuildDate><atom:link href="/2-prerequisites/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>2.1. Create VPC</title>
+      <link>/2-prerequisites/2-1-vpc/</link>
+      <pubDate>Sun, 10 Aug 2025 00:00:00 +0000</pubDate>
+      
+      <guid>/2-prerequisites/2-1-vpc/</guid>
+      <description>Step 1. AWS Console → search for VPC → Your VPCs → Create VPC.
+Step 2. Select VPC and more (if you want AWS to automatically create subnets + IGW).
+Settings:
+ Name tag: vpc-dr-ws IPv4 CIDR block: 10.0.0.0/16 IPv6: None Tenancy: Default → Create VPC.  Insert image:  ![Create VPC](images/2-1-vpc-step-01.png) -- </description>
+    </item>
+    
+    <item>
+      <title>2.2. Create Security Groups</title>
+      <link>/2-prerequisites/2-2-security-groups/</link>
+      <pubDate>Sun, 10 Aug 2025 00:00:00 +0000</pubDate>
+      
+      <guid>/2-prerequisites/2-2-security-groups/</guid>
+      <description>SG for EC2 (Backend)
+ Name: sg-ec2-be VPC: vpc-dr-ws Inbound:  HTTP (80) → 0.0.0.0/0 (public demo) SSH (22) → My IP   Outbound: allow all (default)  SG for RDS (MySQL)
+ Name: sg-rds Inbound: MySQL/Aurora (3306) → Source: sg-ec2-be (reference by SG, not by IP) Outbound: allow all (default)  Images:  ![SG EC2](images/2-2-sg-step-ec2.png)  ![SG RDS](images/2-2-sg-step-rds.png) -- </description>
+    </item>
+    
+    <item>
+      <title>2.3. Create Roles</title>
+      <link>/2-prerequisites/2-3-iam-roles/</link>
+      <pubDate>Sun, 10 Aug 2025 00:00:00 +0000</pubDate>
+      
+      <guid>/2-prerequisites/2-3-iam-roles/</guid>
+      <description>IAM → Roles → Create role → Trusted entity: EC2 → Attach policies:
+ AmazonEC2ContainerRegistryPowerUser AmazonSSMManagedInstanceCore  Name it: ec2-docker-builder-role → Create.
+Image:  ![Create role](images/2-3-iam-step-role.png) -- </description>
+    </item>
+    
+  </channel>
+</rss>

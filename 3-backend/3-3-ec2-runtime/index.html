@@ -9,7 +9,7 @@
 
     <link rel="icon" href="/images/favicon.png" type="image/png">
 
-    <title>Disaster Recovery Automation for DevOps Infrastructure :: AWS System Manager</title>
+    <title>3.3. EC2 Runtime (Run Backend) :: AWS System Manager</title>
 
     
     <link href="/css/nucleus.css?1754840606" rel="stylesheet">
@@ -36,7 +36,7 @@
     </style>
     
   </head>
-  <body class="" data-url="/">
+  <body class="" data-url="/3-backend/3-3-ec2-runtime/">
     <nav id="sidebar" class="showVisitedLinks">
 
 
@@ -208,7 +208,7 @@
   
     
     <li data-nav-id="/3-backend/" title="Deploy Application (Backend)" class="dd-item 
-        
+        parent
         
         
         ">
@@ -278,7 +278,7 @@
  
   
     
-      <li data-nav-id="/3-backend/3-3-ec2-runtime/" title="3.3. EC2 Runtime (Run Backend)" class="dd-item ">
+      <li data-nav-id="/3-backend/3-3-ec2-runtime/" title="3.3. EC2 Runtime (Run Backend)" class="dd-item active">
         <a href="/3-backend/3-3-ec2-runtime/">
         3.3. EC2 Runtime (Run Backend)
         <i class="fas fa-check read-icon"></i>
@@ -744,7 +744,7 @@
                   
                     
                     
-                      <option id="en" value="/" selected>English</option>
+                      <option id="en" value="/3-backend/3-3-ec2-runtime/" selected>English</option>
                     
                   
               
@@ -758,7 +758,7 @@
                   
                     
                     
-                      <option id="vi" value="/vi/">Tiếng Việt</option>
+                      <option id="vi" value="/vi/3-backend/3-3-ec2-runtime/">Tiếng Việt</option>
                     
                   
               
@@ -825,38 +825,162 @@
         <div id="overlay"></div>
         <div class="padding highlightable">
               
+              <div>
+                <div id="top-bar">
+                
+                
+                <div id="breadcrumbs" itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb">
+                    <span id="sidebar-toggle-span">
+                        <a href="#" id="sidebar-toggle" data-sidebar-toggle="">
+                          <i class="fas fa-bars"></i>
+                        </a>
+                    </span>
+                  
+                  <span id="toc-menu"><i class="fas fa-list-alt"></i></span>
+                  
+                  <span class="links">
+                 
+                 
+                    
+          
+          
+            
+            
+          
+          
+            
+            
+          
+          
+            <a href='/'>Disaster Recovery Automation for DevOps Infrastructure</a> > <a href='/3-backend/'>Deploy Application (Backend)</a> > 3.3. EC2 Runtime (Run Backend)
+          
+        
+          
+        
+          
+        
+                 
+                  </span>
+                </div>
+                
+                    <div class="progress">
+    <div class="wrapper">
+<nav id="TableOfContents"></nav>
+    </div>
+</div>
+
+                
+              </div>
+            </div>
+            
         <div id="head-tags">
         
         </div>
         
         <div id="body-inner">
           
+            <h1>
+              
+              3.3. EC2 Runtime (Run Backend)
+            </h1>
+          
 
         
 
-<span id="sidebar-toggle-span">
-<a href="#" id="sidebar-toggle" data-sidebar-toggle=""><i class="fas fa-bars"></i> navigation</a>
-</span>
 
- 
-<h1 id="disaster-recovery-automation-for-devops-infrastructure">Disaster Recovery Automation for DevOps Infrastructure</h1>
-<h3 id="overview">Overview</h3>
-<p>This lab guides you through implementing an automated disaster recovery (DR) solution for a DevOps infrastructure. You will learn backup automation, recovery procedures, automated recovery testing, compliance validation, monitoring setup, operational documentation, and cost analysis for a robust DR strategy.</p>
-<p>The practice includes working with AWS services such as RDS, EC2, S3, Lambda, AWS Backup, AWS Config, CloudWatch, and more to build an end-to-end DR automation framework.</p>
-<p><img src="/images/overall_architecture.png" alt="DR Architecture"></p>
-<h3 id="contents">Contents</h3>
-<ol>
-<li><a href="../1-introduction/">Introduction</a></li>
-<li><a href="../2-prerequisites/">Prerequisites</a></li>
-<li><a href="../3-backend/">Backend Setup and Automation</a></li>
-<li><a href="../4-frontend/">Frontend Deployment and CORS</a></li>
-<li><a href="../5-backup-recovery/">Backup and Recovery Procedures</a></li>
-<li><a href="../6-compliance/">Compliance and Validation</a></li>
-<li><a href="../7-monitoring/">Monitoring and Alerting</a></li>
-<li><a href="../8-cleanup/">Cleanup and Cost Optimization</a></li>
-</ol>
+<p>EC2 Runtime:</p>
+<ul>
+<li>AMI: AL2023; Type: <code>t3.micro</code></li>
+<li>VPC/Subnet: same VPC as RDS (for demo purposes, you can use a public subnet and enable Public IP)</li>
+<li>IAM role: <code>ec2-be-role</code> (with ECR &amp; SSM permissions)</li>
+<li>SG: <code>sg-ec2-be</code></li>
+</ul>
+<blockquote>
+<p><img src="images/3-3-step-01.png" alt="Create runtime ec2 backend">
+<img src="images/3-3-step-02.png" alt="Create runtime ec2 backend"></p>
+</blockquote>
+<ul>
+<li>User data: paste the <strong>entire</strong> block below:</li>
+</ul>
+<blockquote>
+<p><img src="images/3-3-step-03.png" alt="Create runtime ec2 backend"></p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e">#!/bin/bash
+</span><span style="color:#75715e"></span>set -euxo pipefail
+dnf install -y docker awscli <span style="color:#f92672">||</span> true
+systemctl enable --now docker
+
+ACCOUNT_ID<span style="color:#f92672">=</span><span style="color:#ae81ff">486081556497</span>
+ECR_REGION<span style="color:#f92672">=</span>us-east-1
+SSM_REGION<span style="color:#f92672">=</span>us-east-1
+aws ecr get-login-password --region $ECR_REGION | docker login --username AWS --password-stdin $ACCOUNT_ID.dkr.ecr.$ECR_REGION.amazonaws.com
+
+IMAGE<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span>$ACCOUNT_ID<span style="color:#e6db74">.dkr.ecr.</span>$ECR_REGION<span style="color:#e6db74">.amazonaws.com/tourbooking-be:latest&#34;</span>
+
+DB_URL<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>aws ssm get-parameter --name <span style="color:#e6db74">&#34;/tour/db/url&#34;</span> --with-decryption --query Parameter.Value --output text --region $SSM_REGION<span style="color:#66d9ef">)</span>
+DB_USER<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>aws ssm get-parameter --name <span style="color:#e6db74">&#34;/tour/db/user&#34;</span> --with-decryption --query Parameter.Value --output text --region $SSM_REGION<span style="color:#66d9ef">)</span>
+DB_PASS<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>aws ssm get-parameter --name <span style="color:#e6db74">&#34;/tour/db/pass&#34;</span> --with-decryption --query Parameter.Value --output text --region $SSM_REGION<span style="color:#66d9ef">)</span>
+
+docker rm -f be <span style="color:#f92672">||</span> true
+docker run -d --restart<span style="color:#f92672">=</span>always --name be -p 80:8080 <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>  -e SPRING_DATASOURCE_URL<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span>$DB_URL<span style="color:#e6db74">&#34;</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>  -e SPRING_DATASOURCE_USERNAME<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span>$DB_USER<span style="color:#e6db74">&#34;</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>  -e SPRING_DATASOURCE_PASSWORD<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span>$DB_PASS<span style="color:#e6db74">&#34;</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>  -e SPRING_JPA_HIBERNATE_DDL_AUTO<span style="color:#f92672">=</span>update <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>  $IMAGE
+</code></pre></div><p><strong>Optional: Use systemd for auto-start</strong> (env + service)</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">sudo tee /etc/sysconfig/be.env &gt;/dev/null <span style="color:#e6db74">&lt;&lt;&#39;EOF&#39;
+</span><span style="color:#e6db74">SPRING_DATASOURCE_URL=jdbc:mysql://&lt;RDS_ENDPOINT&gt;:3306/&lt;DB_NAME&gt;?allowPublicKeyRetrieval=true&amp;useSSL=false&amp;serverTimezone=UTC
+</span><span style="color:#e6db74">SPRING_DATASOURCE_USERNAME=admin
+</span><span style="color:#e6db74">SPRING_DATASOURCE_PASSWORD=&lt;PASS&gt;
+</span><span style="color:#e6db74">SPRING_JPA_HIBERNATE_DDL_AUTO=update
+</span><span style="color:#e6db74">EOF</span>
+
+sudo tee /etc/systemd/system/be.service &gt;/dev/null <span style="color:#e6db74">&lt;&lt;&#39;EOF&#39;
+</span><span style="color:#e6db74">[Unit]
+</span><span style="color:#e6db74">Description=TourBooking Backend (Docker)
+</span><span style="color:#e6db74">After=docker.service
+</span><span style="color:#e6db74">Requires=docker.service
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">[Service]
+</span><span style="color:#e6db74">User=ec2-user
+</span><span style="color:#e6db74">Environment=HOME=/home/ec2-user
+</span><span style="color:#e6db74">Environment=ACCOUNT_ID=486081556497
+</span><span style="color:#e6db74">Environment=REGION=us-east-1
+</span><span style="color:#e6db74">EnvironmentFile=/etc/sysconfig/be.env
+</span><span style="color:#e6db74">ExecStartPre=/bin/sh -c &#34;/usr/bin/aws ecr get-login-password --region ${REGION} | /usr/bin/docker login --username AWS --password-stdin ${ACCOUNT_ID}.dkr.ecr.${REGION}.amazonaws.com&#34;
+</span><span style="color:#e6db74">ExecStartPre=/usr/bin/docker pull ${ACCOUNT_ID}.dkr.ecr.${REGION}.amazonaws.com/tourbooking-be:latest
+</span><span style="color:#e6db74">ExecStartPre=-/usr/bin/docker rm -f be
+</span><span style="color:#e6db74">ExecStartPre=/usr/bin/docker create --name be -p 80:8080 --env-file /etc/sysconfig/be.env ${ACCOUNT_ID}.dkr.ecr.${REGION}.amazonaws.com/tourbooking-be:latest
+</span><span style="color:#e6db74">ExecStart=/usr/bin/docker start -a be
+</span><span style="color:#e6db74">ExecStop=/usr/bin/docker stop be
+</span><span style="color:#e6db74">ExecStopPost=-/usr/bin/docker rm -f be
+</span><span style="color:#e6db74">Restart=always
+</span><span style="color:#e6db74">RestartSec=5
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">[Install]
+</span><span style="color:#e6db74">WantedBy=multi-user.target
+</span><span style="color:#e6db74">EOF</span>
+
+sudo systemctl daemon-reload
+sudo systemctl restart be
+systemctl status be --no-pager -l
+
+</code></pre></div><blockquote>
+<p><img src="images/3-3-step-04.png" alt="Create runtime ec2 backend">
+<img src="images/3-3-step-05.png" alt="Create runtime ec2 backend">
+<img src="images/3-3-step-06.png" alt="Create runtime ec2 backend">
+<img src="images/3-3-step-07.png" alt="Create runtime ec2 backend">
+<img src="images/3-3-step-08.png" alt="Create runtime ec2 backend">
+<img src="images/3-3-step-09.png" alt="Create runtime ec2 backend">
+<img src="images/3-3-step-10.png" alt="Create runtime ec2 backend"></p>
+</blockquote>
+
+
+<footer class="footline">
 	
-  
+</footer>
+
         
         </div> 
         
@@ -971,6 +1095,7 @@
             
                 
                     
+                    
                 
                 
 
@@ -983,6 +1108,9 @@
             
             
                 
+                    
+                        
+                        
                     
                 
                 
@@ -1016,6 +1144,7 @@
             
                 
                     
+                    
                 
                 
 
@@ -1034,6 +1163,9 @@
             
             
                 
+                    
+                        
+                        
                     
                 
                 
@@ -1295,8 +1427,10 @@
 	 
 	 
 		
+			<a class="nav nav-prev" href="/3-backend/3-2-ec2-builder-ecr/" title="3.2. EC2 Builder, build Docker &amp; push to ECR"> <i class="fa fa-chevron-left"></i></a>
 		
-			<a class="nav nav-next" href="/1-introduction/" title="Introduction" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+		
+			<a class="nav nav-next" href="/4-frontend/" title="Frontend" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
 		
 	
     </div>

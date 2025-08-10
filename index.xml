@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Disaster Recovery Automation for DevOps Infrastructure on AWS System Manager</title>
+    <link>/</link>
+    <description>Recent content in Disaster Recovery Automation for DevOps Infrastructure on AWS System Manager</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Sun, 10 Aug 2025 00:00:00 +0000</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>2.1. Create VPC</title>
+      <link>/2-prerequisites/2-1-vpc/</link>
+      <pubDate>Sun, 10 Aug 2025 00:00:00 +0000</pubDate>
+      
+      <guid>/2-prerequisites/2-1-vpc/</guid>
+      <description>Step 1. AWS Console → search for VPC → Your VPCs → Create VPC.
+Step 2. Select VPC and more (if you want AWS to automatically create subnets + IGW).
+Settings:
+ Name tag: vpc-dr-ws IPv4 CIDR block: 10.0.0.0/16 IPv6: None Tenancy: Default → Create VPC.  Insert image:  ![Create VPC](images/2-1-vpc-step-01.png) -- </description>
+    </item>
+    
+    <item>
+      <title>3.1. Create RDS (MySQL)</title>
+      <link>/3-backend/3-1-create-rds/</link>
+      <pubDate>Sun, 10 Aug 2025 00:00:00 +0000</pubDate>
+      
+      <guid>/3-backend/3-1-create-rds/</guid>
+      <description>RDS → Create database:
+ Engine: MySQL 8.x Templates: Free tier Instance class: db.t3.micro Storage: gp3 Public access: No VPC/Subnet group: default (if available) Security group: SG does not open port 3306 to the Internet Credentials: set username/password and save them Automated backups: ON, retain ≥ 7 days Encryption: ON Wait until Available → In the Connectivity tab, get the Endpoint &amp;amp; Port    </description>
+    </item>
+    
+    <item>
+      <title>4.1. Create S3 Bucket for FE</title>
+      <link>/4-frontend/4-1-s3-bucket/</link>
+      <pubDate>Sun, 10 Aug 2025 00:00:00 +0000</pubDate>
+      
+      <guid>/4-frontend/4-1-s3-bucket/</guid>
+      <description> Enable Static website hosting : Apply the bucket policy (demo public-read)  { &amp;#34;Version&amp;#34;: &amp;#34;2012-10-17&amp;#34;, &amp;#34;Statement&amp;#34;: [ { &amp;#34;Sid&amp;#34;: &amp;#34;PublicReadGetObject&amp;#34;, &amp;#34;Effect&amp;#34;: &amp;#34;Allow&amp;#34;, &amp;#34;Principal&amp;#34;: &amp;#34;*&amp;#34;, &amp;#34;Action&amp;#34;: [&amp;#34;s3:GetObject&amp;#34;], &amp;#34;Resource&amp;#34;: [&amp;#34;arn:aws:s3:::BUCKET_NAME/*&amp;#34;] } ] } </description>
+    </item>
+    
+    <item>
+      <title>5.1. AWS Backup (daily &#43; cross-region)</title>
+      <link>/5-backup-recovery/5-1-aws-backup-plan/</link>
+      <pubDate>Sun, 10 Aug 2025 00:00:00 +0000</pubDate>
+      
+      <guid>/5-backup-recovery/5-1-aws-backup-plan/</guid>
+      <description>Create Backup Vaults in 2 regions
+   us-east-1: vault-ws-primary     us-west-2: vault-ws-dr    Backup Plan plan-rds-ws (in us-east-1)
+ Rule daily-rds (Daily or cron 02:00 UTC) Vault: vault-ws-primary Lifecycle: Delete after 30 days Cross-Region copy: to us-west-2 → vault-ws-dr (Retention 30 days) Assign resource: your RDS instance (if prompted for role → create a service-linked role)   Test on-demand + verify copy to DR</description>
+    </item>
+    
+    <item>
+      <title>6.1. Enable AWS Config &amp; Add Rules</title>
+      <link>/6-compliance/6-1-aws-config/</link>
+      <pubDate>Sun, 10 Aug 2025 00:00:00 +0000</pubDate>
+      
+      <guid>/6-compliance/6-1-aws-config/</guid>
+      <description>Enable AWS Config (us-east-1)
+   Recording: Record all resources     Delivery: create a default S3 bucket and service-linked role   Add managed rules (RDS/Backup):
+  rds-backup-enabled rds-instance-deletion-protection-enabled rds-instance-public-access-check rds-storage-encrypted rds-snapshots-public-prohibited    </description>
+    </item>
+    
+    <item>
+      <title>7.1. RDS Alarms (CPU &amp; Free Storage)</title>
+      <link>/7-monitoring/7-1-rds-alarms/</link>
+      <pubDate>Sun, 10 Aug 2025 00:00:00 +0000</pubDate>
+      
+      <guid>/7-monitoring/7-1-rds-alarms/</guid>
+      <description>CloudWatch → Alarms → Create alarm
+ Metric CPUUtilization (Per-Database → select DB) → Period 1m → Greater/Equal 1 → Notification SNS dr-alerts → Name: rds-cpu-high-test     Metric FreeStorageSpace → Lower/Equal 5 GiB → Name: rds-free-storage-low    </description>
+    </item>
+    
+    <item>
+      <title>8.1. Clean Up Resources</title>
+      <link>/8-cleanup/8-1-what-to-delete/</link>
+      <pubDate>Sun, 10 Aug 2025 00:00:00 +0000</pubDate>
+      
+      <guid>/8-cleanup/8-1-what-to-delete/</guid>
+      <description> RDS test instances &amp;amp; unnecessary snapshots EC2 (runtime &amp;amp; builder), EBS, Security Groups ECR images (optional) S3 FE bucket AWS Backup plan &amp;amp; vaults (when sure the data is no longer needed) AWS Config conformance pack &amp;amp; S3 delivery (optional) SNS, Lambda, EventBridge created for DR testing  </description>
+    </item>
+    
+    <item>
+      <title>2.2. Create Security Groups</title>
+      <link>/2-prerequisites/2-2-security-groups/</link>
+      <pubDate>Sun, 10 Aug 2025 00:00:00 +0000</pubDate>
+      
+      <guid>/2-prerequisites/2-2-security-groups/</guid>
+      <description>SG for EC2 (Backend)
+ Name: sg-ec2-be VPC: vpc-dr-ws Inbound:  HTTP (80) → 0.0.0.0/0 (public demo) SSH (22) → My IP   Outbound: allow all (default)  SG for RDS (MySQL)
+ Name: sg-rds Inbound: MySQL/Aurora (3306) → Source: sg-ec2-be (reference by SG, not by IP) Outbound: allow all (default)  Images:  ![SG EC2](images/2-2-sg-step-ec2.png)  ![SG RDS](images/2-2-sg-step-rds.png) -- </description>
+    </item>
+    
+    <item>
+      <title>3.2. EC2 Builder, build Docker &amp; push to ECR</title>
+      <link>/3-backend/3-2-ec2-builder-ecr/</link>
+      <pubDate>Sun, 10 Aug 2025 00:00:00 +0000</pubDate>
+      
+      <guid>/3-backend/3-2-ec2-builder-ecr/</guid>
+      <description>Amazon Elastic Container Registry → Create repository
+ EC2 → Launch instance
+  Name: docker-builder AMI: Amazon Linux 2023 Type: t3.micro Subnet: public, Auto-assign Public IP: Enable IAM role: ec2-docker-builder-role SG: sg-ec2-builder User Data: leave blank → Launch   Install Docker, Git, build &amp;amp; push:
+ sudo dnf -y update sudo dnf -y install docker git sudo systemctl enable --now docker export ACCOUNT_ID=486081556497 export ECR_REGION=us-east-1 export REPO_URL=https://github.com/huynhvanchikhan-2180604870/demo-ws.git export BACKEND_DIR=backend/tour-booking rm -rf ~/app || true git clone &amp;#34;$REPO_URL&amp;#34; ~/app cd ~/app/&amp;#34;$BACKEND_DIR&amp;#34; test -f pom.</description>
+    </item>
+    
+    <item>
+      <title>4.2. Update CORS in Backend</title>
+      <link>/4-frontend/4-2-cors/</link>
+      <pubDate>Sun, 10 Aug 2025 00:00:00 +0000</pubDate>
+      
+      <guid>/4-frontend/4-2-cors/</guid>
+      <description>Add the following to /etc/sysconfig/be.env on EC2:
+SPRING_MVC_CORS_ALLOWED_ORIGINS=http://&amp;lt;S3_WEBSITE_URL&amp;gt; SPRING_MVC_CORS_ALLOWED_METHODS=GET,POST,PUT,DELETE,OPTIONS SPRING_MVC_CORS_ALLOWED_HEADERS=* SPRING_MVC_CORS_ALLOW_CREDENTIALS=true </description>
+    </item>
+    
+    <item>
+      <title>5.2. Restore in Primary (us-east-1)</title>
+      <link>/5-backup-recovery/5-2-restore-primary/</link>
+      <pubDate>Sun, 10 Aug 2025 00:00:00 +0000</pubDate>
+      
+      <guid>/5-backup-recovery/5-2-restore-primary/</guid>
+      <description>Vault vault-ws-primary → Recovery points → select the latest → Restore
+ Class: db.t3.micro DB subnet group &amp;amp; SG: same as current RDS Identifier: tb-restore-&amp;lt;timestamp&amp;gt;     Once Available → update the endpoint in the backend to test.    </description>
+    </item>
+    
+    <item>
+      <title>6.2. Conformance Pack for RDS</title>
+      <link>/6-compliance/6-2-conformance-pack/</link>
+      <pubDate>Sun, 10 Aug 2025 00:00:00 +0000</pubDate>
+      
+      <guid>/6-compliance/6-2-conformance-pack/</guid>
+      <description>AWS Config → Conformance packs → Deploy → Template: Operational Best Practices for Amazon RDS → Name: cp-rds-ws → Deploy.
+  </description>
+    </item>
+    
+    <item>
+      <title>7.2. Alarm for Lambda DR Test</title>
+      <link>/7-monitoring/7-2-lambda-alarms/</link>
+      <pubDate>Sun, 10 Aug 2025 00:00:00 +0000</pubDate>
+      
+      <guid>/7-monitoring/7-2-lambda-alarms/</guid>
+      <description> CloudWatch → Alarms → Create alarm → Lambda / By function name → metric Errors → Period 1m → Greater/Equal 1 → SNS dr-alerts → Name: lambda-dr-errors. Test: Go to Lambda → Test with event { &amp;quot;forceSnapshotId&amp;quot;: &amp;quot;does-not-exist&amp;quot; } to trigger an error → the alarm will go into ALARM state and send an email.
+ </description>
+    </item>
+    
+    <item>
+      <title>2.3. Create Roles</title>
+      <link>/2-prerequisites/2-3-iam-roles/</link>
+      <pubDate>Sun, 10 Aug 2025 00:00:00 +0000</pubDate>
+      
+      <guid>/2-prerequisites/2-3-iam-roles/</guid>
+      <description>IAM → Roles → Create role → Trusted entity: EC2 → Attach policies:
+ AmazonEC2ContainerRegistryPowerUser AmazonSSMManagedInstanceCore  Name it: ec2-docker-builder-role → Create.
+Image:  ![Create role](images/2-3-iam-step-role.png) -- </description>
+    </item>
+    
+    <item>
+      <title>3.3. EC2 Runtime (Run Backend)</title>
+      <link>/3-backend/3-3-ec2-runtime/</link>
+      <pubDate>Sun, 10 Aug 2025 00:00:00 +0000</pubDate>
+      
+      <guid>/3-backend/3-3-ec2-runtime/</guid>
+      <description>EC2 Runtime:
+ AMI: AL2023; Type: t3.micro VPC/Subnet: same VPC as RDS (for demo purposes, you can use a public subnet and enable Public IP) IAM role: ec2-be-role (with ECR &amp;amp; SSM permissions) SG: sg-ec2-be     User data: paste the entire block below:    #!/bin/bash set -euxo pipefail dnf install -y docker awscli || true systemctl enable --now docker ACCOUNT_ID=486081556497 ECR_REGION=us-east-1 SSM_REGION=us-east-1 aws ecr get-login-password --region $ECR_REGION | docker login --username AWS --password-stdin $ACCOUNT_ID.</description>
+    </item>
+    
+    <item>
+      <title>5.3. Restore in DR (us-west-2)</title>
+      <link>/5-backup-recovery/5-3-restore-dr/</link>
+      <pubDate>Sun, 10 Aug 2025 00:00:00 +0000</pubDate>
+      
+      <guid>/5-backup-recovery/5-3-restore-dr/</guid>
+      <description>Preparation in us-west-2:
+   DB subnet group (RDS → Subnet groups → Create)     SG temporarily open TCP 3306 from your IP   Restore from vault-ws-dr → Recovery point → Restore → set tb-restore-dr-&amp;lt;timestamp&amp;gt;  </description>
+    </item>
+    
+    <item>
+      <title>5.4. DR testing automation (Lambda &#43; SSM &#43; SNS)</title>
+      <link>/5-backup-recovery/5-4-dr-test-lambda/</link>
+      <pubDate>Sun, 10 Aug 2025 00:00:00 +0000</pubDate>
+      
+      <guid>/5-backup-recovery/5-4-dr-test-lambda/</guid>
+      <description>Preparation  EC2 with AmazonSSMManagedInstanceCore (shows as Managed in SSM) Secrets Manager: secret db-cred (keys: username, password)     SNS: topic dr-alerts + subscribe email    Lambda function (Python 3.12)  Environment variables: TARGET_REGION, DB_INSTANCE_NAME, RDS_SUBNET_GROUP, RDS_SG_ID, INSTANCE_CLASS, SSM_INSTANCE_ID, DB_SECRET_ARN, SNS_TOPIC_ARN, AUTO_DELETE Source code:
+ import os, json, time, traceback import boto3 from botocore.exceptions import ClientError TARGET_REGION = os.environ.get(&amp;#39;TARGET_REGION&amp;#39;, &amp;#39;us-east-1&amp;#39;) rds = boto3.client(&amp;#39;rds&amp;#39;, region_name=TARGET_REGION) ssm = boto3.</description>
+    </item>
+    
+  </channel>
+</rss>

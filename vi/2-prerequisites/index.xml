@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Chuẩn bị on AWS System Manager</title>
+    <link>/vi/2-prerequisites/</link>
+    <description>Recent content in Chuẩn bị on AWS System Manager</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Sun, 10 Aug 2025 00:00:00 +0000</lastBuildDate><atom:link href="/vi/2-prerequisites/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>2.1. Tạo VPC</title>
+      <link>/vi/2-prerequisites/2-1-vpc/</link>
+      <pubDate>Sun, 10 Aug 2025 00:00:00 +0000</pubDate>
+      
+      <guid>/vi/2-prerequisites/2-1-vpc/</guid>
+      <description>Bước 1. AWS Console → tìm VPC → Your VPCs → Create VPC.
+Bước 2. Chọn VPC and more (nếu muốn AWS tạo sẵn subnets + IGW).
+Thiết lập:
+ Name tag: vpc-dr-ws IPv4 CIDR block: 10.0.0.0/16 IPv6: None Tenancy: Default → Create VPC.  Chèn ảnh:  ![Tạo VPC](images/2-1-vpc-step-01.png) -- </description>
+    </item>
+    
+    <item>
+      <title>2.2. Tạo Security Groups</title>
+      <link>/vi/2-prerequisites/2-2-security-groups/</link>
+      <pubDate>Sun, 10 Aug 2025 00:00:00 +0000</pubDate>
+      
+      <guid>/vi/2-prerequisites/2-2-security-groups/</guid>
+      <description>SG cho EC2 (BE)
+ Name: sg-ec2-be VPC: vpc-dr-ws Inbound:  HTTP (80) → 0.0.0.0/0 (demo public) SSH (22) → My IP   Outbound: allow all (mặc định)  SG cho RDS (MySQL)
+ Name: sg-rds Inbound: MySQL/Aurora (3306) → Source: sg-ec2-be (tham chiếu theo SG, không dùng IP) Outbound: allow all (mặc định)  Ảnh:  ![SG EC2](images/2-2-sg-step-ec2.png)  ![SG RDS](images/2-2-sg-step-rds.png) -- </description>
+    </item>
+    
+    <item>
+      <title>2.3. Tạo Roles</title>
+      <link>/vi/2-prerequisites/2-3-iam-roles/</link>
+      <pubDate>Sun, 10 Aug 2025 00:00:00 +0000</pubDate>
+      
+      <guid>/vi/2-prerequisites/2-3-iam-roles/</guid>
+      <description>IAM → Roles → Create role → Trusted entity: EC2 → Attach policies:
+ AmazonEC2ContainerRegistryPowerUser AmazonSSMManagedInstanceCore  Đặt tên: ec2-docker-builder-role → Create.
+Ảnh:  ![Tạo role](images/2-3-iam-step-role.png) -- </description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,32 +1,32 @@
 <!DOCTYPE html>
-<html lang="en" class="js csstransforms3d">
-  <head>
+<html lang="vi" class="js csstransforms3d">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="generator" content="Hugo 0.92.2" />
+    <meta name="generator" content="Hugo 0.148.0">
     <meta name="description" content="">
 <meta name="author" content="journeyoftheaverageguy@gmail.com">
 
     <link rel="icon" href="/images/favicon.png" type="image/png">
 
-    <title>Disaster Recovery Automation for DevOps Infrastructure :: AWS System Manager</title>
+    <title>Tạo kết nối đến máy chủ EC2 :: AWS System Manager</title>
 
     
-    <link href="/css/nucleus.css?1754840606" rel="stylesheet">
-    <link href="/css/fontawesome-all.min.css?1754840606" rel="stylesheet">
-    <link href="/css/hybrid.css?1754840606" rel="stylesheet">
-    <link href="/css/featherlight.min.css?1754840606" rel="stylesheet">
-    <link href="/css/perfect-scrollbar.min.css?1754840606" rel="stylesheet">
-    <link href="/css/auto-complete.css?1754840606" rel="stylesheet">
-    <link href="/css/atom-one-dark-reasonable.css?1754840606" rel="stylesheet">
-    <link href="/css/theme.css?1754840606" rel="stylesheet">
-    <link href="/css/hugo-theme.css?1754840606" rel="stylesheet">
+    <link href="/css/nucleus.css?1754811349" rel="stylesheet">
+    <link href="/css/fontawesome-all.min.css?1754811349" rel="stylesheet">
+    <link href="/css/hybrid.css?1754811349" rel="stylesheet">
+    <link href="/css/featherlight.min.css?1754811349" rel="stylesheet">
+    <link href="/css/perfect-scrollbar.min.css?1754811349" rel="stylesheet">
+    <link href="/css/auto-complete.css?1754811349" rel="stylesheet">
+    <link href="/css/atom-one-dark-reasonable.css?1754811349" rel="stylesheet">
+    <link href="/css/theme.css?1754811349" rel="stylesheet">
+    <link href="/css/hugo-theme.css?1754811349" rel="stylesheet">
     
-    <link href="/css/theme-workshop.css?1754840606" rel="stylesheet">
+    <link href="/css/theme-workshop.css?1754811349" rel="stylesheet">
     
     
 
-    <script src="/js/jquery-3.3.1.min.js?1754840606"></script>
+    <script src="/js/jquery-3.3.1.min.js?1754811349"></script>
 
     <style>
       :root #header + #content > #left > #rlblock_left{
@@ -36,7 +36,7 @@
     </style>
     
   </head>
-  <body class="" data-url="/">
+  <body class="" data-url="/vi/3-accessibilitytoinstances/">
     <nav id="sidebar" class="showVisitedLinks">
 
 
@@ -57,14 +57,14 @@
     <span data-search-clear=""><i class="fas fa-times"></i></span>
 </div>
 
-<script type="text/javascript" src="/js/lunr.min.js?1754840606"></script>
-<script type="text/javascript" src="/js/auto-complete.js?1754840606"></script>
+<script type="text/javascript" src="/js/lunr.min.js?1754811349"></script>
+<script type="text/javascript" src="/js/auto-complete.js?1754811349"></script>
 <script type="text/javascript">
     
-        var baseurl = "";
+        var baseurl = "\/\/localhost:1313\/\/vi";
     
 </script>
-<script type="text/javascript" src="/js/search.js?1754840606"></script>
+<script type="text/javascript" src="/js/search.js?1754811349"></script>
 
     
   </div>
@@ -82,13 +82,13 @@
  
   
     
-    <li data-nav-id="/1-introduction/" title="Introduction" class="dd-item 
+    <li data-nav-id="/vi/1-introduce/" title="Giới thiệu" class="dd-item 
         
         
         
         ">
-      <a href="/1-introduction/">
-          Introduction
+      <a href="/vi/1-introduce/">
+           <b> 1. </b> Giới thiệu
           
             <i class="fas fa-check read-icon"></i>
           
@@ -108,13 +108,13 @@
  
   
     
-    <li data-nav-id="/2-prerequisites/" title="Preparation" class="dd-item 
+    <li data-nav-id="/vi/2-prerequiste/" title="Các bước chuẩn bị" class="dd-item 
         
         
         
         ">
-      <a href="/2-prerequisites/">
-          Preparation
+      <a href="/vi/2-prerequiste/">
+           <b> 2. </b> Các bước chuẩn bị
           
             <i class="fas fa-check read-icon"></i>
           
@@ -124,6 +124,8 @@
         <ul>
           
           
+            
+          
           
           
         
@@ -137,13 +139,51 @@
  
   
     
-      <li data-nav-id="/2-prerequisites/2-1-vpc/" title="2.1. Create VPC" class="dd-item ">
-        <a href="/2-prerequisites/2-1-vpc/">
-        2.1. Create VPC
-        <i class="fas fa-check read-icon"></i>
-        </a>
+    <li data-nav-id="/vi/2-prerequiste/2.1-createec2/" title="Chuẩn bị VPC và EC2" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/vi/2-prerequiste/2.1-createec2/">
+           <b> 2.1 </b> Chuẩn bị VPC và EC2
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+            
+          
+          
+          
+        
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/vi/2-prerequiste/2.1-createec2/2.1.1-createvpc/" title="Tạo VPC " class="dd-item 
+        
+        
+        
+        ">
+      <a href="/vi/2-prerequiste/2.1-createec2/2.1.1-createvpc/">
+           <b> 2.1.1 </b> Tạo VPC 
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
     </li>
-     
   
  
 
@@ -158,13 +198,20 @@
  
   
     
-      <li data-nav-id="/2-prerequisites/2-2-security-groups/" title="2.2. Create Security Groups" class="dd-item ">
-        <a href="/2-prerequisites/2-2-security-groups/">
-        2.2. Create Security Groups
-        <i class="fas fa-check read-icon"></i>
-        </a>
+    <li data-nav-id="/vi/2-prerequiste/2.1-createec2/2.1.2-createpublicsubnet/" title="Tạo Public subnet" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/vi/2-prerequiste/2.1-createec2/2.1.2-createpublicsubnet/">
+           <b> 2.1.2 </b> Tạo Public subnet
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
     </li>
-     
   
  
 
@@ -179,13 +226,141 @@
  
   
     
-      <li data-nav-id="/2-prerequisites/2-3-iam-roles/" title="2.3. Create Roles" class="dd-item ">
-        <a href="/2-prerequisites/2-3-iam-roles/">
-        2.3. Create Roles
-        <i class="fas fa-check read-icon"></i>
-        </a>
+    <li data-nav-id="/vi/2-prerequiste/2.1-createec2/2.1.3-createprivatesubnet/" title="Tạo Private subnet" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/vi/2-prerequiste/2.1-createec2/2.1.3-createprivatesubnet/">
+           <b> 2.1.3 </b> Tạo Private subnet
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
     </li>
-     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/vi/2-prerequiste/2.1-createec2/2.1.4-createsecgroup/" title="Tạo các security group" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/vi/2-prerequiste/2.1-createec2/2.1.4-createsecgroup/">
+           <b> 2.1.4 </b> Tạo các security group
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/vi/2-prerequiste/2.1-createec2/2.1.5-createec2linux/" title="Tạo Public Linux EC2" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/vi/2-prerequiste/2.1-createec2/2.1.5-createec2linux/">
+           <b> 2.1.5 </b> Tạo Public Linux EC2
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/vi/2-prerequiste/2.1-createec2/2.1.6-createec2windows/" title="Tạo Private Windows EC2" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/vi/2-prerequiste/2.1-createec2/2.1.6-createec2windows/">
+           <b> 2.1.6 </b> Tạo Private Windows EC2
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/vi/2-prerequiste/2.2-createiamrole/" title="Tạo IAM Role" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/vi/2-prerequiste/2.2-createiamrole/">
+           <b> 2.2 </b> Tạo IAM Role
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
   
  
 
@@ -207,13 +382,13 @@
  
   
     
-    <li data-nav-id="/3-backend/" title="Deploy Application (Backend)" class="dd-item 
+    <li data-nav-id="/vi/3-accessibilitytoinstances/" title="Tạo kết nối đến máy chủ EC2" class="dd-item 
         
-        
+        active
         
         ">
-      <a href="/3-backend/">
-          Deploy Application (Backend)
+      <a href="/vi/3-accessibilitytoinstances/">
+           <b> 3. </b> Tạo kết nối đến máy chủ EC2
           
             <i class="fas fa-check read-icon"></i>
           
@@ -223,6 +398,8 @@
         <ul>
           
           
+            
+          
           
           
         
@@ -236,13 +413,20 @@
  
   
     
-      <li data-nav-id="/3-backend/3-1-create-rds/" title="3.1. Create RDS (MySQL)" class="dd-item ">
-        <a href="/3-backend/3-1-create-rds/">
-        3.1. Create RDS (MySQL)
-        <i class="fas fa-check read-icon"></i>
-        </a>
+    <li data-nav-id="/vi/3-accessibilitytoinstances/3.1-public-instance/" title="Kết nối đến máy chủ Public" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/vi/3-accessibilitytoinstances/3.1-public-instance/">
+           <b> 3.1. </b> Kết nối đến máy chủ Public
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
     </li>
-     
   
  
 
@@ -257,13 +441,51 @@
  
   
     
-      <li data-nav-id="/3-backend/3-2-ec2-builder-ecr/" title="3.2. EC2 Builder, build Docker &amp; push to ECR" class="dd-item ">
-        <a href="/3-backend/3-2-ec2-builder-ecr/">
-        3.2. EC2 Builder, build Docker &amp; push to ECR
-        <i class="fas fa-check read-icon"></i>
-        </a>
+    <li data-nav-id="/vi/3-accessibilitytoinstances/3.2-private-instance/" title="Tạo kết nối đến máy chủ EC2 Private" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/vi/3-accessibilitytoinstances/3.2-private-instance/">
+           <b> 3.2. </b> Tạo kết nối đến máy chủ EC2 Private
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+            
+          
+          
+          
+        
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/vi/3-accessibilitytoinstances/3.2-private-instance/3.2.1-enablevpcdns/" title="Kích hoạt DNS hostnames" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/vi/3-accessibilitytoinstances/3.2-private-instance/3.2.1-enablevpcdns/">
+           <b> 3.2.1 </b> Kích hoạt DNS hostnames
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
     </li>
-     
   
  
 
@@ -278,13 +500,153 @@
  
   
     
-      <li data-nav-id="/3-backend/3-3-ec2-runtime/" title="3.3. EC2 Runtime (Run Backend)" class="dd-item ">
-        <a href="/3-backend/3-3-ec2-runtime/">
-        3.3. EC2 Runtime (Run Backend)
-        <i class="fas fa-check read-icon"></i>
-        </a>
+    <li data-nav-id="/vi/3-accessibilitytoinstances/3.2-private-instance/3.2.2-createvpcendpoint/" title="Tạo VPC Endpoint" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/vi/3-accessibilitytoinstances/3.2-private-instance/3.2.2-createvpcendpoint/">
+           <b> 3.2.2 </b> Tạo VPC Endpoint
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+            
+          
+          
+          
+        
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/vi/3-accessibilitytoinstances/3.2-private-instance/3.2.2-createvpcendpoint/3.2.2.1-endpointssm/" title="Tạo Endpoint ssm" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/vi/3-accessibilitytoinstances/3.2-private-instance/3.2.2-createvpcendpoint/3.2.2.1-endpointssm/">
+           <b> 3.2.2.1 </b> Tạo Endpoint ssm
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
     </li>
-     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/vi/3-accessibilitytoinstances/3.2-private-instance/3.2.2-createvpcendpoint/3.2.2.2-endpointssmmessages/" title="Tạo Endpoint ssmmessages" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/vi/3-accessibilitytoinstances/3.2-private-instance/3.2.2-createvpcendpoint/3.2.2.2-endpointssmmessages/">
+           <b> 3.2.2.2 </b> Tạo Endpoint ssmmessages
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/vi/3-accessibilitytoinstances/3.2-private-instance/3.2.2-createvpcendpoint/3.2.2.3-endpointec2messages/" title="Tạo Endpoint ec2messages" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/vi/3-accessibilitytoinstances/3.2-private-instance/3.2.2-createvpcendpoint/3.2.2.3-endpointec2messages/">
+           <b> 3.2.2.3 </b> Tạo Endpoint ec2messages
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/vi/3-accessibilitytoinstances/3.2-private-instance/3.2.3-connectec2/" title="Kết nối EC2 Private" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/vi/3-accessibilitytoinstances/3.2-private-instance/3.2.3-connectec2/">
+           <b> 3.2.3 </b> Kết nối EC2 Private
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
   
  
 
@@ -306,13 +668,13 @@
  
   
     
-    <li data-nav-id="/4-frontend/" title="Frontend" class="dd-item 
+    <li data-nav-id="/vi/4-s3log/" title="Quản lý session logs" class="dd-item 
         
         
         
         ">
-      <a href="/4-frontend/">
-          Frontend
+      <a href="/vi/4-s3log/">
+           <b> 4. </b> Quản lý session logs
           
             <i class="fas fa-check read-icon"></i>
           
@@ -322,6 +684,8 @@
         <ul>
           
           
+            
+          
           
           
         
@@ -335,13 +699,20 @@
  
   
     
-      <li data-nav-id="/4-frontend/4-1-s3-bucket/" title="4.1. Create S3 Bucket for FE" class="dd-item ">
-        <a href="/4-frontend/4-1-s3-bucket/">
-        4.1. Create S3 Bucket for FE
-        <i class="fas fa-check read-icon"></i>
-        </a>
+    <li data-nav-id="/vi/4-s3log/4.1-updateiamrole/" title="Cập nhật IAM Role" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/vi/4-s3log/4.1-updateiamrole/">
+           <b> 4.1 </b> Cập nhật IAM Role
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
     </li>
-     
   
  
 
@@ -356,13 +727,76 @@
  
   
     
-      <li data-nav-id="/4-frontend/4-2-cors/" title="4.2. Update CORS in Backend" class="dd-item ">
-        <a href="/4-frontend/4-2-cors/">
-        4.2. Update CORS in Backend
-        <i class="fas fa-check read-icon"></i>
-        </a>
+    <li data-nav-id="/vi/4-s3log/4.2-creates3bucket/" title="Tạo S3 Bucket" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/vi/4-s3log/4.2-creates3bucket/">
+           <b> 4.2 </b> Tạo S3 Bucket
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
     </li>
-     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/vi/4-s3log/4.3-creategwes3/" title="Tạo S3 Gateway endpoint" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/vi/4-s3log/4.3-creategwes3/">
+           <b> 4.3 </b> Tạo S3 Gateway endpoint
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/vi/4-s3log/4.4-configsessionlogs/" title="Theo dõi session logs" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/vi/4-s3log/4.4-configsessionlogs/">
+           <b> 4.4 </b> Theo dõi session logs
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
   
  
 
@@ -384,112 +818,18 @@
  
   
     
-    <li data-nav-id="/5-backup-recovery/" title="Backup &amp; Restore" class="dd-item 
+    <li data-nav-id="/vi/5-portfwd/" title="Port Forwarding" class="dd-item 
         
         
         
         ">
-      <a href="/5-backup-recovery/">
-          Backup &amp; Restore
+      <a href="/vi/5-portfwd/">
+           <b> 5. </b> Port Forwarding
           
             <i class="fas fa-check read-icon"></i>
           
       </a>
       
-      
-        <ul>
-          
-          
-          
-          
-        
-          
-            
-            
-
-
-
-
- 
-  
-    
-      <li data-nav-id="/5-backup-recovery/5-1-aws-backup-plan/" title="5.1. AWS Backup (daily &#43; cross-region)" class="dd-item ">
-        <a href="/5-backup-recovery/5-1-aws-backup-plan/">
-        5.1. AWS Backup (daily &#43; cross-region)
-        <i class="fas fa-check read-icon"></i>
-        </a>
-    </li>
-     
-  
- 
-
-            
-          
-            
-            
-
-
-
-
- 
-  
-    
-      <li data-nav-id="/5-backup-recovery/5-2-restore-primary/" title="5.2. Restore in Primary (us-east-1)" class="dd-item ">
-        <a href="/5-backup-recovery/5-2-restore-primary/">
-        5.2. Restore in Primary (us-east-1)
-        <i class="fas fa-check read-icon"></i>
-        </a>
-    </li>
-     
-  
- 
-
-            
-          
-            
-            
-
-
-
-
- 
-  
-    
-      <li data-nav-id="/5-backup-recovery/5-3-restore-dr/" title="5.3. Restore in DR (us-west-2)" class="dd-item ">
-        <a href="/5-backup-recovery/5-3-restore-dr/">
-        5.3. Restore in DR (us-west-2)
-        <i class="fas fa-check read-icon"></i>
-        </a>
-    </li>
-     
-  
- 
-
-            
-          
-            
-            
-
-
-
-
- 
-  
-    
-      <li data-nav-id="/5-backup-recovery/5-4-dr-test-lambda/" title="5.4. DR testing automation (Lambda &#43; SSM &#43; SNS)" class="dd-item ">
-        <a href="/5-backup-recovery/5-4-dr-test-lambda/">
-        5.4. DR testing automation (Lambda &#43; SSM &#43; SNS)
-        <i class="fas fa-check read-icon"></i>
-        </a>
-    </li>
-     
-  
- 
-
-            
-          
-        
-        </ul>
               
     </li>
   
@@ -504,205 +844,18 @@
  
   
     
-    <li data-nav-id="/6-compliance/" title="Compliance Validation" class="dd-item 
+    <li data-nav-id="/vi/6-cleanup/" title="Dọn dẹp tài nguyên  " class="dd-item 
         
         
         
         ">
-      <a href="/6-compliance/">
-          Compliance Validation
+      <a href="/vi/6-cleanup/">
+          <b>6. </b>Dọn dẹp tài nguyên  
           
             <i class="fas fa-check read-icon"></i>
           
       </a>
       
-      
-        <ul>
-          
-          
-          
-          
-        
-          
-            
-            
-
-
-
-
- 
-  
-    
-      <li data-nav-id="/6-compliance/6-1-aws-config/" title="6.1. Enable AWS Config &amp; Add Rules" class="dd-item ">
-        <a href="/6-compliance/6-1-aws-config/">
-        6.1. Enable AWS Config &amp; Add Rules
-        <i class="fas fa-check read-icon"></i>
-        </a>
-    </li>
-     
-  
- 
-
-            
-          
-            
-            
-
-
-
-
- 
-  
-    
-      <li data-nav-id="/6-compliance/6-2-conformance-pack/" title="6.2. Conformance Pack for RDS" class="dd-item ">
-        <a href="/6-compliance/6-2-conformance-pack/">
-        6.2. Conformance Pack for RDS
-        <i class="fas fa-check read-icon"></i>
-        </a>
-    </li>
-     
-  
- 
-
-            
-          
-        
-        </ul>
-              
-    </li>
-  
- 
-
-          
-          
-
-
-
-
- 
-  
-    
-    <li data-nav-id="/7-monitoring/" title="Monitoring" class="dd-item 
-        
-        
-        
-        ">
-      <a href="/7-monitoring/">
-          Monitoring
-          
-            <i class="fas fa-check read-icon"></i>
-          
-      </a>
-      
-      
-        <ul>
-          
-          
-          
-          
-        
-          
-            
-            
-
-
-
-
- 
-  
-    
-      <li data-nav-id="/7-monitoring/7-1-rds-alarms/" title="7.1. RDS Alarms (CPU &amp; Free Storage)" class="dd-item ">
-        <a href="/7-monitoring/7-1-rds-alarms/">
-        7.1. RDS Alarms (CPU &amp; Free Storage)
-        <i class="fas fa-check read-icon"></i>
-        </a>
-    </li>
-     
-  
- 
-
-            
-          
-            
-            
-
-
-
-
- 
-  
-    
-      <li data-nav-id="/7-monitoring/7-2-lambda-alarms/" title="7.2. Alarm for Lambda DR Test" class="dd-item ">
-        <a href="/7-monitoring/7-2-lambda-alarms/">
-        7.2. Alarm for Lambda DR Test
-        <i class="fas fa-check read-icon"></i>
-        </a>
-    </li>
-     
-  
- 
-
-            
-          
-        
-        </ul>
-              
-    </li>
-  
- 
-
-          
-          
-
-
-
-
- 
-  
-    
-    <li data-nav-id="/8-cleanup/" title="Clean Up Resources" class="dd-item 
-        
-        
-        
-        ">
-      <a href="/8-cleanup/">
-          Clean Up Resources
-          
-            <i class="fas fa-check read-icon"></i>
-          
-      </a>
-      
-      
-        <ul>
-          
-          
-          
-          
-        
-          
-            
-            
-
-
-
-
- 
-  
-    
-      <li data-nav-id="/8-cleanup/8-1-what-to-delete/" title="8.1. Clean Up Resources" class="dd-item ">
-        <a href="/8-cleanup/8-1-what-to-delete/">
-        8.1. Clean Up Resources
-        <i class="fas fa-check read-icon"></i>
-        </a>
-    </li>
-     
-  
- 
-
-            
-          
-        
-        </ul>
               
     </li>
   
@@ -744,7 +897,7 @@
                   
                     
                     
-                      <option id="en" value="/" selected>English</option>
+                      <option id="en" value="//localhost:1313/3-accessibilitytoinstances/">English</option>
                     
                   
               
@@ -758,7 +911,7 @@
                   
                     
                     
-                      <option id="vi" value="/vi/">Tiếng Việt</option>
+                      <option id="vi" value="//localhost:1313/vi/3-accessibilitytoinstances/" selected>Tiếng Việt</option>
                     
                   
               
@@ -786,34 +939,32 @@
     <section id="footer">
       <left>
     
-    <b> Workshop</b> <br>
-    <img src="https://hitwebcounter.com/counter/counter.php?page=7920860&style=0038&nbdigits=9&type=page&initCount=0"
-        title="Migrate" Alt="web counter" border="0" /></a> <br>
-    <b> <a href="https://cloudjourney.awsstudygroup.com/">Cloud Journey</a></b> <br>
-    <img src="https://hitwebcounter.com/counter/counter.php?page=7830807&style=0038&nbdigits=9&type=page&initCount=0"
-        title="Total CLoud Journey" Alt="web counter" border="0" />
-
+     <b> Workshop</b> <br>
+    <img src="https://hitwebcounter.com/counter/counter.php?page=7920860&style=0038&nbdigits=9&type=page&initCount=0" title="Migrate" Alt="web counter"   border="0" /></a>  <br>
+     <b> <a href="https://cloudjourney.awsstudygroup.com/">Cloud Journey</a></b> <br>
+    <img src="https://hitwebcounter.com/counter/counter.php?page=7830807&style=0038&nbdigits=9&type=page&initCount=0" title="Total CLoud Journey" Alt="web counter"   border="0"   />
+     
 </left>
 <left>
     <br>
     <br>
-    <b> Last Updated </b> <br>
-    <i>
-        <font color=orange>30-01-2022</font>
-    </i>
-</left>
-<left>
-    <br>
-    <br>
-    <b> Team </b> <br>
-
-    <i> <a href="https://www.linkedin.com/in/sutrinh/" style="color:orange">Huỳnh Văn Chí Khan </a> <br>
-        
-
-    </i>
-</left>
+        <b> Last Updated </b> <br>
+        <i><font color=orange>30-01-2022</font></i>
+    </left>
+    <left>
+        <br>
+        <br>
+            <b> Team </b> <br>
+           
+            <i> <a href="https://www.linkedin.com/in/sutrinh/"  style="color:orange">Sử Trịnh  </a> <br>
+                <a href="https://www.linkedin.com/in/jotaguy"  style="color:orange">Gia Hưng </a> <br>
+                <a href="https://www.linkedin.com/in/hiepnguyendt"  style="color:orange">Thanh Hiệp </a>
+               
+        </i>
+        </left>
 
 <script async defer src="https://buttons.github.io/buttons.js"></script>
+
     </section>
   </div>
 </nav>
@@ -825,38 +976,85 @@
         <div id="overlay"></div>
         <div class="padding highlightable">
               
+              <div>
+                <div id="top-bar">
+                
+                
+                <div id="breadcrumbs" itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb">
+                    <span id="sidebar-toggle-span">
+                        <a href="#" id="sidebar-toggle" data-sidebar-toggle="">
+                          <i class="fas fa-bars"></i>
+                        </a>
+                    </span>
+                  
+                  <span id="toc-menu"><i class="fas fa-list-alt"></i></span>
+                  
+                  <span class="links">
+                 
+                 
+                    
+          
+          
+            
+            
+          
+          
+            <a href='/vi/'>Session Management</a> > Tạo kết nối đến máy chủ EC2
+          
+        
+          
+        
+                 
+                  </span>
+                </div>
+                
+                    <div class="progress">
+    <div class="wrapper">
+<nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#nôi-dung">Nội dung</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </div>
+</div>
+
+                
+              </div>
+            </div>
+            
         <div id="head-tags">
         
         </div>
         
         <div id="body-inner">
           
+            <h1>
+              
+              Tạo kết nối đến máy chủ EC2
+            </h1>
+          
 
         
 
-<span id="sidebar-toggle-span">
-<a href="#" id="sidebar-toggle" data-sidebar-toggle=""><i class="fas fa-bars"></i> navigation</a>
-</span>
 
- 
-<h1 id="disaster-recovery-automation-for-devops-infrastructure">Disaster Recovery Automation for DevOps Infrastructure</h1>
-<h3 id="overview">Overview</h3>
-<p>This lab guides you through implementing an automated disaster recovery (DR) solution for a DevOps infrastructure. You will learn backup automation, recovery procedures, automated recovery testing, compliance validation, monitoring setup, operational documentation, and cost analysis for a robust DR strategy.</p>
-<p>The practice includes working with AWS services such as RDS, EC2, S3, Lambda, AWS Backup, AWS Config, CloudWatch, and more to build an end-to-end DR automation framework.</p>
-<p><img src="/images/overall_architecture.png" alt="DR Architecture"></p>
-<h3 id="contents">Contents</h3>
-<ol>
-<li><a href="../1-introduction/">Introduction</a></li>
-<li><a href="../2-prerequisites/">Prerequisites</a></li>
-<li><a href="../3-backend/">Backend Setup and Automation</a></li>
-<li><a href="../4-frontend/">Frontend Deployment and CORS</a></li>
-<li><a href="../5-backup-recovery/">Backup and Recovery Procedures</a></li>
-<li><a href="../6-compliance/">Compliance and Validation</a></li>
-<li><a href="../7-monitoring/">Monitoring and Alerting</a></li>
-<li><a href="../8-cleanup/">Cleanup and Cost Optimization</a></li>
-</ol>
+
+	<p>Trong bước này, chúng ta sẽ thực hiện tạo kết nối đến các máy chủ EC2 của chúng ta, nằm trong cả public và private subnet.</p>
+<h3 id="nôi-dung">Nội dung</h3>
+<p>3.1. <a href="/vi/3-accessibilitytoinstances/3.1-public-instance/">Tạo Kết nối đến máy chủ EC2 Public</a> <br>
+3.2. <a href="/vi/3-accessibilitytoinstances/3.2-private-instance/">Tạo Kết nối đến máy chủ EC2 Private</a></p>
+
+
+
+
+
+<footer class=" footline" >
 	
-  
+</footer>
+
         
         </div> 
         
@@ -912,6 +1110,8 @@
 
                     
                     
+                        
+                    
                     
 
                     
@@ -925,56 +1125,7 @@
 
                     
                     
-                    
-
-                    
-            
-        
-                    
                         
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
                     
                     
 
@@ -1010,86 +1161,6 @@
                     
             
         
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
                     
                         
             
@@ -1171,6 +1242,213 @@
                     
 
                     
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                        
+                        
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
                         
             
             
@@ -1219,19 +1497,6 @@
                     
 
                     
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
             
         
                     
@@ -1247,41 +1512,6 @@
                     
                     
 
-                    
-            
-        
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
                     
             
         
@@ -1295,8 +1525,10 @@
 	 
 	 
 		
+			<a class="nav nav-prev" href="/vi/2-prerequiste/2.2-createiamrole/" title="Tạo IAM Role"> <i class="fa fa-chevron-left"></i></a>
 		
-			<a class="nav nav-next" href="/1-introduction/" title="Introduction" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+		
+			<a class="nav nav-next" href="/vi/3-accessibilitytoinstances/3.1-public-instance/" title="Kết nối đến máy chủ Public" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
 		
 	
     </div>
@@ -1306,19 +1538,19 @@
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/js/clipboard.min.js?1754840606"></script>
-    <script src="/js/perfect-scrollbar.min.js?1754840606"></script>
-    <script src="/js/perfect-scrollbar.jquery.min.js?1754840606"></script>
-    <script src="/js/jquery.sticky.js?1754840606"></script>
-    <script src="/js/featherlight.min.js?1754840606"></script>
-    <script src="/js/highlight.pack.js?1754840606"></script>
+    <script src="/js/clipboard.min.js?1754811349"></script>
+    <script src="/js/perfect-scrollbar.min.js?1754811349"></script>
+    <script src="/js/perfect-scrollbar.jquery.min.js?1754811349"></script>
+    <script src="/js/jquery.sticky.js?1754811349"></script>
+    <script src="/js/featherlight.min.js?1754811349"></script>
+    <script src="/js/highlight.pack.js?1754811349"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/js/modernizr.custom-3.6.0.js?1754840606"></script>
-    <script src="/js/learn.js?1754840606"></script>
-    <script src="/js/hugo-learn.js?1754840606"></script>
+    <script src="/js/modernizr.custom-3.6.0.js?1754811349"></script>
+    <script src="/js/learn.js?1754811349"></script>
+    <script src="/js/hugo-learn.js?1754811349"></script>
 
-    <link href="/mermaid/mermaid.css?1754840606" rel="stylesheet" />
-    <script src="/mermaid/mermaid.js?1754840606"></script>
+    <link href="/mermaid/mermaid.css?1754811349" rel="stylesheet" />
+    <script src="/mermaid/mermaid.js?1754811349"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>
@@ -1334,4 +1566,3 @@
 </script>
   </body>
 </html>
-

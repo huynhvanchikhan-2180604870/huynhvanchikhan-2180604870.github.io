@@ -1,0 +1,197 @@
+[
+{
+	"uri": "/2-prerequisites/2-1-vpc/",
+	"title": "2.1. Create VPC",
+	"tags": [],
+	"description": "",
+	"content": "Step 1. AWS Console → search for VPC → Your VPCs → Create VPC.\nStep 2. Select VPC and more (if you want AWS to automatically create subnets + IGW).\nSettings:\n Name tag: vpc-dr-ws IPv4 CIDR block: 10.0.0.0/16 IPv6: None Tenancy: Default → Create VPC.  Insert image:  ![Create VPC](images/2-1-vpc-step-01.png) -- "
+},
+{
+	"uri": "/3-backend/3-1-create-rds/",
+	"title": "3.1. Create RDS (MySQL)",
+	"tags": [],
+	"description": "",
+	"content": "RDS → Create database:\n Engine: MySQL 8.x Templates: Free tier Instance class: db.t3.micro Storage: gp3 Public access: No VPC/Subnet group: default (if available) Security group: SG does not open port 3306 to the Internet Credentials: set username/password and save them Automated backups: ON, retain ≥ 7 days Encryption: ON Wait until Available → In the Connectivity tab, get the Endpoint \u0026amp; Port    "
+},
+{
+	"uri": "/4-frontend/4-1-s3-bucket/",
+	"title": "4.1. Create S3 Bucket for FE",
+	"tags": [],
+	"description": "",
+	"content": " Enable Static website hosting : Apply the bucket policy (demo public-read)  { \u0026#34;Version\u0026#34;: \u0026#34;2012-10-17\u0026#34;, \u0026#34;Statement\u0026#34;: [ { \u0026#34;Sid\u0026#34;: \u0026#34;PublicReadGetObject\u0026#34;, \u0026#34;Effect\u0026#34;: \u0026#34;Allow\u0026#34;, \u0026#34;Principal\u0026#34;: \u0026#34;*\u0026#34;, \u0026#34;Action\u0026#34;: [\u0026#34;s3:GetObject\u0026#34;], \u0026#34;Resource\u0026#34;: [\u0026#34;arn:aws:s3:::BUCKET_NAME/*\u0026#34;] } ] } "
+},
+{
+	"uri": "/5-backup-recovery/5-1-aws-backup-plan/",
+	"title": "5.1. AWS Backup (daily + cross-region)",
+	"tags": [],
+	"description": "",
+	"content": "Create Backup Vaults in 2 regions\n   us-east-1: vault-ws-primary     us-west-2: vault-ws-dr    Backup Plan plan-rds-ws (in us-east-1)\n Rule daily-rds (Daily or cron 02:00 UTC) Vault: vault-ws-primary Lifecycle: Delete after 30 days Cross-Region copy: to us-west-2 → vault-ws-dr (Retention 30 days) Assign resource: your RDS instance (if prompted for role → create a service-linked role)   Test on-demand + verify copy to DR\n  Jobs → Create on-demand backup → select DB → Start → wait for COMPLETED     Switch region to us-west-2 → vault-ws-dr   Recovery points should show the copy  "
+},
+{
+	"uri": "/6-compliance/6-1-aws-config/",
+	"title": "6.1. Enable AWS Config &amp; Add Rules",
+	"tags": [],
+	"description": "",
+	"content": "Enable AWS Config (us-east-1)\n   Recording: Record all resources     Delivery: create a default S3 bucket and service-linked role   Add managed rules (RDS/Backup):\n  rds-backup-enabled rds-instance-deletion-protection-enabled rds-instance-public-access-check rds-storage-encrypted rds-snapshots-public-prohibited    "
+},
+{
+	"uri": "/7-monitoring/7-1-rds-alarms/",
+	"title": "7.1. RDS Alarms (CPU &amp; Free Storage)",
+	"tags": [],
+	"description": "",
+	"content": "CloudWatch → Alarms → Create alarm\n Metric CPUUtilization (Per-Database → select DB) → Period 1m → Greater/Equal 1 → Notification SNS dr-alerts → Name: rds-cpu-high-test     Metric FreeStorageSpace → Lower/Equal 5 GiB → Name: rds-free-storage-low    "
+},
+{
+	"uri": "/8-cleanup/8-1-what-to-delete/",
+	"title": "8.1. Clean Up Resources",
+	"tags": [],
+	"description": "",
+	"content": " RDS test instances \u0026amp; unnecessary snapshots EC2 (runtime \u0026amp; builder), EBS, Security Groups ECR images (optional) S3 FE bucket AWS Backup plan \u0026amp; vaults (when sure the data is no longer needed) AWS Config conformance pack \u0026amp; S3 delivery (optional) SNS, Lambda, EventBridge created for DR testing  "
+},
+{
+	"uri": "/1-introduction/",
+	"title": "Introduction",
+	"tags": [],
+	"description": "",
+	"content": "1. Introduction Workshop on implementing Disaster Recovery Automation for DevOps infrastructure (Spring Boot + RDS MySQL + React on S3), including backup automation, recovery procedures, testing automation, compliance validation, and monitoring.\n Overall architecture illustration:  "
+},
+{
+	"uri": "/2-prerequisites/2-2-security-groups/",
+	"title": "2.2. Create Security Groups",
+	"tags": [],
+	"description": "",
+	"content": "SG for EC2 (Backend)\n Name: sg-ec2-be VPC: vpc-dr-ws Inbound:  HTTP (80) → 0.0.0.0/0 (public demo) SSH (22) → My IP   Outbound: allow all (default)  SG for RDS (MySQL)\n Name: sg-rds Inbound: MySQL/Aurora (3306) → Source: sg-ec2-be (reference by SG, not by IP) Outbound: allow all (default)  Images:  ![SG EC2](images/2-2-sg-step-ec2.png)  ![SG RDS](images/2-2-sg-step-rds.png) -- "
+},
+{
+	"uri": "/3-backend/3-2-ec2-builder-ecr/",
+	"title": "3.2. EC2 Builder, build Docker &amp; push to ECR",
+	"tags": [],
+	"description": "",
+	"content": "Amazon Elastic Container Registry → Create repository\n EC2 → Launch instance\n  Name: docker-builder AMI: Amazon Linux 2023 Type: t3.micro Subnet: public, Auto-assign Public IP: Enable IAM role: ec2-docker-builder-role SG: sg-ec2-builder User Data: leave blank → Launch   Install Docker, Git, build \u0026amp; push:\n sudo dnf -y update sudo dnf -y install docker git sudo systemctl enable --now docker export ACCOUNT_ID=486081556497 export ECR_REGION=us-east-1 export REPO_URL=https://github.com/huynhvanchikhan-2180604870/demo-ws.git export BACKEND_DIR=backend/tour-booking rm -rf ~/app || true git clone \u0026#34;$REPO_URL\u0026#34; ~/app cd ~/app/\u0026#34;$BACKEND_DIR\u0026#34; test -f pom.xml || (echo \u0026#34;Wrong BACKEND_DIR\u0026#34; \u0026amp;\u0026amp; exit 1) cat \u0026gt; Dockerfile \u0026lt;\u0026lt;\u0026#39;EOF\u0026#39; FROM maven:3.9-eclipse-temurin-23 AS build WORKDIR /src COPY pom.xml . COPY .mvn .mvn COPY mvnw mvnw RUN chmod +x mvnw RUN ./mvnw -q -DskipTests dependency:go-offline COPY src ./src RUN ./mvnw -q clean package -DskipTests FROM eclipse-temurin:23-jre WORKDIR /app COPY --from=build /src/target/*.jar /app/app.jar EXPOSE 8080 ENTRYPOINT [\u0026#34;java\u0026#34;,\u0026#34;-jar\u0026#34;,\u0026#34;/app/app.jar\u0026#34;] EOF aws ecr get-login-password --region \u0026#34;$ECR_REGION\u0026#34; | docker login --username AWS --password-stdin \u0026#34;$ACCOUNT_ID.dkr.ecr.$ECR_REGION.amazonaws.com\u0026#34; docker build -t tourbooking-be:latest . docker tag tourbooking-be:latest \u0026#34;$ACCOUNT_ID.dkr.ecr.$ECR_REGION.amazonaws.com/tourbooking-be:latest\u0026#34; docker push \u0026#34;$ACCOUNT_ID.dkr.ecr.$ECR_REGION.amazonaws.com/tourbooking-be:latest\u0026#34;   "
+},
+{
+	"uri": "/4-frontend/4-2-cors/",
+	"title": "4.2. Update CORS in Backend",
+	"tags": [],
+	"description": "",
+	"content": "Add the following to /etc/sysconfig/be.env on EC2:\nSPRING_MVC_CORS_ALLOWED_ORIGINS=http://\u0026lt;S3_WEBSITE_URL\u0026gt; SPRING_MVC_CORS_ALLOWED_METHODS=GET,POST,PUT,DELETE,OPTIONS SPRING_MVC_CORS_ALLOWED_HEADERS=* SPRING_MVC_CORS_ALLOW_CREDENTIALS=true "
+},
+{
+	"uri": "/5-backup-recovery/5-2-restore-primary/",
+	"title": "5.2. Restore in Primary (us-east-1)",
+	"tags": [],
+	"description": "",
+	"content": "Vault vault-ws-primary → Recovery points → select the latest → Restore\n Class: db.t3.micro DB subnet group \u0026amp; SG: same as current RDS Identifier: tb-restore-\u0026lt;timestamp\u0026gt;     Once Available → update the endpoint in the backend to test.    "
+},
+{
+	"uri": "/6-compliance/6-2-conformance-pack/",
+	"title": "6.2. Conformance Pack for RDS",
+	"tags": [],
+	"description": "",
+	"content": "AWS Config → Conformance packs → Deploy → Template: Operational Best Practices for Amazon RDS → Name: cp-rds-ws → Deploy.\n  "
+},
+{
+	"uri": "/7-monitoring/7-2-lambda-alarms/",
+	"title": "7.2. Alarm for Lambda DR Test",
+	"tags": [],
+	"description": "",
+	"content": " CloudWatch → Alarms → Create alarm → Lambda / By function name → metric Errors → Period 1m → Greater/Equal 1 → SNS dr-alerts → Name: lambda-dr-errors. Test: Go to Lambda → Test with event { \u0026quot;forceSnapshotId\u0026quot;: \u0026quot;does-not-exist\u0026quot; } to trigger an error → the alarm will go into ALARM state and send an email.\n "
+},
+{
+	"uri": "/2-prerequisites/",
+	"title": "Preparation",
+	"tags": [],
+	"description": "",
+	"content": "2. Preparation Includes VPC, Security Group, and IAM Roles.\n 2.1. Create VPC 2.2. Create Security Groups 2.3. Create Roles  "
+},
+{
+	"uri": "/2-prerequisites/2-3-iam-roles/",
+	"title": "2.3. Create Roles",
+	"tags": [],
+	"description": "",
+	"content": "IAM → Roles → Create role → Trusted entity: EC2 → Attach policies:\n AmazonEC2ContainerRegistryPowerUser AmazonSSMManagedInstanceCore  Name it: ec2-docker-builder-role → Create.\nImage:  ![Create role](images/2-3-iam-step-role.png) -- "
+},
+{
+	"uri": "/3-backend/3-3-ec2-runtime/",
+	"title": "3.3. EC2 Runtime (Run Backend)",
+	"tags": [],
+	"description": "",
+	"content": "EC2 Runtime:\n AMI: AL2023; Type: t3.micro VPC/Subnet: same VPC as RDS (for demo purposes, you can use a public subnet and enable Public IP) IAM role: ec2-be-role (with ECR \u0026amp; SSM permissions) SG: sg-ec2-be     User data: paste the entire block below:    #!/bin/bash set -euxo pipefail dnf install -y docker awscli || true systemctl enable --now docker ACCOUNT_ID=486081556497 ECR_REGION=us-east-1 SSM_REGION=us-east-1 aws ecr get-login-password --region $ECR_REGION | docker login --username AWS --password-stdin $ACCOUNT_ID.dkr.ecr.$ECR_REGION.amazonaws.com IMAGE=\u0026#34;$ACCOUNT_ID.dkr.ecr.$ECR_REGION.amazonaws.com/tourbooking-be:latest\u0026#34; DB_URL=$(aws ssm get-parameter --name \u0026#34;/tour/db/url\u0026#34; --with-decryption --query Parameter.Value --output text --region $SSM_REGION) DB_USER=$(aws ssm get-parameter --name \u0026#34;/tour/db/user\u0026#34; --with-decryption --query Parameter.Value --output text --region $SSM_REGION) DB_PASS=$(aws ssm get-parameter --name \u0026#34;/tour/db/pass\u0026#34; --with-decryption --query Parameter.Value --output text --region $SSM_REGION) docker rm -f be || true docker run -d --restart=always --name be -p 80:8080 \\  -e SPRING_DATASOURCE_URL=\u0026#34;$DB_URL\u0026#34; \\  -e SPRING_DATASOURCE_USERNAME=\u0026#34;$DB_USER\u0026#34; \\  -e SPRING_DATASOURCE_PASSWORD=\u0026#34;$DB_PASS\u0026#34; \\  -e SPRING_JPA_HIBERNATE_DDL_AUTO=update \\  $IMAGE Optional: Use systemd for auto-start (env + service)\nsudo tee /etc/sysconfig/be.env \u0026gt;/dev/null \u0026lt;\u0026lt;\u0026#39;EOF\u0026#39; SPRING_DATASOURCE_URL=jdbc:mysql://\u0026lt;RDS_ENDPOINT\u0026gt;:3306/\u0026lt;DB_NAME\u0026gt;?allowPublicKeyRetrieval=true\u0026amp;useSSL=false\u0026amp;serverTimezone=UTC SPRING_DATASOURCE_USERNAME=admin SPRING_DATASOURCE_PASSWORD=\u0026lt;PASS\u0026gt; SPRING_JPA_HIBERNATE_DDL_AUTO=update EOF sudo tee /etc/systemd/system/be.service \u0026gt;/dev/null \u0026lt;\u0026lt;\u0026#39;EOF\u0026#39; [Unit] Description=TourBooking Backend (Docker) After=docker.service Requires=docker.service [Service] User=ec2-user Environment=HOME=/home/ec2-user Environment=ACCOUNT_ID=486081556497 Environment=REGION=us-east-1 EnvironmentFile=/etc/sysconfig/be.env ExecStartPre=/bin/sh -c \u0026#34;/usr/bin/aws ecr get-login-password --region ${REGION} | /usr/bin/docker login --username AWS --password-stdin ${ACCOUNT_ID}.dkr.ecr.${REGION}.amazonaws.com\u0026#34; ExecStartPre=/usr/bin/docker pull ${ACCOUNT_ID}.dkr.ecr.${REGION}.amazonaws.com/tourbooking-be:latest ExecStartPre=-/usr/bin/docker rm -f be ExecStartPre=/usr/bin/docker create --name be -p 80:8080 --env-file /etc/sysconfig/be.env ${ACCOUNT_ID}.dkr.ecr.${REGION}.amazonaws.com/tourbooking-be:latest ExecStart=/usr/bin/docker start -a be ExecStop=/usr/bin/docker stop be ExecStopPost=-/usr/bin/docker rm -f be Restart=always RestartSec=5 [Install] WantedBy=multi-user.target EOF sudo systemctl daemon-reload sudo systemctl restart be systemctl status be --no-pager -l   "
+},
+{
+	"uri": "/5-backup-recovery/5-3-restore-dr/",
+	"title": "5.3. Restore in DR (us-west-2)",
+	"tags": [],
+	"description": "",
+	"content": "Preparation in us-west-2:\n   DB subnet group (RDS → Subnet groups → Create)     SG temporarily open TCP 3306 from your IP   Restore from vault-ws-dr → Recovery point → Restore → set tb-restore-dr-\u0026lt;timestamp\u0026gt;  "
+},
+{
+	"uri": "/3-backend/",
+	"title": "Deploy Application (Backend)",
+	"tags": [],
+	"description": "",
+	"content": " 3.1. Create RDS 3.2. EC2 Builder + build \u0026amp; push ECR 3.3. EC2 Runtime (run backend)  "
+},
+{
+	"uri": "/5-backup-recovery/5-4-dr-test-lambda/",
+	"title": "5.4. DR testing automation (Lambda + SSM + SNS)",
+	"tags": [],
+	"description": "",
+	"content": "Preparation  EC2 with AmazonSSMManagedInstanceCore (shows as Managed in SSM) Secrets Manager: secret db-cred (keys: username, password)     SNS: topic dr-alerts + subscribe email    Lambda function (Python 3.12)  Environment variables: TARGET_REGION, DB_INSTANCE_NAME, RDS_SUBNET_GROUP, RDS_SG_ID, INSTANCE_CLASS, SSM_INSTANCE_ID, DB_SECRET_ARN, SNS_TOPIC_ARN, AUTO_DELETE Source code:\n import os, json, time, traceback import boto3 from botocore.exceptions import ClientError TARGET_REGION = os.environ.get(\u0026#39;TARGET_REGION\u0026#39;, \u0026#39;us-east-1\u0026#39;) rds = boto3.client(\u0026#39;rds\u0026#39;, region_name=TARGET_REGION) ssm = boto3.client(\u0026#39;ssm\u0026#39;, region_name=TARGET_REGION) secrets = boto3.client(\u0026#39;secretsmanager\u0026#39;, region_name=TARGET_REGION) sns = boto3.client(\u0026#39;sns\u0026#39;, region_name=TARGET_REGION) def _req(name: str) -\u0026gt; str: v = os.environ.get(name) if not v: raise KeyError(f\u0026#34;Missing environment variable: {name}\u0026#34;) return v DB_INSTANCE_NAME = _req(\u0026#39;DB_INSTANCE_NAME\u0026#39;) RDS_SUBNET_GROUP = _req(\u0026#39;RDS_SUBNET_GROUP\u0026#39;) RDS_SG_ID = _req(\u0026#39;RDS_SG_ID\u0026#39;) SSM_INSTANCE_ID = _req(\u0026#39;SSM_INSTANCE_ID\u0026#39;) DB_SECRET_ARN = _req(\u0026#39;DB_SECRET_ARN\u0026#39;) SNS_TOPIC_ARN = _req(\u0026#39;SNS_TOPIC_ARN\u0026#39;) INSTANCE_CLASS = os.environ.get(\u0026#39;INSTANCE_CLASS\u0026#39;, \u0026#39;db.t3.micro\u0026#39;) AUTO_DELETE = os.environ.get(\u0026#39;AUTO_DELETE\u0026#39;, \u0026#39;true\u0026#39;).lower() == \u0026#39;true\u0026#39; WAITER_DELAY_SEC = int(os.environ.get(\u0026#39;WAITER_DELAY_SEC\u0026#39;, \u0026#39;30\u0026#39;)) WAITER_MAX_ATTEMPTS = int(os.environ.get(\u0026#39;WAITER_MAX_ATTEMPTS\u0026#39;, \u0026#39;24\u0026#39;)) SSM_WAIT_SECONDS = int(os.environ.get(\u0026#39;SSM_WAIT_SECONDS\u0026#39;, \u0026#39;300\u0026#39;)) def latest_snapshot(dbid: str, prefer_manual: bool = True) -\u0026gt; str: snaps = [] if prefer_manual: snaps = rds.describe_db_snapshots(DBInstanceIdentifier=dbid, SnapshotType=\u0026#39;manual\u0026#39;).get(\u0026#39;DBSnapshots\u0026#39;, []) if not snaps: snaps = rds.describe_db_snapshots(DBInstanceIdentifier=dbid, SnapshotType=\u0026#39;automated\u0026#39;).get(\u0026#39;DBSnapshots\u0026#39;, []) if not snaps: raise RuntimeError(f\u0026#34;Không tìm thấy snapshot cho {dbid}\u0026#34;) snaps.sort(key=lambda s: s[\u0026#39;SnapshotCreateTime\u0026#39;]) return snaps[-1][\u0026#39;DBSnapshotIdentifier\u0026#39;] def wait_instance_available(dbid, timeout_sec=840, sleep_sec=20): import time as _t start = _t.time() while True: st = rds.describe_db_instances(DBInstanceIdentifier=dbid)[\u0026#39;DBInstances\u0026#39;][0][\u0026#39;DBInstanceStatus\u0026#39;] if st.lower() == \u0026#39;available\u0026#39;: return if _t.time() - start \u0026gt; timeout_sec: raise TimeoutError(f\u0026#34;DB {dbid}not AVAILABLE after {timeout_sec}s (last: {st})\u0026#34;) _t.sleep(sleep_sec) def wait_instance_deleted(dbid: str): rds.get_waiter(\u0026#39;db_instance_deleted\u0026#39;).wait( DBInstanceIdentifier=dbid, WaiterConfig={\u0026#34;Delay\u0026#34;: WAITER_DELAY_SEC, \u0026#34;MaxAttempts\u0026#34;: WAITER_MAX_ATTEMPTS} ) def run_check(endpoint: str, user: str, passwd: str, sql_override: str | None = None) -\u0026gt; dict: sql = sql_override or (\u0026#34;SHOW DATABASES; USE tourbooking; SHOW TABLES; SELECT COUNT(*) AS tours FROM tours;\u0026#34;) create_sql_cmd = f\u0026#39;cat \u0026gt; /tmp/dr_test.sql \u0026lt;\u0026lt; \u0026#34;EOSQL\u0026#34;\\n{sql}\\nEOSQL\u0026#39; mysql_cmd = ( \u0026#39;docker run --rm -i -e MYSQL_PWD=\u0026#34;{pwd}\u0026#34; mysql:8 \u0026#39; \u0026#39;sh -lc \\\u0026#39;mysql --default-character-set=utf8mb4 -h \u0026#34;{host}\u0026#34; -u \u0026#34;{user}\u0026#34; -D tourbooking \u0026lt; /dev/stdin\\\u0026#39;\u0026#39; \u0026#39;\u0026lt; /tmp/dr_test.sql\u0026#39; ).format(pwd=passwd, host=endpoint, user=user) resp = ssm.send_command( InstanceIds=[SSM_INSTANCE_ID], DocumentName=\u0026#34;AWS-RunShellScript\u0026#34;, Parameters={\u0026#34;commands\u0026#34;: [create_sql_cmd, mysql_cmd]}, CloudWatchOutputConfig={\u0026#34;CloudWatchOutputEnabled\u0026#34;: True} ) cmd_id = resp[\u0026#39;Command\u0026#39;][\u0026#39;CommandId\u0026#39;] end = time.time() + SSM_WAIT_SECONDS while time.time() \u0026lt; end: out = ssm.get_command_invocation(CommandId=cmd_id, InstanceId=SSM_INSTANCE_ID) st = out.get(\u0026#39;Status\u0026#39;) if st in (\u0026#39;Success\u0026#39;, \u0026#39;Failed\u0026#39;, \u0026#39;Cancelled\u0026#39;, \u0026#39;TimedOut\u0026#39;): return out time.sleep(5) return {\u0026#34;Status\u0026#34;: \u0026#34;TimedOut\u0026#34;, \u0026#34;StandardOutputContent\u0026#34;: \u0026#34;\u0026#34;, \u0026#34;StandardErrorContent\u0026#34;: \u0026#34;SSM command timeout\u0026#34;} def publish(subject: str, message: str): sns.publish(TopicArn=SNS_TOPIC_ARN, Subject=subject[:100], Message=message[:240000]) def _get_db_credentials() -\u0026gt; tuple[str, str]: sec = secrets.get_secret_value(SecretId=DB_SECRET_ARN) import json as _j data = _j.loads(sec[\u0026#39;SecretString\u0026#39;]) return data[\u0026#39;username\u0026#39;], data[\u0026#39;password\u0026#39;] def handler(event, _): force_snap = (event or {}).get(\u0026#39;forceSnapshotId\u0026#39;) sql_override = (event or {}).get(\u0026#39;sql\u0026#39;) skip_delete = bool((event or {}).get(\u0026#39;skipDelete\u0026#39;, not AUTO_DELETE)) import time as _t started_ts = int(_t.time()) restore_id = f\u0026#34;tb-restore-dr-{started_ts}\u0026#34; try: snapshot_id = force_snap or latest_snapshot(DB_INSTANCE_NAME) rds.restore_db_instance_from_db_snapshot( DBInstanceIdentifier=restore_id, DBSnapshotIdentifier=snapshot_id, DBSubnetGroupName=RDS_SUBNET_GROUP, VpcSecurityGroupIds=[RDS_SG_ID], DBInstanceClass=INSTANCE_CLASS, PubliclyAccessible=False, CopyTagsToSnapshot=True, Engine=\u0026#39;mysql\u0026#39;, Tags=[{\u0026#39;Key\u0026#39;: \u0026#39;ws\u0026#39;, \u0026#39;Value\u0026#39;: \u0026#39;dr-test\u0026#39;}] ) wait_instance_available(restore_id) ep = rds.describe_db_instances(DBInstanceIdentifier=restore_id)[\u0026#39;DBInstances\u0026#39;][0][\u0026#39;Endpoint\u0026#39;][\u0026#39;Address\u0026#39;] user, passwd = _get_db_credentials() inv = run_check(ep, user, passwd, sql_override) ok = inv.get(\u0026#39;Status\u0026#39;) == \u0026#39;Success\u0026#39; msg = f\u0026#34;\u0026#34;\u0026#34;DR test {\u0026#39;PASSED\u0026#39; if ok else \u0026#39;FAILED\u0026#39;}\\nRegion: {TARGET_REGION}\\nSource DB: {DB_INSTANCE_NAME}\\nSnapshot: {snapshot_id}\\nRestored DB: {restore_id}\\nEndpoint: {ep}\\nSSM status: {inv.get(\u0026#39;Status\u0026#39;)}\\n\\n--- STDOUT ---\\n{(inv.get(\u0026#39;StandardOutputContent\u0026#39;) or \u0026#39;\u0026#39;).strip()}\\n\\n--- STDERR ---\\n{(inv.get(\u0026#39;StandardErrorContent\u0026#39;) or \u0026#39;\u0026#39;).strip()}\\n\u0026#34;\u0026#34;\u0026#34; publish(f\u0026#34;DR Test {\u0026#39;OK\u0026#39; if ok else \u0026#39;FAILED\u0026#39;}\u0026#34;, msg) if not skip_delete: try: rds.delete_db_instance(DBInstanceIdentifier=restore_id, SkipFinalSnapshot=True, DeleteAutomatedBackups=True) wait_instance_deleted(restore_id) except ClientError as ce: publish(\u0026#34;DR Test WARN: delete failed\u0026#34;, f\u0026#34;{str(ce)}\u0026#34;) return {\u0026#34;ok\u0026#34;: ok, \u0026#34;region\u0026#34;: TARGET_REGION, \u0026#34;restore_id\u0026#34;: restore_id, \u0026#34;endpoint\u0026#34;: ep, \u0026#34;status\u0026#34;: inv.get(\u0026#39;Status\u0026#39;)} except Exception as e: tb = traceback.format_exc() publish(\u0026#34;DR Test FAILED (exception)\u0026#34;, f\u0026#34;{str(e)}\\n\\n{tb}\u0026#34;) raise def lambda_handler(event, context): return handler(event, context)   Inline IAM policy:\n{ \u0026#34;Version\u0026#34;: \u0026#34;2012-10-17\u0026#34;, \u0026#34;Statement\u0026#34;: [ { \u0026#34;Effect\u0026#34;: \u0026#34;Allow\u0026#34;, \u0026#34;Action\u0026#34;: [ \u0026#34;logs:CreateLogGroup\u0026#34;, \u0026#34;logs:CreateLogStream\u0026#34;, \u0026#34;logs:PutLogEvents\u0026#34; ], \u0026#34;Resource\u0026#34;: \u0026#34;*\u0026#34; }, { \u0026#34;Effect\u0026#34;: \u0026#34;Allow\u0026#34;, \u0026#34;Action\u0026#34;: [ \u0026#34;rds:DescribeDBSnapshots\u0026#34;, \u0026#34;rds:DescribeDBInstances\u0026#34;, \u0026#34;rds:RestoreDBInstanceFromDBSnapshot\u0026#34;, \u0026#34;rds:DeleteDBInstance\u0026#34;, \u0026#34;rds:AddTagsToResource\u0026#34;, \u0026#34;rds:ListTagsForResource\u0026#34; ], \u0026#34;Resource\u0026#34;: \u0026#34;*\u0026#34; }, { \u0026#34;Effect\u0026#34;: \u0026#34;Allow\u0026#34;, \u0026#34;Action\u0026#34;: [ \u0026#34;ec2:DescribeSecurityGroups\u0026#34;, \u0026#34;ec2:DescribeSubnets\u0026#34;, \u0026#34;ec2:DescribeVpcs\u0026#34; ], \u0026#34;Resource\u0026#34;: \u0026#34;*\u0026#34; }, { \u0026#34;Effect\u0026#34;: \u0026#34;Allow\u0026#34;, \u0026#34;Action\u0026#34;: [\u0026#34;ssm:SendCommand\u0026#34;, \u0026#34;ssm:GetCommandInvocation\u0026#34;], \u0026#34;Resource\u0026#34;: \u0026#34;*\u0026#34; }, { \u0026#34;Effect\u0026#34;: \u0026#34;Allow\u0026#34;, \u0026#34;Action\u0026#34;: [\u0026#34;secretsmanager:GetSecretValue\u0026#34;], \u0026#34;Resource\u0026#34;: \u0026#34;arn:aws:secretsmanager:us-east-1:ACCOUNT_ID:secret:*\u0026#34; }, { \u0026#34;Effect\u0026#34;: \u0026#34;Allow\u0026#34;, \u0026#34;Action\u0026#34;: [\u0026#34;kms:Decrypt\u0026#34;], \u0026#34;Resource\u0026#34;: \u0026#34;*\u0026#34;, \u0026#34;Condition\u0026#34;: { \u0026#34;StringEquals\u0026#34;: { \u0026#34;kms:ViaService\u0026#34;: \u0026#34;secretsmanager.us-east-1.amazonaws.com\u0026#34; } } }, { \u0026#34;Effect\u0026#34;: \u0026#34;Allow\u0026#34;, \u0026#34;Action\u0026#34;: [\u0026#34;sns:Publish\u0026#34;], \u0026#34;Resource\u0026#34;: \u0026#34;arn:aws:sns:us-east-1:ACCOUNT_ID:dr-alerts\u0026#34; } ] }  Configuration: timeout 15 minutes, memory ≥ 512MB. Test event: {} or { \u0026quot;forceSnapshotId\u0026quot;: \u0026quot;does-not-exist\u0026quot; }.  "
+},
+{
+	"uri": "/4-frontend/",
+	"title": "Frontend",
+	"tags": [],
+	"description": "",
+	"content": "Deploy the React frontend to S3 and configure CORS for the backend.\n"
+},
+{
+	"uri": "/5-backup-recovery/",
+	"title": "Backup &amp; Restore",
+	"tags": [],
+	"description": "",
+	"content": "Set up AWS Backup cross-region copy; restore in Primary/DR; automate testing with Lambda.\n"
+},
+{
+	"uri": "/6-compliance/",
+	"title": "Compliance Validation",
+	"tags": [],
+	"description": "",
+	"content": "Enable AWS Config and deploy the Conformance Pack for RDS.\n"
+},
+{
+	"uri": "/7-monitoring/",
+	"title": "Monitoring",
+	"tags": [],
+	"description": "",
+	"content": "Create CloudWatch alarms for RDS and Lambda to receive early warnings.\n"
+},
+{
+	"uri": "/8-cleanup/",
+	"title": "Clean Up Resources",
+	"tags": [],
+	"description": "",
+	"content": "Instructions to delete resources to avoid incurring costs.\n"
+},
+{
+	"uri": "/",
+	"title": "Disaster Recovery Automation for DevOps Infrastructure",
+	"tags": [],
+	"description": "",
+	"content": "Disaster Recovery Automation for DevOps Infrastructure Overview This lab guides you through implementing an automated disaster recovery (DR) solution for a DevOps infrastructure. You will learn backup automation, recovery procedures, automated recovery testing, compliance validation, monitoring setup, operational documentation, and cost analysis for a robust DR strategy.\nThe practice includes working with AWS services such as RDS, EC2, S3, Lambda, AWS Backup, AWS Config, CloudWatch, and more to build an end-to-end DR automation framework.\nContents  Introduction Prerequisites Backend Setup and Automation Frontend Deployment and CORS Backup and Recovery Procedures Compliance and Validation Monitoring and Alerting Cleanup and Cost Optimization  "
+},
+{
+	"uri": "/categories/",
+	"title": "Categories",
+	"tags": [],
+	"description": "",
+	"content": ""
+},
+{
+	"uri": "/tags/",
+	"title": "Tags",
+	"tags": [],
+	"description": "",
+	"content": ""
+}]

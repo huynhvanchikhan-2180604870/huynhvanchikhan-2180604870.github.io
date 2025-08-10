@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Deploy Application (Backend) on AWS System Manager</title>
+    <link>/3-backend/</link>
+    <description>Recent content in Deploy Application (Backend) on AWS System Manager</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Sun, 10 Aug 2025 00:00:00 +0000</lastBuildDate><atom:link href="/3-backend/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>3.1. Create RDS (MySQL)</title>
+      <link>/3-backend/3-1-create-rds/</link>
+      <pubDate>Sun, 10 Aug 2025 00:00:00 +0000</pubDate>
+      
+      <guid>/3-backend/3-1-create-rds/</guid>
+      <description>RDS → Create database:
+ Engine: MySQL 8.x Templates: Free tier Instance class: db.t3.micro Storage: gp3 Public access: No VPC/Subnet group: default (if available) Security group: SG does not open port 3306 to the Internet Credentials: set username/password and save them Automated backups: ON, retain ≥ 7 days Encryption: ON Wait until Available → In the Connectivity tab, get the Endpoint &amp;amp; Port    </description>
+    </item>
+    
+    <item>
+      <title>3.2. EC2 Builder, build Docker &amp; push to ECR</title>
+      <link>/3-backend/3-2-ec2-builder-ecr/</link>
+      <pubDate>Sun, 10 Aug 2025 00:00:00 +0000</pubDate>
+      
+      <guid>/3-backend/3-2-ec2-builder-ecr/</guid>
+      <description>Amazon Elastic Container Registry → Create repository
+ EC2 → Launch instance
+  Name: docker-builder AMI: Amazon Linux 2023 Type: t3.micro Subnet: public, Auto-assign Public IP: Enable IAM role: ec2-docker-builder-role SG: sg-ec2-builder User Data: leave blank → Launch   Install Docker, Git, build &amp;amp; push:
+ sudo dnf -y update sudo dnf -y install docker git sudo systemctl enable --now docker export ACCOUNT_ID=486081556497 export ECR_REGION=us-east-1 export REPO_URL=https://github.com/huynhvanchikhan-2180604870/demo-ws.git export BACKEND_DIR=backend/tour-booking rm -rf ~/app || true git clone &amp;#34;$REPO_URL&amp;#34; ~/app cd ~/app/&amp;#34;$BACKEND_DIR&amp;#34; test -f pom.</description>
+    </item>
+    
+    <item>
+      <title>3.3. EC2 Runtime (Run Backend)</title>
+      <link>/3-backend/3-3-ec2-runtime/</link>
+      <pubDate>Sun, 10 Aug 2025 00:00:00 +0000</pubDate>
+      
+      <guid>/3-backend/3-3-ec2-runtime/</guid>
+      <description>EC2 Runtime:
+ AMI: AL2023; Type: t3.micro VPC/Subnet: same VPC as RDS (for demo purposes, you can use a public subnet and enable Public IP) IAM role: ec2-be-role (with ECR &amp;amp; SSM permissions) SG: sg-ec2-be     User data: paste the entire block below:    #!/bin/bash set -euxo pipefail dnf install -y docker awscli || true systemctl enable --now docker ACCOUNT_ID=486081556497 ECR_REGION=us-east-1 SSM_REGION=us-east-1 aws ecr get-login-password --region $ECR_REGION | docker login --username AWS --password-stdin $ACCOUNT_ID.</description>
+    </item>
+    
+  </channel>
+</rss>
